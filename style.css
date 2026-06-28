@@ -1,0 +1,382 @@
+/* --- Root Variables & Foundations --- */
+:root {
+    --bg-main: #000000;
+    --text-primary: #ffffff;
+    --neon-accent: #00ff66; /* Luminescent Toxic Green */
+    --font-heading: 'Courier New', Courier, monospace;
+    --font-body: sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+}
+
+/* Navigation Layout */
+.toxique-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 40px;
+    border-bottom: 1px solid #111;
+    position: sticky;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+}
+
+.logo-container {
+    width: 250px;
+}
+
+.nav-links a {
+    color: #888;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    margin-left: 30px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--neon-accent);
+}
+
+/* Storefront Sections Generic Structure */
+.storefront-section {
+    padding: 100px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--neon-accent);
+    margin-bottom: 15px;
+}
+
+.storefront-section h2 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+}
+
+.section-desc {
+    color: #666;
+    max-width: 500px;
+    margin-bottom: 40px;
+    font-size: 0.9rem;
+}
+
+/* Lookbook Engine Interactive Layout */
+.view-toggle-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 50px;
+}
+
+.toggle-btn {
+    background: transparent;
+    border: 1px solid #222;
+    color: #666;
+    padding: 10px 20px;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn.active, .toggle-btn:hover {
+    border-color: var(--neon-accent);
+    color: #fff;
+}
+
+.lookbook-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.lookbook-card {
+    background-color: #050505;
+    border: 1px solid #111;
+    width: 300px;
+    overflow: hidden;
+    text-align: left;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.lookbook-card:hover {
+    transform: translateY(-5px);
+    border-color: #333;
+}
+
+.visual-pane {
+    height: 380px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    position: relative;
+}
+
+.tech-spec-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Lookbook Grid Behavioral Shifts */
+.lookbook-grid.technical-mode .tech-spec-overlay {
+    opacity: 1;
+}
+
+.tech-spec-overlay h4 {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    color: var(--neon-accent);
+    margin-bottom: 10px;
+}
+
+.tech-spec-overlay p {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: #aaa;
+    line-height: 1.6;
+}
+
+.card-title {
+    padding: 20px;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    border-top: 1px solid #111;
+}
+
+/* Fragrance Experience Module Layout */
+.fragrance-bg {
+    background: linear-gradient(180deg, #000000 0%, #050a06 100%);
+    border-top: 1px solid #111;
+}
+
+.fragrance-container {
+    display: flex;
+    gap: 60px;
+    max-width: 900px;
+    width: 100%;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.fragrance-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 250px;
+}
+
+.frag-node {
+    background: transparent;
+    border: none;
+    color: #444;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-align: left;
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.frag-node.active, .frag-node:hover {
+    color: var(--neon-accent);
+    padding-left: 10px;
+}
+
+.fragrance-card {
+    flex-grow: 1;
+    background-color: rgba(255, 255, 255, 0.01);
+    border: 1px solid #111;
+    padding: 40px;
+    border-radius: 2px;
+}
+
+.fragrance-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+}
+
+.scent-notes {
+    font-family: monospace;
+    color: #666;
+    font-size: 0.8rem;
+    margin-bottom: 25px;
+}
+
+/* VIP Newsletter Intake Styling */
+.newsletter-section {
+    padding: 140px 50px;
+    background-color: #050505;
+    border-top: 1px solid #111;
+    display: flex;
+    justify-content: center;
+}
+
+.newsletter-frame {
+    max-width: 650px;
+    width: 100%;
+    text-align: center;
+}
+
+.pioneer-tag {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--neon-accent);
+    display: block;
+    margin-bottom: 15px;
+}
+
+.newsletter-frame h2 {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.newsletter-frame p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 50px;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+
+.input-field-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+}
+
+.input-field-wrapper input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #222;
+    padding: 15px 5px;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-align: center;
+    transition: border-color 0.4s ease;
+}
+
+.input-field-wrapper input:focus {
+    outline: none;
+    border-color: #555;
+}
+
+.input-field-wrapper .focus-line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1px;
+    background-color: var(--neon-accent);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-field-wrapper input:focus ~ .focus-line {
+    width: 100%;
+    left: 0;
+}
+
+.btn-submit-intake {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    cursor: pointer;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease;
+}
+
+.btn-submit-intake:hover {
+    color: var(--neon-accent);
+}
+
+.arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.btn-submit-intake:hover .arrow-icon {
+    transform: translateX(5px);
+}
+
+.form-feedback {
+    margin-top: 25px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    min-height: 20px;
+    transition: color 0.3s ease;
+}
+
+/* Small Footer Details */
+.toxique-footer-marker {
+    padding: 40px 50px;
+    background-color: #000;
+    border-top: 1px solid #0d0d0d;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .fragrance-container { flex-direction: column; gap: 30px; }
+    .fragrance-selector { width: 100%; }
+    .toxique-footer-marker { flex-direction: column; gap: 15px; text-align: center; }
+}

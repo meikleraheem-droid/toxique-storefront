@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOXIQUE // LABORATORY STOREFRONT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Premium Navigation -->
+    <nav class="toxique-nav">
+        <div class="logo-container">
+            <!-- Sleek Responsive SVG Logo -->
+            <svg class="toxique-logo" viewBox="0 0 400 60" xmlns="http://www.w3.org/2000/svg">
+                <text x="50%" y="45" font-family="'Courier New', Courier, monospace" font-size="38" font-weight="900" letter-spacing="12" fill="#ffffff" text-anchor="middle">TOXIQUE</text>
+                <text x="50%" y="58" font-family="sans-serif" font-size="8" font-weight="400" letter-spacing="4" fill="#666" text-anchor="middle">LABORATORY SELECTION</text>
+            </svg>
+        </div>
+        <div class="nav-links">
+            <a href="#lookbook">// LOOKBOOK</a>
+            <a href="#fragrance">// FRAGRANCE</a>
+            <a href="admin.html" target="_blank">// CRM NODE</a>
+        </div>
+    </nav>
+
+    <!-- Lookbook Section -->
+    <section id="lookbook" class="storefront-section">
+        <span class="section-tag">// ARCHIVE ARCHITECTURE v1</span>
+        <h2>SEASONAL APPAREL LOOKBOOK</h2>
+        <p class="section-desc">Designed for fashion risk-takers. Toggle between high-definition campaign modes.</p>
+        
+        <div class="view-toggle-container">
+            <button id="btn-editorial" class="toggle-btn active">EDITORIAL STREAM</button>
+            <button id="btn-technical" class="toggle-btn">TECHNICAL SPECIFICATION</button>
+        </div>
+
+        <div id="lookbook-display" class="lookbook-grid editorial-mode">
+            <!-- Items are injected dynamically via JavaScript -->
+        </div>
+    </section>
+
+    <!-- Fragrance Showcase Section -->
+    <section id="fragrance" class="storefront-section fragrance-bg">
+        <span class="section-tag">// AMBIENT MOLECULAR ALTERATION</span>
+        <h2>FRAGRANCE PROFILE INSTANCE</h2>
+        
+        <div class="fragrance-container">
+            <div class="fragrance-selector">
+                <button class="frag-node active" data-scent="cyber-musk">01 // CYBER MUSK</button>
+                <button class="frag-node" data-scent="neon-saffron">02 // NEON SAFFRON</button>
+                <button class="frag-node" data-scent="ozone-vamp">03 // OZONE VAMP</button>
+            </div>
+            <div class="fragrance-card" id="fragrance-display-card">
+                <h3 id="scent-title">CYBER MUSK</h3>
+                <p id="scent-notes" class="scent-notes">Notes: Synthetic Iso-E Super, Crisp Ambergris, Crushed Iron Filings.</p>
+                <p id="scent-desc">A cold, sharp signature that cuts through space. Engineered for high-density metropolitan movement.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Minimalist VIP Intake Form -->
+    <section id="universe" class="newsletter-section">
+        <div class="newsletter-frame">
+            <div class="newsletter-text">
+                <span class="pioneer-tag">// EXCLUSIVE ACCESS</span>
+                <h2>ENTER THE UNIVERSE</h2>
+                <p>Toxique runs on a limited-drop architecture. Register your email to join our VIP Client Node and secure priority seating for upcoming collections, beauty drops, and bi-annual runway events.</p>
+            </div>
+
+            <form class="newsletter-form" id="toxique-intake-form">
+                <div class="input-field-wrapper">
+                    <input type="email" id="vip-email" placeholder="ENTER YOUR EMAIL INSTANCE" required autocomplete="off">
+                    <span class="focus-line"></span>
+                </div>
+                <button type="submit" class="btn-submit-intake">
+                    REQUEST ENTRY 
+                    <span class="arrow-icon">→</span>
+                </button>
+            </form>
+            <div class="form-feedback" id="intake-feedback"></div>
+        </div>
+    </section>
+
+    <!-- Footnote Branding Marker -->
+    <footer class="toxique-footer-marker">
+        <div class="footer-left">© 2026 TOXIQUE LABORATORY. ALL RIGHTS RESERVED.</div>
+        <div class="footer-right">GLOBAL HQ // NEW YORK // LONDON</div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
