@@ -1,31 +1,29 @@
-// ==========================================
-// TOXIQUE GLOBAL MASTER PRODUCT ENGINE
-// ==========================================
+// TOXIQUE FOUR-DIVISION CATEGORY ROUTING ENGINE
 const TOXIQUE_CATALOG = [
-    // --- MAINLINE APPAREL ---
+    // --- GARMENTS DIVISION ---
     {
-        id: "tx-01",
-        category: "mainline",
+        id: "tx-gar-01",
+        category: "garments",
         tag: "Toxique Mainline",
         title: "Liquid Diamond Rhinestone Leotard",
         price: 680.00,
         displayPrice: "$680.00",
-        type: "Apparel"
+        type: "Garment"
     },
     {
-        id: "tx-02",
-        category: "mainline",
+        id: "tx-gar-02",
+        category: "garments",
         tag: "Toxique Mainline",
         title: "Glitter Veil Floor-Length Gown",
         price: 1250.00,
         displayPrice: "$1,250.00",
-        type: "Apparel"
+        type: "Garment"
     },
 
-    // --- MAINLINE COSMETICS & MAKEUP Labs ---
+    // --- COSMETICS DIVISION ---
     {
         id: "tx-cos-01",
-        category: "mainline",
+        category: "cosmetics",
         tag: "Toxique Beauty Labs",
         title: "Ritualistic Velvet Matte Lipstick",
         price: 42.00,
@@ -34,7 +32,7 @@ const TOXIQUE_CATALOG = [
     },
     {
         id: "tx-cos-02",
-        category: "mainline",
+        category: "cosmetics",
         tag: "Toxique Beauty Labs",
         title: "Liquid Aurum High-Gloss Pigment",
         price: 38.00,
@@ -42,10 +40,10 @@ const TOXIQUE_CATALOG = [
         type: "Cosmetics"
     },
 
-    // --- MAINLINE FRAGRANCE / PERFUME ---
+    // --- FRAGRANCE DIVISION ---
     {
         id: "tx-perf-01",
-        category: "mainline",
+        category: "fragrance",
         tag: "Toxique Fragrances",
         title: "L'Extrait de Toxique No. 01",
         price: 185.00,
@@ -53,7 +51,7 @@ const TOXIQUE_CATALOG = [
         type: "Fragrance"
     },
 
-    // --- HOUSE OF X // RESTRICTED ADULT XXX VAULT ---
+    // --- HOUSE OF X ADULT 18+ DIVISION ---
     {
         id: "xxx-01",
         category: "xxx",
@@ -89,37 +87,27 @@ const TOXIQUE_CATALOG = [
 let USER_CART = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Render default state (All items)
-    renderStorefrontGrid("all");
-
-    // Connect Filtering Nodes
+    // Land on Garments category by default instead of mixing everything
+    renderStorefrontGrid("garments");
     setupFilterToggles();
-
-    // Setup Cart Open/Close UI Mechanics
     setupCartInterfaceTriggers();
-
-    // Handle Newsletter Data Capture
     setupNewsletterPortal();
 });
 
-// CORE ENGINE FUNCTIONS
 function renderStorefrontGrid(filterTarget) {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
 
-    // Filter array according to click state
-    const filteredItems = TOXIQUE_CATALOG.filter(item => {
-        if (filterTarget === "all") return true;
-        return item.category === filterTarget;
-    });
+    // Direct, strict category matches only
+    const filteredItems = TOXIQUE_CATALOG.filter(item => item.category === filterTarget);
 
     grid.innerHTML = filteredItems.map(item => {
         const itemClass = item.adultItem ? "product-card xxx-item" : "product-card";
-        const placeholderLabel = item.type ? `${item.tag.toUpperCase()} // ${item.type.toUpperCase()}` : `${item.tag.toUpperCase()}`;
+        const placeholderLabel = `${item.tag.toUpperCase()} // ${item.type.toUpperCase()}`;
         
         return `
             <div class="${itemClass}">
-                <div class="image-placeholder">[ ${placeholderLabel} IMAGERY ]</div>
+                <div class="image-placeholder">[ ${placeholderLabel} ]</div>
                 <div class="card-details">
                     <div>
                         <span class="vendor-tag">${item.tag}</span>
@@ -135,8 +123,9 @@ function renderStorefrontGrid(filterTarget) {
 
 function setupFilterToggles() {
     const buttons = {
-        all: document.getElementById("btn-all"),
-        mainline: document.getElementById("btn-main"),
+        garments: document.getElementById("btn-garments"),
+        cosmetics: document.getElementById("btn-cosmetics"),
+        fragrance: document.getElementById("btn-fragrance"),
         xxx: document.getElementById("btn-xxx")
     };
 
@@ -144,11 +133,8 @@ function setupFilterToggles() {
         const btn = buttons[key];
         if (btn) {
             btn.addEventListener("click", () => {
-                // Clear active states across buttons
-                Object.values(buttons).forEach(b => b.classList.remove("active"));
-                // Activate clicked state
+                Object.values(buttons).forEach(b => { if(b) b.classList.remove("active"); });
                 btn.classList.add("active");
-                // Fire array grid rebuild
                 renderStorefrontGrid(key);
             });
         }
@@ -197,13 +183,11 @@ function setupNewsletterPortal() {
     }
 }
 
-// CART MECHANICS GLOBAL ROUTERS
 window.addItemToCart = (itemId) => {
     const targetItem = TOXIQUE_CATALOG.find(item => item.id === itemId);
     if (targetItem) {
         USER_CART.push(targetItem);
         updateCartInterface();
-        
         document.getElementById("sideCart").classList.add("active");
         document.getElementById("cartOverlay").classList.add("active");
     }
