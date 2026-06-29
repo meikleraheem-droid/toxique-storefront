@@ -1,13 +1,16 @@
-// TOXIQUE UNIFIED BRAND CATALOG (WITH RESTRICTED VAULT)
+// ==========================================
+// TOXIQUE GLOBAL MASTER PRODUCT ENGINE
+// ==========================================
 const TOXIQUE_CATALOG = [
-    // --- MAINLINE DROPS ---
+    // --- MAINLINE APPAREL ---
     {
         id: "tx-01",
         category: "mainline",
         tag: "Toxique Mainline",
         title: "Liquid Diamond Rhinestone Leotard",
         price: 680.00,
-        displayPrice: "$680.00"
+        displayPrice: "$680.00",
+        type: "Apparel"
     },
     {
         id: "tx-02",
@@ -15,15 +18,19 @@ const TOXIQUE_CATALOG = [
         tag: "Toxique Mainline",
         title: "Glitter Veil Floor-Length Gown",
         price: 1250.00,
-        displayPrice: "$1,250.00"
+        displayPrice: "$1,250.00",
+        type: "Apparel"
     },
+
+    // --- MAINLINE COSMETICS & MAKEUP Labs ---
     {
         id: "tx-cos-01",
         category: "mainline",
         tag: "Toxique Beauty Labs",
         title: "Ritualistic Velvet Matte Lipstick",
         price: 42.00,
-        displayPrice: "$42.00"
+        displayPrice: "$42.00",
+        type: "Cosmetics"
     },
     {
         id: "tx-cos-02",
@@ -31,10 +38,22 @@ const TOXIQUE_CATALOG = [
         tag: "Toxique Beauty Labs",
         title: "Liquid Aurum High-Gloss Pigment",
         price: 38.00,
-        displayPrice: "$38.00"
+        displayPrice: "$38.00",
+        type: "Cosmetics"
     },
 
-    // --- HOUSE OF X // ADULT XXX CAPSULE ---
+    // --- MAINLINE FRAGRANCE / PERFUME ---
+    {
+        id: "tx-perf-01",
+        category: "mainline",
+        tag: "Toxique Fragrances",
+        title: "L'Extrait de Toxique No. 01",
+        price: 185.00,
+        displayPrice: "$185.00",
+        type: "Fragrance"
+    },
+
+    // --- HOUSE OF X // RESTRICTED ADULT XXX VAULT ---
     {
         id: "xxx-01",
         category: "xxx",
@@ -42,7 +61,8 @@ const TOXIQUE_CATALOG = [
         title: "Glittering Velvet Asymmetric Bodysuit",
         price: 450.00,
         displayPrice: "$450.00",
-        adultItem: true
+        adultItem: true,
+        type: "Adult Fit"
     },
     {
         id: "xxx-02",
@@ -51,7 +71,8 @@ const TOXIQUE_CATALOG = [
         title: "Strapped Mesh Caged Bodice",
         price: 320.00,
         displayPrice: "$320.00",
-        adultItem: true
+        adultItem: true,
+        type: "Adult Fit"
     },
     {
         id: "xxx-03",
@@ -60,7 +81,8 @@ const TOXIQUE_CATALOG = [
         title: "Latex-Overlay Sheer Intimate Slip",
         price: 510.00,
         displayPrice: "$510.00",
-        adultItem: true
+        adultItem: true,
+        type: "Adult Fit"
     }
 ];
 
@@ -93,11 +115,11 @@ function renderStorefrontGrid(filterTarget) {
 
     grid.innerHTML = filteredItems.map(item => {
         const itemClass = item.adultItem ? "product-card xxx-item" : "product-card";
-        const placeholderLabel = item.adultItem ? "HOUSE OF X // XXX IMAGERY" : `${item.category.toUpperCase()} IMAGERY`;
+        const placeholderLabel = item.type ? `${item.tag.toUpperCase()} // ${item.type.toUpperCase()}` : `${item.tag.toUpperCase()}`;
         
         return `
             <div class="${itemClass}">
-                <div class="image-placeholder">[ ${placeholderLabel} ]</div>
+                <div class="image-placeholder">[ ${placeholderLabel} IMAGERY ]</div>
                 <div class="card-details">
                     <div>
                         <span class="vendor-tag">${item.tag}</span>
