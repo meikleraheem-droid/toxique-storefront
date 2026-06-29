@@ -380,3 +380,120 @@ body {
     .fragrance-selector { width: 100%; }
     .toxique-footer-marker { flex-direction: column; gap: 15px; text-align: center; }
 }
+/* TOXIQUE SYSTEM - ROYAL DARK LAB VISUALS */
+:root {
+    --bg-dark: #0a0512;        /* Deep, toxic velvet night */
+    --surface: #140d24;        /* Dark background for product cards */
+    --lux-gold: #d4af37;       /* Metallic High-Class Gold */
+    --royal-purple: #7821ef;   /* Luminous Electric Purple */
+    --text-light: #f5f2fa;     /* Crisp off-white */
+    --text-muted: #968fa3;     /* Elegant faded purple-gray */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+}
+
+/* Header Branding */
+header {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.brand-logo {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: var(--text-light);
+    text-shadow: 0 0 10px rgba(120, 33, 239, 0.5);
+}
+
+.brand-logo span {
+    color: var(--lux-gold);
+}
+
+/* Catalog Layout */
+.catalog-container {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 2rem;
+    color: var(--lux-gold);
+    border-left: 3px solid var(--royal-purple);
+    padding-left: 10px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+}
+
+/* Lookbook Card with Vendor Tagging */
+.product-card {
+    background: var(--surface);
+    border: 1px solid rgba(120, 33, 239, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--lux-gold);
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(45deg, #140d24, #251245);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-style: italic;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.card-details {
+    padding: 1.5rem;
+}
+
+.vendor-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--royal-purple);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.product-title {
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    color: var(--lux-gold);
+    font-weight: 600;
+}
