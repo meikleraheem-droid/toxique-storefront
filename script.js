@@ -1,5 +1,5 @@
 // ==========================================================
-// TOXIQUE OPERATING SYSTEM // MASTER ENGINE + STAGGER DELAYS
+// TOXIQUE OPERATING SYSTEM // MASTER ENGINE + MEDIA SOURCE ROUTING
 // ==========================================================
 const TOXIQUE_CATALOG = [
     // --- GARMENTS DIVISION ---
@@ -10,7 +10,8 @@ const TOXIQUE_CATALOG = [
         title: "Liquid Diamond Rhinestone Leotard",
         price: 680.00,
         displayPrice: "$680.00",
-        type: "Garment"
+        type: "Garment",
+        img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: "tx-gar-02",
@@ -19,7 +20,8 @@ const TOXIQUE_CATALOG = [
         title: "Glitter Veil Floor-Length Gown",
         price: 1250.00,
         displayPrice: "$1,250.00",
-        type: "Garment"
+        type: "Garment",
+        img: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=600&q=80"
     },
 
     // --- COSMETICS DIVISION ---
@@ -30,7 +32,8 @@ const TOXIQUE_CATALOG = [
         title: "Ritualistic Velvet Matte Lipstick",
         price: 42.00,
         displayPrice: "$42.00",
-        type: "Cosmetics"
+        type: "Cosmetics",
+        img: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: "tx-cos-02",
@@ -39,7 +42,8 @@ const TOXIQUE_CATALOG = [
         title: "Liquid Aurum High-Gloss Pigment",
         price: 38.00,
         displayPrice: "$38.00",
-        type: "Cosmetics"
+        type: "Cosmetics",
+        img: "https://images.unsplash.com/photo-1625093742435-6fa192b6fb10?auto=format&fit=crop&w=600&q=80"
     },
 
     // --- FRAGRANCE DIVISION ---
@@ -50,7 +54,8 @@ const TOXIQUE_CATALOG = [
         title: "L'Extrait de Toxique No. 01",
         price: 185.00,
         displayPrice: "$185.00",
-        type: "Fragrance"
+        type: "Fragrance",
+        img: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80"
     },
 
     // --- HOUSE OF X ADULT 18+ DIVISION ---
@@ -62,7 +67,8 @@ const TOXIQUE_CATALOG = [
         price: 450.00,
         displayPrice: "$450.00",
         adultItem: true,
-        type: "Adult Fit"
+        type: "Adult Fit",
+        img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: "xxx-02",
@@ -72,7 +78,8 @@ const TOXIQUE_CATALOG = [
         price: 320.00,
         displayPrice: "$320.00",
         adultItem: true,
-        type: "Adult Fit"
+        type: "Adult Fit",
+        img: "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=600&q=80"
     },
     {
         id: "xxx-03",
@@ -82,36 +89,35 @@ const TOXIQUE_CATALOG = [
         price: 510.00,
         displayPrice: "$510.00",
         adultItem: true,
-        type: "Adult Fit"
+        type: "Adult Fit",
+        img: "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&w=600&q=80"
     }
 ];
 
 let USER_CART = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Land on Garments floor by default
     renderStorefrontGrid("garments");
     setupFilterToggles();
     setupCartInterfaceTriggers();
     setupNewsletterPortal();
 });
 
-// CORE SELECTION GRID PARSER WITH MOTION HANDLERS
 function renderStorefrontGrid(filterTarget) {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
 
-    // Direct, unmixed division queries
     const filteredItems = TOXIQUE_CATALOG.filter(item => item.category === filterTarget);
 
-    // Build the structural node templates inside the DOM array
     grid.innerHTML = filteredItems.map(item => {
         const itemClass = item.adultItem ? "product-card xxx-item" : "product-card";
-        const placeholderLabel = `${item.tag.toUpperCase()} // ${item.type.toUpperCase()}`;
         
         return `
             <div class="${itemClass}" id="card-${item.id}">
-                <div class="image-placeholder">[ ${placeholderLabel} ]</div>
+                <div class="media-container">
+                    <img src="${item.img}" alt="${item.title}" class="editorial-asset" loading="lazy">
+                    <div class="media-overlay"></div>
+                </div>
                 <div class="card-details">
                     <div>
                         <span class="vendor-tag">${item.tag}</span>
@@ -124,14 +130,13 @@ function renderStorefrontGrid(filterTarget) {
         `;
     }).join('');
 
-    // Trigger progressive reveal hardware stagger delay animations
     filteredItems.forEach((item, index) => {
         setTimeout(() => {
             const cardElement = document.getElementById(`card-${item.id}`);
             if (cardElement) {
                 cardElement.classList.add("reveal-node");
             }
-        }, index * 120); // 120 milliseconds progressive time offset per item
+        }, index * 120);
     });
 }
 
@@ -197,7 +202,6 @@ function setupNewsletterPortal() {
     }
 }
 
-// CART UTILITY MANAGERS
 window.addItemToCart = (itemId) => {
     const targetItem = TOXIQUE_CATALOG.find(item => item.id === itemId);
     if (targetItem) {
