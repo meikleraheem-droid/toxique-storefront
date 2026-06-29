@@ -1,4 +1,6 @@
-// TOXIQUE FOUR-DIVISION CATEGORY ROUTING ENGINE
+// ==========================================================
+// TOXIQUE OPERATING SYSTEM // MASTER ENGINE + STAGGER DELAYS
+// ==========================================================
 const TOXIQUE_CATALOG = [
     // --- GARMENTS DIVISION ---
     {
@@ -87,26 +89,28 @@ const TOXIQUE_CATALOG = [
 let USER_CART = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Land on Garments category by default instead of mixing everything
+    // Land on Garments floor by default
     renderStorefrontGrid("garments");
     setupFilterToggles();
     setupCartInterfaceTriggers();
     setupNewsletterPortal();
 });
 
+// CORE SELECTION GRID PARSER WITH MOTION HANDLERS
 function renderStorefrontGrid(filterTarget) {
     const grid = document.getElementById("productGrid");
     if (!grid) return;
 
-    // Direct, strict category matches only
+    // Direct, unmixed division queries
     const filteredItems = TOXIQUE_CATALOG.filter(item => item.category === filterTarget);
 
+    // Build the structural node templates inside the DOM array
     grid.innerHTML = filteredItems.map(item => {
         const itemClass = item.adultItem ? "product-card xxx-item" : "product-card";
         const placeholderLabel = `${item.tag.toUpperCase()} // ${item.type.toUpperCase()}`;
         
         return `
-            <div class="${itemClass}">
+            <div class="${itemClass}" id="card-${item.id}">
                 <div class="image-placeholder">[ ${placeholderLabel} ]</div>
                 <div class="card-details">
                     <div>
@@ -119,6 +123,16 @@ function renderStorefrontGrid(filterTarget) {
             </div>
         `;
     }).join('');
+
+    // Trigger progressive reveal hardware stagger delay animations
+    filteredItems.forEach((item, index) => {
+        setTimeout(() => {
+            const cardElement = document.getElementById(`card-${item.id}`);
+            if (cardElement) {
+                cardElement.classList.add("reveal-node");
+            }
+        }, index * 120); // 120 milliseconds progressive time offset per item
+    });
 }
 
 function setupFilterToggles() {
@@ -183,6 +197,7 @@ function setupNewsletterPortal() {
     }
 }
 
+// CART UTILITY MANAGERS
 window.addItemToCart = (itemId) => {
     const targetItem = TOXIQUE_CATALOG.find(item => item.id === itemId);
     if (targetItem) {

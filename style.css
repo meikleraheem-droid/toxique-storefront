@@ -447,4 +447,51 @@ header {
     font-size: 0.8rem;
     color: var(--lux-gold);
     letter-spacing: 1px;
+}/* --- APPEND THIS TO THE BOTTOM OF STYLE.CSS --- */
+.product-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card.reveal-node {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.image-placeholder {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, rgba(120, 33, 239, 0.12), transparent);
+    animation: activeRadarScan 4s linear infinite;
+}
+
+.xxx-item .image-placeholder::after {
+    background: linear-gradient(to bottom, transparent, rgba(255, 20, 147, 0.1), transparent);
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes activeRadarScan {
+    0% { top: -100%; }
+    50%, 100% { top: 150%; }
 }
