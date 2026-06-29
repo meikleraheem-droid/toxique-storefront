@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOXIQUE // MAIN CONTROL</title>
+    <style>
+        body {
+            background-color: #0a0512;
+            color: #f5f2fa;
+            font-family: monospace;
+            padding: 2rem;
+            margin: 0;
+        }
+        .header {
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+        .logo span { color: #d4af37; }
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #140d24;
+            border: 1px solid #7821ef;
+        }
+        .matrix-table th, .matrix-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .matrix-table th {
+            color: #d4af37;
+            background: rgba(120, 33, 239, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">TOXIQUE<span>.</span> PANEL</div>
+    </div>
+
+    <h2>DATA TRANSMISSIONS // LOGS</h2>
+    
+    <table class="matrix-table">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>User Coordinate</th>
+            </tr>
+        </thead>
+        <tbody id="adminLogTable">
+            <!-- Data will print here -->
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const tableBody = document.getElementById("adminLogTable");
+            const coordinates = JSON.parse(localStorage.getItem("toxique_coordinates")) || [];
+
+            if (coordinates.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: #968fa3;">SYSTEM WAITING FOR LIVE TRANSMISSIONS...</td></tr>`;
+            } else {
+                tableBody.innerHTML = coordinates.map(log => `
+                    <tr>
+                        <td style="color: #7821ef;">${log.time}</td>
+                        <td>${log.email}</td>
+                    </tr>
+                `).join('');
+            }
+        });
+    </script>
+</body>
+</html>
