@@ -133,3 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Run lookbook generator initial execution
     renderLookbook();
 });
+// Preview of our future Multi-Vendor Architecture
+const vendorProducts = [
+    {
+        vendorName: "TOXIQUE MAINLINE",
+        title: "01 // ASYMMETRIC JACKET",
+        price: "$420"
+    },
+    {
+        vendorName: "GUEST DESIGNER // ARCHIVE X",
+        title: "02 // MODULAR PARACHUTE PANTS",
+        price: "$310"
+    }
+];
