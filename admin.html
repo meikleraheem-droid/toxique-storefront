@@ -3,79 +3,491 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOXIQUE // MAIN CONTROL</title>
+    <title>TOXIQUE // COUTURES MAINFRAME</title>
     <style>
+        :root {
+            --bg-deep: #0a0512;
+            --bg-surface: #140d24;
+            --lux-gold: #d4af37;
+            --neon-purple: #7821ef;
+            --text-main: #f5f2fa;
+            --text-muted: #968fa3;
+            --border-glow: rgba(120, 33, 239, 0.4);
+        }
+
         body {
-            background-color: #0a0512;
-            color: #f5f2fa;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             font-family: monospace;
             padding: 2rem;
             margin: 0;
+            line-height: 1.5;
         }
+
         .header {
-            border-bottom: 1px solid #d4af37;
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--lux-gold);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
         .logo {
             font-size: 2rem;
             font-weight: bold;
             letter-spacing: 4px;
         }
-        .logo span { color: #d4af37; }
+
+        .logo span { color: var(--lux-gold); }
+        
+        .return-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .return-btn:hover {
+            border-color: var(--lux-gold);
+            color: var(--lux-gold);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Metrics Dashboard Row */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--neon-purple);
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--lux-gold);
+        }
+
+        .metric-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-main);
+            letter-spacing: 1px;
+        }
+
+        /* Admin Workspace Split Grid */
+        .workspace-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        
+        @media (min-width: 992px) {
+            .workspace-layout {
+                grid-template-columns: 380px 1fr;
+            }
+        }
+
+        /* Control Form Panel */
+        .form-vault {
+            background: var(--bg-surface);
+            border: 1px solid var(--neon-purple);
+            padding: 2rem;
+            height: fit-content;
+        }
+
+        .form-vault h2 {
+            margin-top: 0;
+            color: var(--lux-gold);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            background: #0d071a;
+            border: 1px solid rgba(120, 33, 239, 0.5);
+            padding: 0.75rem;
+            color: var(--text-main);
+            font-family: monospace;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--lux-gold);
+        }
+
+        .compile-btn {
+            width: 100%;
+            background: var(--neon-purple);
+            color: var(--text-main);
+            border: 1px solid var(--lux-gold);
+            padding: 1rem;
+            font-family: monospace;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .compile-btn:hover {
+            background: #8b3eff;
+            box-shadow: 0 0 15px rgba(120, 33, 239, 0.6);
+        }
+
+        /* Interactive Management Directory Tables */
+        .table-section-title {
+            color: var(--lux-gold);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
         .matrix-table {
             width: 100%;
             border-collapse: collapse;
-            background: #140d24;
-            border: 1px solid #7821ef;
+            background: var(--bg-surface);
+            border: 1px solid var(--neon-purple);
         }
+
         .matrix-table th, .matrix-table td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
         }
+
         .matrix-table th {
-            color: #d4af37;
+            color: var(--lux-gold);
             background: rgba(120, 33, 239, 0.2);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .action-row-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            font-family: monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            cursor: pointer;
+            margin-right: 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .action-row-btn.edit:hover {
+            border-color: var(--lux-gold);
+            color: var(--lux-gold);
+        }
+
+        .action-row-btn.wipe:hover {
+            border-color: #ff3e3e;
+            color: #ff3e3e;
+            background: rgba(255, 62, 62, 0.1);
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo">TOXIQUE<span>.</span> PANEL</div>
+        <div class="logo">TOXIQUE<span>.</span> MAINFRAME</div>
+        <a href="index.html" class="return-btn">&lt;&lt; STOREFRONT CHANNEL</a>
     </div>
 
-    <h2>DATA TRANSMISSIONS // LOGS</h2>
-    
-    <table class="matrix-table">
-        <thead>
-            <tr>
-                <th>Timestamp</th>
-                <th>User Coordinate</th>
-            </tr>
-        </thead>
-        <tbody id="adminLogTable">
-            <!-- Data will print here -->
-        </tbody>
-    </table>
+    <!-- Live Performance Metrics -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-label">Gross Revenue (Monthly)</div>
+            <div class="metric-value" id="metricGrossVolume">$0.00</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">Completed Shipments</div>
+            <div class="metric-value" id="metricOrdersCount">0 ASSETS</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">System Handshakes</div>
+            <div class="metric-value" id="metricHandshakes">ONLINE</div>
+        </div>
+    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const tableBody = document.getElementById("adminLogTable");
-            const coordinates = JSON.parse(localStorage.getItem("toxique_coordinates")) || [];
+    <!-- Primary Administrator Split Layout -->
+    <div class="workspace-layout">
+        
+        <!-- Form Panel: Add / Update Items -->
+        <div class="form-vault">
+            <h2 id="formHeaderTitle">ASSET COMPILER</h2>
+            <form id="adminProductForm">
+                <input type="hidden" id="formItemId" value="">
+                
+                <div class="input-group">
+                    <label for="formTitle">Asset Title / Identifier</label>
+                    <input type="text" id="formTitle" required placeholder="e.g., Silk Slip Gown">
+                </div>
 
-            if (coordinates.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: #968fa3;">SYSTEM WAITING FOR LIVE TRANSMISSIONS...</td></tr>`;
-            } else {
-                tableBody.innerHTML = coordinates.map(log => `
+                <div class="input-group">
+                    <label for="formPrice">Unit Base Price (USD)</label>
+                    <input type="number" id="formPrice" step="0.01" required placeholder="0.00">
+                </div>
+
+                <div class="input-group">
+                    <label for="formImageSrc">Image Asset URL Route</label>
+                    <input type="url" id="formImageSrc" required placeholder="https://images.unsplash.com/...">
+                </div>
+
+                <div class="input-group">
+                    <label for="formCategory">Store Department Line</label>
+                    <select id="formCategory" required>
+                        <option value="garments">Garments (Mainline)</option>
+                        <option value="cosmetics">Cosmetics (Beauty Labs)</option>
+                        <option value="fragrance">Fragrance</option>
+                        <option value="xxx">Restricted XXX</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="formTag">Sub-Brand Label</label>
+                    <input type="text" id="formTag" required placeholder="e.g., Toxique Mainline">
+                </div>
+
+                <div class="input-group">
+                    <label for="formType">Product Display Subtype</label>
+                    <input type="text" id="formType" required placeholder="e.g., Garment / Cosmetics">
+                </div>
+
+                <button type="submit" class="compile-btn" id="formSubmitBtn">COMPILE TO LIVE SERVER</button>
+            </form>
+        </div>
+
+        <!-- Inventory Database Table Area -->
+        <div>
+            <div class="table-section-title">
+                <span>CATALOG MASTER REGISTRY</span>
+            </div>
+            <table class="matrix-table" style="margin-bottom: 3rem;">
+                <thead>
                     <tr>
-                        <td style="color: #7821ef;">${log.time}</td>
-                        <td>${log.email}</td>
+                        <th>System ID</th>
+                        <th>Product Title</th>
+                        <th>Line Division</th>
+                        <th>Price</th>
+                        <th>Core Directives</th>
                     </tr>
-                `).join('');
-            }
+                </thead>
+                <tbody id="adminInventoryTableBody">
+                    <!-- Synced JS loops write lines here -->
+                </tbody>
+            </table>
+
+            <div class="table-section-title">
+                <span>DIGITAL COORDINATES TRANSMISSIONS</span>
+            </div>
+            <table class="matrix-table">
+                <thead>
+                    <tr>
+                        <th>Time Captured</th>
+                        <th>User Transmission Vector (Email Address)</th>
+                    </tr>
+                </thead>
+                <tbody id="adminLogTable">
+                    <!-- Newsletter captures remain here intact -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Embedded Sync Logic connecting perfectly with script.js database keys -->
+    <script>
+        // Use identical structural references matching core engine models
+        let TOXIQUE_CATALOG = JSON.parse(localStorage.getItem("toxique_live_catalog")) || [];
+        let PURCHASE_HISTORY = JSON.parse(localStorage.getItem("toxique_sales_ledger")) || [];
+        let COORDINATES_LOGS = JSON.parse(localStorage.getItem("toxique_coordinates")) || [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderControlDashboard();
         });
+
+        function renderControlDashboard() {
+            calculateBusinessMetrics();
+            populateInventoryTable();
+            populateCoordinatesTable();
+        }
+
+        function calculateBusinessMetrics() {
+            const grossVolumeElement = document.getElementById("metricGrossVolume");
+            const ordersCounterElement = document.getElementById("metricOrdersCount");
+            
+            // Operational queries configured for current June 2026 terminal timelines
+            const currentYear = 2026;
+            const currentMonth = 5; 
+
+            const monthlySales = PURCHASE_HISTORY.filter(sale => {
+                const saleDate = new Date(sale.date);
+                return saleDate.getFullYear() === currentYear && saleDate.getMonth() === currentMonth;
+            });
+
+            const totalRevenue = monthlySales.reduce((sum, sale) => sum + sale.pricePaid, 0);
+            
+            if (grossVolumeElement) grossVolumeElement.innerText = `$${totalRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            if (ordersCounterElement) ordersCounterElement.innerText = `${monthlySales.length} SECURE SHIPMENTS`;
+        }
+
+        function populateInventoryTable() {
+            const tbody = document.getElementById("adminInventoryTableBody");
+            if (!tbody) return;
+
+            if (TOXIQUE_CATALOG.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">CATALOG ARRAY EMPTY.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = TOXIQUE_CATALOG.map(item => `
+                <tr>
+                    <td style="color: var(--lux-gold); font-size: 0.8rem;">${item.id}</td>
+                    <td><strong>${item.title}</strong></td>
+                    <td style="text-transform: uppercase; font-size: 0.8rem; color: var(--text-muted);">${item.category}</td>
+                    <td>$${parseFloat(item.price).toFixed(2)}</td>
+                    <td>
+                        <button class="action-row-btn edit" onclick="editAssetRecord('${item.id}')">EDIT</button>
+                        <button class="action-row-btn wipe" onclick="deleteAssetRecord('${item.id}')">WIPE</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function populateCoordinatesTable() {
+            const tbody = document.getElementById("adminLogTable");
+            if (!tbody) return;
+
+            if (COORDINATES_LOGS.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: var(--text-muted);">SYSTEM WAITING FOR LIVE TRANSMISSIONS...</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = COORDINATES_LOGS.map(log => `
+                <tr>
+                    <td style="color: var(--neon-purple);">${log.time || 'RECORDED'}</td>
+                    <td>${log.email}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Form handler operation updates or writes fresh arrays
+        document.getElementById("adminProductForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            const targetId = document.getElementById("formItemId").value;
+            const itemTitle = document.getElementById("formTitle").value;
+            const itemPrice = parseFloat(document.getElementById("formPrice").value);
+            const itemImg = document.getElementById("formImageSrc").value;
+            const itemDept = document.getElementById("formCategory").value;
+            const itemTag = document.getElementById("formTag").value;
+            const itemType = document.getElementById("formType").value;
+
+            if (targetId) {
+                // Perform structural inline data mutation updates
+                const index = TOXIQUE_CATALOG.findIndex(item => item.id === targetId);
+                if (index !== -1) {
+                    TOXIQUE_CATALOG[index] = {
+                        ...TOXIQUE_CATALOG[index],
+                        title: itemTitle,
+                        price: itemPrice,
+                        displayPrice: `$${itemPrice.toFixed(2)}`,
+                        img: itemImg,
+                        category: itemDept,
+                        tag: itemTag,
+                        type: itemType
+                    };
+                }
+            } else {
+                // Compile completely fresh entity item object
+                const newId = "tx-custom-" + Math.floor(Math.random() * 10000);
+                TOXIQUE_CATALOG.push({
+                    id: newId, category: itemDept, tag: itemTag, title: itemTitle,
+                    price: itemPrice, displayPrice: `$${itemPrice.toFixed(2)}`,
+                    type: itemType, img: itemImg, adultItem: itemDept === "xxx"
+                });
+            }
+
+            localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
+            
+            // Clean up interfaces
+            document.getElementById("adminProductForm").reset();
+            document.getElementById("formItemId").value = "";
+            document.getElementById("formHeaderTitle").innerText = "ASSET COMPILER";
+            document.getElementById("formSubmitBtn").innerText = "COMPILE TO LIVE SERVER";
+            
+            renderControlDashboard();
+            alert("MAINFRAME COGNITION RE-SYNCHRONIZED.");
+        });
+
+        window.editAssetRecord = (itemId) => {
+            const item = TOXIQUE_CATALOG.find(i => i.id === itemId);
+            if (!item) return;
+
+            document.getElementById("formItemId").value = item.id;
+            document.getElementById("formTitle").value = item.title;
+            document.getElementById("formPrice").value = item.price;
+            document.getElementById("formImageSrc").value = item.img;
+            document.getElementById("formCategory").value = item.category;
+            document.getElementById("formTag").value = item.tag;
+            document.getElementById("formType").value = item.type;
+            
+            document.getElementById("formHeaderTitle").innerText = `MODIFY PROFILE [${item.id}]`;
+            document.getElementById("formSubmitBtn").innerText = "APPLY PROFILE CHANGES";
+        };
+
+        window.deleteAssetRecord = (itemId) => {
+            if (confirm("CONFIRM ABSOLUTE DELETION CRITERIA?")) {
+                TOXIQUE_CATALOG = TOXIQUE_CATALOG.filter(i => i.id !== itemId);
+                localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
+                renderControlDashboard();
+            }
+        };
     </script>
 </body>
 </html>
