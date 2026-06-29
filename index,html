@@ -91,3 +91,14 @@
     <script src="script.js"></script>
 </body>
 </html>
+<header>
+    <div class="brand-logo">TOXIQUE<span>.</span></div>
+</header>
+
+<main class="catalog-container">
+    <h2 class="section-title">Collection 01 // Laboratory Drop</h2>
+    <!-- This is where our javascript loads the luxury vendor cards into -->
+    <div id="productGrid" class="product-grid"></div>
+</main>
+
+<script src="script.js"></script>
