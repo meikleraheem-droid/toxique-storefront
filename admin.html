@@ -229,6 +229,23 @@
             color: #ff3e3e;
             background: rgba(255, 62, 62, 0.1);
         }
+
+        .export-btn {
+            background: transparent;
+            border: 1px solid var(--lux-gold);
+            color: var(--lux-gold);
+            padding: 0.35rem 0.75rem;
+            font-family: monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: var(--lux-gold);
+            color: var(--bg-deep);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -238,7 +255,6 @@
         <a href="index.html" class="return-btn">&lt;&lt; STOREFRONT CHANNEL</a>
     </div>
 
-    <!-- Live Performance Metrics -->
     <div class="metrics-grid">
         <div class="metric-card">
             <div class="metric-label">Gross Revenue (Monthly)</div>
@@ -254,10 +270,8 @@
         </div>
     </div>
 
-    <!-- Primary Administrator Split Layout -->
     <div class="workspace-layout">
         
-        <!-- Form Panel: Add / Update Items -->
         <div class="form-vault">
             <h2 id="formHeaderTitle">ASSET COMPILER</h2>
             <form id="adminProductForm">
@@ -275,7 +289,7 @@
 
                 <div class="input-group">
                     <label for="formImageSrc">Image Asset URL Route</label>
-                    <input type="url" id="formImageSrc" required placeholder="https://images.unsplash.com/...">
+                    <input type="text" id="formImageSrc" required placeholder="images/filename.jpg">
                 </div>
 
                 <div class="input-group">
@@ -302,7 +316,6 @@
             </form>
         </div>
 
-        <!-- Inventory Database Table Area -->
         <div>
             <div class="table-section-title">
                 <span>CATALOG MASTER REGISTRY</span>
@@ -318,12 +331,12 @@
                     </tr>
                 </thead>
                 <tbody id="adminInventoryTableBody">
-                    <!-- Synced JS loops write lines here -->
-                </tbody>
+                    </tbody>
             </table>
 
             <div class="table-section-title">
                 <span>DIGITAL COORDINATES TRANSMISSIONS</span>
+                <button class="export-btn" onclick="exportCoordinatesToCSV()">EXPORT LEDGER (.CSV)</button>
             </div>
             <table class="matrix-table">
                 <thead>
@@ -333,16 +346,13 @@
                     </tr>
                 </thead>
                 <tbody id="adminLogTable">
-                    <!-- Newsletter captures remain here intact -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
     </div>
 
-    <!-- Embedded Sync Logic connecting perfectly with script.js database keys -->
     <script>
-        // Use identical structural references matching core engine models
         let TOXIQUE_CATALOG = JSON.parse(localStorage.getItem("toxique_live_catalog")) || [];
         let PURCHASE_HISTORY = JSON.parse(localStorage.getItem("toxique_sales_ledger")) || [];
         let COORDINATES_LOGS = JSON.parse(localStorage.getItem("toxique_coordinates")) || [];
@@ -361,9 +371,8 @@
             const grossVolumeElement = document.getElementById("metricGrossVolume");
             const ordersCounterElement = document.getElementById("metricOrdersCount");
             
-            // Operational queries configured for current June 2026 terminal timelines
             const currentYear = 2026;
-            const currentMonth = 5; 
+            const currentMonth = 5; // June baseline tracker tracking matrix
 
             const monthlySales = PURCHASE_HISTORY.filter(sale => {
                 const saleDate = new Date(sale.date);
@@ -382,112 +391,3 @@
 
             if (TOXIQUE_CATALOG.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">CATALOG ARRAY EMPTY.</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = TOXIQUE_CATALOG.map(item => `
-                <tr>
-                    <td style="color: var(--lux-gold); font-size: 0.8rem;">${item.id}</td>
-                    <td><strong>${item.title}</strong></td>
-                    <td style="text-transform: uppercase; font-size: 0.8rem; color: var(--text-muted);">${item.category}</td>
-                    <td>$${parseFloat(item.price).toFixed(2)}</td>
-                    <td>
-                        <button class="action-row-btn edit" onclick="editAssetRecord('${item.id}')">EDIT</button>
-                        <button class="action-row-btn wipe" onclick="deleteAssetRecord('${item.id}')">WIPE</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function populateCoordinatesTable() {
-            const tbody = document.getElementById("adminLogTable");
-            if (!tbody) return;
-
-            if (COORDINATES_LOGS.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: var(--text-muted);">SYSTEM WAITING FOR LIVE TRANSMISSIONS...</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = COORDINATES_LOGS.map(log => `
-                <tr>
-                    <td style="color: var(--neon-purple);">${log.time || 'RECORDED'}</td>
-                    <td>${log.email}</td>
-                </tr>
-            `).join('');
-        }
-
-        // Form handler operation updates or writes fresh arrays
-        document.getElementById("adminProductForm").addEventListener("submit", (e) => {
-            e.preventDefault();
-            
-            const targetId = document.getElementById("formItemId").value;
-            const itemTitle = document.getElementById("formTitle").value;
-            const itemPrice = parseFloat(document.getElementById("formPrice").value);
-            const itemImg = document.getElementById("formImageSrc").value;
-            const itemDept = document.getElementById("formCategory").value;
-            const itemTag = document.getElementById("formTag").value;
-            const itemType = document.getElementById("formType").value;
-
-            if (targetId) {
-                // Perform structural inline data mutation updates
-                const index = TOXIQUE_CATALOG.findIndex(item => item.id === targetId);
-                if (index !== -1) {
-                    TOXIQUE_CATALOG[index] = {
-                        ...TOXIQUE_CATALOG[index],
-                        title: itemTitle,
-                        price: itemPrice,
-                        displayPrice: `$${itemPrice.toFixed(2)}`,
-                        img: itemImg,
-                        category: itemDept,
-                        tag: itemTag,
-                        type: itemType
-                    };
-                }
-            } else {
-                // Compile completely fresh entity item object
-                const newId = "tx-custom-" + Math.floor(Math.random() * 10000);
-                TOXIQUE_CATALOG.push({
-                    id: newId, category: itemDept, tag: itemTag, title: itemTitle,
-                    price: itemPrice, displayPrice: `$${itemPrice.toFixed(2)}`,
-                    type: itemType, img: itemImg, adultItem: itemDept === "xxx"
-                });
-            }
-
-            localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
-            
-            // Clean up interfaces
-            document.getElementById("adminProductForm").reset();
-            document.getElementById("formItemId").value = "";
-            document.getElementById("formHeaderTitle").innerText = "ASSET COMPILER";
-            document.getElementById("formSubmitBtn").innerText = "COMPILE TO LIVE SERVER";
-            
-            renderControlDashboard();
-            alert("MAINFRAME COGNITION RE-SYNCHRONIZED.");
-        });
-
-        window.editAssetRecord = (itemId) => {
-            const item = TOXIQUE_CATALOG.find(i => i.id === itemId);
-            if (!item) return;
-
-            document.getElementById("formItemId").value = item.id;
-            document.getElementById("formTitle").value = item.title;
-            document.getElementById("formPrice").value = item.price;
-            document.getElementById("formImageSrc").value = item.img;
-            document.getElementById("formCategory").value = item.category;
-            document.getElementById("formTag").value = item.tag;
-            document.getElementById("formType").value = item.type;
-            
-            document.getElementById("formHeaderTitle").innerText = `MODIFY PROFILE [${item.id}]`;
-            document.getElementById("formSubmitBtn").innerText = "APPLY PROFILE CHANGES";
-        };
-
-        window.deleteAssetRecord = (itemId) => {
-            if (confirm("CONFIRM ABSOLUTE DELETION CRITERIA?")) {
-                TOXIQUE_CATALOG = TOXIQUE_CATALOG.filter(i => i.id !== itemId);
-                localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
-                renderControlDashboard();
-            }
-        };
-    </script>
-</body>
-</html>
