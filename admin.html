@@ -115,6 +115,7 @@
             border: 1px solid var(--neon-purple);
             padding: 2rem;
             height: fit-content;
+            margin-bottom: 2rem;
         }
 
         .form-vault h2 {
@@ -274,49 +275,62 @@
     <!-- Primary Administrator Split Layout -->
     <div class="workspace-layout">
         
-        <!-- Form Panel: Add / Update Items -->
-        <div class="form-vault">
-            <h2 id="formHeaderTitle">ASSET COMPILER</h2>
-            <form id="adminProductForm">
-                <input type="hidden" id="formItemId" value="">
-                
+        <!-- Sidebar Controls Area -->
+        <div>
+            <!-- NEW: LIVE OVERRIDE BANNER CONTROL PANEL -->
+            <div class="form-vault">
+                <h2>LIVE BANNER TUNER</h2>
                 <div class="input-group">
-                    <label for="formTitle">Asset Title / Identifier</label>
-                    <input type="text" id="formTitle" required placeholder="e.g., Silk Slip Gown">
+                    <label for="adminBannerInput">Custom Ticker Message</label>
+                    <input type="text" id="adminBannerInput" placeholder="Leave empty for automatic smart calendar mode...">
                 </div>
+                <button class="compile-btn" style="background: transparent; color: var(--lux-gold);" onclick="saveCustomBannerText()">UPDATE HEADER TRANSMISSION</button>
+            </div>
 
-                <div class="input-group">
-                    <label for="formPrice">Unit Base Price (USD)</label>
-                    <input type="number" id="formPrice" step="0.01" required placeholder="0.00">
-                </div>
+            <!-- Form Panel: Add / Update Items -->
+            <div class="form-vault">
+                <h2 id="formHeaderTitle">ASSET COMPILER</h2>
+                <form id="adminProductForm">
+                    <input type="hidden" id="formItemId" value="">
+                    
+                    <div class="input-group">
+                        <label for="formTitle">Asset Title / Identifier</label>
+                        <input type="text" id="formTitle" required placeholder="e.g., Silk Slip Gown">
+                    </div>
 
-                <div class="input-group">
-                    <label for="formImageSrc">Image Asset URL Route</label>
-                    <input type="text" id="formImageSrc" required placeholder="images/filename.jpg">
-                </div>
+                    <div class="input-group">
+                        <label for="formPrice">Unit Base Price (USD)</label>
+                        <input type="number" id="formPrice" step="0.01" required placeholder="0.00">
+                    </div>
 
-                <div class="input-group">
-                    <label for="formCategory">Store Department Line</label>
-                    <select id="formCategory" required>
-                        <option value="garments">Garments (Mainline)</option>
-                        <option value="cosmetics">Cosmetics (Beauty Labs)</option>
-                        <option value="fragrance">Fragrance</option>
-                        <option value="xxx">Restricted XXX</option>
-                    </select>
-                </div>
+                    <div class="input-group">
+                        <label for="formImageSrc">Image Asset URL Route</label>
+                        <input type="text" id="formImageSrc" required placeholder="images/filename.jpg">
+                    </div>
 
-                <div class="input-group">
-                    <label for="formTag">Sub-Brand Label</label>
-                    <input type="text" id="formTag" required placeholder="e.g., Toxique Mainline">
-                </div>
+                    <div class="input-group">
+                        <label for="formCategory">Store Department Line</label>
+                        <select id="formCategory" required>
+                            <option value="garments">Garments (Mainline)</option>
+                            <option value="cosmetics">Cosmetics (Beauty Labs)</option>
+                            <option value="fragrance">Fragrance</option>
+                            <option value="xxx">Restricted XXX</option>
+                        </select>
+                    </div>
 
-                <div class="input-group">
-                    <label for="formType">Product Display Subtype</label>
-                    <input type="text" id="formType" required placeholder="e.g., Garment / Cosmetics">
-                </div>
+                    <div class="input-group">
+                        <label for="formTag">Sub-Brand Label</label>
+                        <input type="text" id="formTag" required placeholder="e.g., Toxique Mainline">
+                    </div>
 
-                <button type="submit" class="compile-btn" id="formSubmitBtn">COMPILE TO LIVE SERVER</button>
-            </form>
+                    <div class="input-group">
+                        <label for="formType">Product Display Subtype</label>
+                        <input type="text" id="formType" required placeholder="e.g., Garment / Cosmetics">
+                    </div>
+
+                    <button type="submit" class="compile-btn" id="formSubmitBtn">COMPILE TO LIVE SERVER</button>
+                </form>
+            </div>
         </div>
 
         <!-- Inventory Database Table Area -->
@@ -366,6 +380,9 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             renderControlDashboard();
+            // Load existing custom banner override message if it exists
+            const savedBanner = localStorage.getItem("toxique_custom_banner_msg") || "";
+            document.getElementById("adminBannerInput").value = savedBanner;
         });
 
         function renderControlDashboard() {
@@ -374,12 +391,19 @@
             populateCoordinatesTable();
         }
 
+        // Save Custom override to LocalStorage
+        window.saveCustomBannerText = () => {
+            const textValue = document.getElementById("adminBannerInput").value.trim();
+            localStorage.setItem("toxique_custom_banner_msg", textValue);
+            alert("BANNER METRICS PACKET OVERRIDDEN SUCCESSFULLY.");
+        };
+
         function calculateBusinessMetrics() {
             const grossVolumeElement = document.getElementById("metricGrossVolume");
             const ordersCounterElement = document.getElementById("metricOrdersCount");
             
             const currentYear = 2026;
-            const currentMonth = 5; // June baseline metrics tracking index
+            const currentMonth = 5; 
 
             const monthlySales = PURCHASE_HISTORY.filter(sale => {
                 const saleDate = new Date(sale.date);
@@ -439,24 +463,18 @@
                 return;
             }
 
-            // Define CSV column labels
             let csvLines = ["Timestamp,User Coordinates (Email)"];
             
-            // Loop data rows safely handling breaks
             COORDINATES_LOGS.forEach(log => {
                 let cleanTime = (log.time || "RECORDED").replace(/,/g, ""); 
                 let cleanEmail = log.email.replace(/,/g, "");
                 csvLines.push(`${cleanTime},${cleanEmail}`);
             });
 
-            // Join array strings into single clean text block
             const csvString = csvLines.join("\n");
-
-            // Convert raw text strings into an official binary storage Blob to bypass browser blockings
             const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
             const blobUrl = URL.createObjectURL(blob);
 
-            // Create and execute a safe, sandboxed anchor download link element
             const downloadAnchor = document.createElement("a");
             downloadAnchor.href = blobUrl;
             downloadAnchor.setAttribute("download", `toxique_coordinates_ledger_${new Date().toISOString().slice(0,10)}.csv`);
@@ -464,7 +482,6 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             
-            // Immediately clean up browser execution stacks
             document.body.removeChild(downloadAnchor);
             URL.revokeObjectURL(blobUrl);
         };

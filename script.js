@@ -23,16 +23,27 @@ document.addEventListener("DOMContentLoaded", () => {
    ========================================================================== */
 
 /**
- * Evaluates the real-time calendar index clock to activate specific campaigns.
- * If no campaign is active, defaults to a premium permanent brand identity ticker.
+ * Evaluates real-time custom overrides and calendars to render ticker messages.
  */
 function evaluateSystemCampaignTimeline() {
     const banner = document.getElementById("dynamicPromoBanner");
     const bannerText = document.getElementById("promoBannerText");
     if (!banner || !bannerText) return;
 
+    // FIRST PRIORITY: Check for a back-office manual text input override
+    const backOfficeOverrideText = localStorage.getItem("toxique_custom_banner_msg") || "";
+
+    if (backOfficeOverrideText !== "") {
+        ACTIVE_DISCOUNT_PERCENT = 0; // Custom custom alerts default back to standard base pricing
+        ACTIVE_CAMPAIGN_NAME = "";
+        bannerText.innerText = backOfficeOverrideText;
+        banner.style.display = "block";
+        return; // Break execution loop early since override is live
+    }
+
+    // SECOND PRIORITY: Run smart automated calendar configurations if control panel is empty
     const systemClock = new Date();
-    const currentMonth = systemClock.getMonth(); // 0 = Jan, 10 = Nov, 11 = Dec
+    const currentMonth = systemClock.getMonth(); 
     const currentDate = systemClock.getDate();
 
     // 1. Black Friday Verification Parameters (Nov 20 - Nov 30)
@@ -60,7 +71,6 @@ function evaluateSystemCampaignTimeline() {
         bannerText.innerText = "TOXIQUE MAINLINE ✦ HOUSE OF X // RESTRICTED XXX ✦ TOXIQUE BEAUTY LABS";
     }
 
-    // The banner now stays permanently visible to show off your styling!
     banner.style.display = "block";
 }
 
@@ -68,9 +78,6 @@ function evaluateSystemCampaignTimeline() {
    HIGH-FASHION CUSTOMER INVOICE PROCESSING ENGINE
    ========================================================================== */
 
-/**
- * Intercepts default alerts on checkout click and routes directly to visual modal invoice window instead
- */
 function interceptStorefrontCheckoutAction() {
     const defaultCheckoutButton = document.getElementById("checkoutBtn") || document.querySelector(".checkout-button");
     if (!defaultCheckoutButton) return;
@@ -82,9 +89,6 @@ function interceptStorefrontCheckoutAction() {
     });
 }
 
-/**
- * Computes math vectors, generates raw invoice list lines, maps flat shipping rates, and launches modal overlay window 
- */
 function compileStagedInvoiceData() {
     let operationalCartArray = cart;
 
@@ -97,13 +101,11 @@ function compileStagedInvoiceData() {
     const dateStamp = document.getElementById("invoiceDateStamp");
     if (!manifestContainer || !dateStamp) return;
     
-    // Set current formatted calendar snapshot timestamp inside the invoice profile matrix
     dateStamp.innerText = new Date().toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
     let baseSubtotal = 0;
     manifestContainer.innerHTML = "";
 
-    // Map through array item selections to construct row strings
     operationalCartArray.forEach(item => {
         let priceValue = parseFloat(item.price || 0);
         baseSubtotal += priceValue;
@@ -117,12 +119,10 @@ function compileStagedInvoiceData() {
         manifestContainer.appendChild(lineRow);
     });
 
-    // Compute promotional discounts and flat logistics rates matching corporate parameters (Flat 650 with no decimal values displayed)
     let campaignDeductionValue = baseSubtotal * ACTIVE_DISCOUNT_PERCENT;
     let baselineFlatShippingRate = 650; 
     let totalGrossInvoicePayload = (baseSubtotal - campaignDeductionValue) + baselineFlatShippingRate;
 
-    // Bind mathematical calculation text outputs safely straight to UI element nodes
     document.getElementById("invoiceSubtotal").innerText = `$${baseSubtotal.toFixed(2)}`;
     
     const discountRow = document.getElementById("invoiceDiscountRow");
@@ -134,11 +134,9 @@ function compileStagedInvoiceData() {
         discountRow.style.display = "none";
     }
 
-    // Render the flat shipping parameter visually without decimal extensions
     document.getElementById("invoiceShipping").innerText = `$${baselineFlatShippingRate}`;
     document.getElementById("invoiceGrandTotal").innerText = `$${totalGrossInvoicePayload.toFixed(2)}`;
 
-    // Slide up structural transparency block overlay layout view frames
     const modal = document.getElementById("invoiceModalOverlay");
     if (modal) {
         modal.style.removeProperty("display");
@@ -146,22 +144,15 @@ function compileStagedInvoiceData() {
     }
 }
 
-/**
- * Closes modal interface
- */
 function closeInvoiceStage() {
     const modal = document.getElementById("invoiceModalOverlay");
     if (modal) modal.style.display = "none";
 }
 
-/**
- * Executes a simulated secure ledger authorization sequence
- */
 function executeFinalTransaction() {
     alert("TRANSMISSION SECURED: ACCESS PAYLOAD TRANSLATED. INVOICE COGNITION LOGGED INTO LEDGER SUITE SUCCESSFULLY.");
     closeInvoiceStage();
     
-    // Wipe local cache bag context arrays clear once transaction loop clears out safely
     if (typeof clearCart === "function") {
         clearCart();
     } else {
