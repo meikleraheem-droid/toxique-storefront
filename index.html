@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- DYNAMIC PROMOTIONAL TIMELINE MATRIX -->
+<div id="dynamicPromoBanner" class="promo-banner" style="display: none;">
+    <span id="promoBannerText">LOAD STATE INITIALIZED...</span>
+</div>
 
     <!-- LUXURY BRAND HEADER -->
     <header>
@@ -76,4 +80,50 @@
 
     <script src="script.js"></script>
 </body>
+<!-- HIGH-FASHION CUSTOMER INVOICE STAGING OVERLAY -->
+<div id="invoiceModalOverlay" class="invoice-overlay" style="display: none;">
+    <div class="invoice-vault">
+        <button class="close-invoice-btn" onclick="closeInvoiceStage()">✕ CLOSE</button>
+        <div class="invoice-header">
+            <h2>TOXIQUE<span>.</span></h2>
+            <div>OFFICIAL CUSTOMER INVOICE</div>
+        </div>
+        
+        <div class="invoice-meta-grid">
+            <div>
+                <small>TRANSMISSION CHANNEL</small>
+                <div>SECURE CHECKOUT STAGING</div>
+            </div>
+            <div>
+                <small>DATE GENERATED</small>
+                <div id="invoiceDateStamp">--/--/----</div>
+            </div>
+        </div>
+
+        <div id="invoiceManifestItems" class="invoice-manifest">
+            <!-- Line items written dynamically by JavaScript -->
+        </div>
+
+        <div class="invoice-summary-block">
+            <div class="summary-row">
+                <span>Subtotal Base:</span>
+                <span id="invoiceSubtotal">$0.00</span>
+            </div>
+            <div id="invoiceDiscountRow" class="summary-row promo-highlight" style="display: none;">
+                <span id="invoiceDiscountLabel">Campaign Deduction:</span>
+                <span id="invoiceDiscountAmount">-$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Logistics Flat Handling (Weight Scale Assessment):</span>
+                <span id="invoiceShipping">650 Per Lb Flat Base</span>
+            </div>
+            <div class="summary-row total-line">
+                <span>TOTAL ESTIMATED GROSS:</span>
+                <span id="invoiceGrandTotal">$0.00</span>
+            </div>
+        </div>
+
+        <button class="invoice-action-btn" onclick="executeFinalTransaction()">AUTHORIZE DIGITAL SECURE TRANSFER</button>
+    </div>
+</div>
 </html>

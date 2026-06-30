@@ -347,3 +347,156 @@ window.deleteAssetFromAdminRow = (itemId) => {
         calculateBusinessMetrics();
     }
 };
+/* ==========================================================================
+   ADVANCED OPERATIONS ENGINE: CAMPAIGNS & INVOICE MANAGEMENT
+   ========================================================================== */
+
+// Global state container for campaign configuration matching the system timeline
+let ACTIVE_DISCOUNT_PERCENT = 0;
+let ACTIVE_CAMPAIGN_NAME = "";
+
+document.addEventListener("DOMContentLoaded", () => {
+    evaluateSystemCampaignTimeline();
+    interceptStorefrontCheckoutAction();
+});
+
+/**
+ * Evaluates the real-time calendar index clock to activate specific campaigns
+ * Black Friday: Nov 20 - Nov 30 (25% Off)
+ * Christmas Luxury Sale: Dec 1 - Dec 31 (50% Off)
+ * New Year Happy Prince Day: Jan 1 - Jan 14 (Special BOGO Staging / 50% Equivalent Baseline)
+ */
+function evaluateSystemCampaignTimeline() {
+    const banner = document.getElementById("dynamicPromoBanner");
+    const bannerText = document.getElementById("promoBannerText");
+    if (!banner || !bannerText) return;
+
+    const systemClock = new Date();
+    const currentMonth = systemClock.getMonth(); // 0 = Jan, 10 = Nov, 11 = Dec
+    const currentDate = systemClock.getDate();
+
+    // 1. Black Friday Verification Parameters
+    if (currentMonth === 10 && currentDate >= 20 && currentDate <= 30) {
+        ACTIVE_DISCOUNT_PERCENT = 0.25;
+        ACTIVE_CAMPAIGN_NAME = "BLACK FRIDAY LAUNCH (25% OFF APPLIED)";
+    } 
+    // 2. Christmas Sale Parameters
+    else if (currentMonth === 11) {
+        ACTIVE_DISCOUNT_PERCENT = 0.50;
+        ACTIVE_CAMPAIGN_NAME = "CHRISTMAS LUXURY SALE EVENT (50% OFF APPLIED)";
+    } 
+    // 3. New Year "Happy Prince Day" Sale Parameters
+    else if (currentMonth === 0 && currentDate >= 1 && currentDate <= 14) {
+        ACTIVE_DISCOUNT_PERCENT = 0.50; // Map double-value BOGO strategy as a 50% split deduction base
+        ACTIVE_CAMPAIGN_NAME = "HAPPY PRINCE DAY NEW YEAR CELEBRATION (BOGO INVOICE SPECIAL)";
+    }
+
+    // Render banner layout frame if an event is active
+    if (ACTIVE_DISCOUNT_PERCENT > 0) {
+        bannerText.innerText = `✦ COMING LIVE // ${ACTIVE_CAMPAIGN_NAME} ✦`;
+        banner.style.display = "block";
+    } else {
+        banner.style.display = "none";
+    }
+}
+
+/**
+ * Intercepts default alerts on checkout click and routes directly to visual modal invoice window instead
+ */
+function interceptStorefrontCheckoutAction() {
+    // Locate your store's default checkout click trigger button element
+    const defaultCheckoutButton = document.getElementById("checkoutBtn") || document.querySelector(".checkout-button");
+    if (!defaultCheckoutButton) return;
+
+    // Remove existing inline behavior triggers and route into our design system modal pipeline
+    defaultCheckoutButton.removeAttribute("onclick");
+    defaultCheckoutButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        compileStagedInvoiceData();
+    });
+}
+
+/**
+ * Computes math vectors, generates raw invoice list lines, maps flat shipping rates, and launches modal overlay window 
+ */
+function compileStagedInvoiceData() {
+    // Pull active items out of your existing shopping cart array matrix (assumed global variable 'cart')
+    // Fall back to localStorage array state context if global reference layer isn't attached
+    let operationalCartArray = (typeof cart !== 'undefined') ? cart : (JSON.parse(localStorage.getItem("toxique_user_cart")) || []);
+
+    if (operationalCartArray.length === 0) {
+        alert("TRANSMISSION ERROR: YOUR SHOPPING BAG CONTAINS NO ASSETS TO COMPILE.");
+        return;
+    }
+
+    const manifestContainer = document.getElementById("invoiceManifestItems");
+    const dateStamp = document.getElementById("invoiceDateStamp");
+    
+    // Set current formatted calendar snapshot timestamp inside the invoice profile matrix
+    dateStamp.innerText = new Date().toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
+
+    let baseSubtotal = 0;
+    manifestContainer.innerHTML = "";
+
+    // Map through array item selections to construct row strings
+    operationalCartArray.forEach(item => {
+        let priceValue = parseFloat(item.price || 0);
+        baseSubtotal += priceValue;
+
+        const lineRow = document.createElement("div");
+        lineRow.className = "invoice-line-item";
+        lineRow.innerHTML = `
+            <span>${item.title} (x1)</span>
+            <strong>$${priceValue.toFixed(2)}</strong>
+        `;
+        manifestContainer.appendChild(lineRow);
+    });
+
+    // Compute promotional discounts and flat logistics rates matching corporate parameters (Flat 650 with no decimal values displayed)
+    let campaignDeductionValue = baseSubtotal * ACTIVE_DISCOUNT_PERCENT;
+    let baselineFlatShippingRate = 650; // Flat currency value parameters matching Surfers Shipping standards
+    let totalGrossInvoicePayload = (baseSubtotal - campaignDeductionValue) + baselineFlatShippingRate;
+
+    // Bind mathematical calculation text outputs safely straight to UI element nodes
+    document.getElementById("invoiceSubtotal").innerText = `$${baseSubtotal.toFixed(2)}`;
+    
+    const discountRow = document.getElementById("invoiceDiscountRow");
+    if (ACTIVE_DISCOUNT_PERCENT > 0) {
+        document.getElementById("invoiceDiscountLabel").innerText = `${ACTIVE_CAMPAIGN_NAME}:`;
+        document.getElementById("invoiceDiscountAmount").innerText = `-$${campaignDeductionValue.toFixed(2)}`;
+        discountRow.style.display = "flex";
+    } else {
+        discountRow.style.display = "none";
+    }
+
+    // Render the flat shipping parameter visually without decimal extensions
+    document.getElementById("invoiceShipping").innerText = `$${baselineFlatShippingRate}`;
+    document.getElementById("invoiceGrandTotal").innerText = `$${totalGrossInvoicePayload.toFixed(2)}`;
+
+    // Slide up structural transparency block overlay layout view frames
+    document.getElementById("invoiceModalOverlay").style.style.removeProperty("display");
+    document.getElementById("invoiceModalOverlay").style.display = "flex";
+}
+
+/**
+ * Closes modal interface
+ */
+function closeInvoiceStage() {
+    document.getElementById("invoiceModalOverlay").style.display = "none";
+}
+
+/**
+ * Executes a simulated secure ledger authorization sequence
+ */
+function executeFinalTransaction() {
+    alert("TRANSMISSION SECURED: ACCESS PAYLOAD TRANSLATED. INVOICE COGNITION LOGGED INTO LEDGER SUITE SUCCESSFULLY.");
+    closeInvoiceStage();
+    
+    // Wipe local cache bag context arrays clear once transaction loop clears out safely
+    if (typeof clearCart === "function") {
+        clearCart();
+    } else {
+        localStorage.removeItem("toxique_user_cart");
+        if (typeof renderCart === "function") renderCart();
+    }
+}
