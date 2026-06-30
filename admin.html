@@ -255,6 +255,7 @@
         <a href="index.html" class="return-btn">&lt;&lt; STOREFRONT CHANNEL</a>
     </div>
 
+    <!-- Live Performance Metrics -->
     <div class="metrics-grid">
         <div class="metric-card">
             <div class="metric-label">Gross Revenue (Monthly)</div>
@@ -270,8 +271,10 @@
         </div>
     </div>
 
+    <!-- Primary Administrator Split Layout -->
     <div class="workspace-layout">
         
+        <!-- Form Panel: Add / Update Items -->
         <div class="form-vault">
             <h2 id="formHeaderTitle">ASSET COMPILER</h2>
             <form id="adminProductForm">
@@ -316,6 +319,7 @@
             </form>
         </div>
 
+        <!-- Inventory Database Table Area -->
         <div>
             <div class="table-section-title">
                 <span>CATALOG MASTER REGISTRY</span>
@@ -331,7 +335,8 @@
                     </tr>
                 </thead>
                 <tbody id="adminInventoryTableBody">
-                    </tbody>
+                    <!-- Synced JS loops write lines here -->
+                </tbody>
             </table>
 
             <div class="table-section-title">
@@ -346,12 +351,14 @@
                     </tr>
                 </thead>
                 <tbody id="adminLogTable">
-                    </tbody>
+                    <!-- Newsletter captures remain here intact -->
+                </tbody>
             </table>
         </div>
 
     </div>
 
+    <!-- Embedded Sync Logic connecting perfectly with script.js database keys -->
     <script>
         let TOXIQUE_CATALOG = JSON.parse(localStorage.getItem("toxique_live_catalog")) || [];
         let PURCHASE_HISTORY = JSON.parse(localStorage.getItem("toxique_sales_ledger")) || [];
@@ -372,7 +379,7 @@
             const ordersCounterElement = document.getElementById("metricOrdersCount");
             
             const currentYear = 2026;
-            const currentMonth = 5; // June baseline tracker tracking matrix
+            const currentMonth = 5; // June baseline metrics tracking index
 
             const monthlySales = PURCHASE_HISTORY.filter(sale => {
                 const saleDate = new Date(sale.date);
@@ -391,3 +398,145 @@
 
             if (TOXIQUE_CATALOG.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">CATALOG ARRAY EMPTY.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = TOXIQUE_CATALOG.map(item => `
+                <tr>
+                    <td style="color: var(--lux-gold); font-size: 0.8rem;">${item.id}</td>
+                    <td><strong>${item.title}</strong></td>
+                    <td style="text-transform: uppercase; font-size: 0.8rem; color: var(--text-muted);">${item.category}</td>
+                    <td>$${parseFloat(item.price).toFixed(2)}</td>
+                    <td>
+                        <button class="action-row-btn edit" onclick="editAssetRecord('${item.id}')">EDIT</button>
+                        <button class="action-row-btn wipe" onclick="deleteAssetRecord('${item.id}')">WIPE</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function populateCoordinatesTable() {
+            const tbody = document.getElementById("adminLogTable");
+            if (!tbody) return;
+
+            if (COORDINATES_LOGS.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: var(--text-muted);">SYSTEM WAITING FOR LIVE TRANSMISSIONS...</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = COORDINATES_LOGS.map(log => `
+                <tr>
+                    <td style="color: var(--neon-purple);">${log.time || 'RECORDED'}</td>
+                    <td>${log.email}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Upgraded Blob-Powered CSV Compilation Engine
+        window.exportCoordinatesToCSV = () => {
+            if (COORDINATES_LOGS.length === 0) {
+                alert("EXPORT DENIED: NO DATA VECTORS FOUND IN CURRENT CACHE DIRECTORY.");
+                return;
+            }
+
+            // Define CSV column labels
+            let csvLines = ["Timestamp,User Coordinates (Email)"];
+            
+            // Loop data rows safely handling breaks
+            COORDINATES_LOGS.forEach(log => {
+                let cleanTime = (log.time || "RECORDED").replace(/,/g, ""); 
+                let cleanEmail = log.email.replace(/,/g, "");
+                csvLines.push(`${cleanTime},${cleanEmail}`);
+            });
+
+            // Join array strings into single clean text block
+            const csvString = csvLines.join("\n");
+
+            // Convert raw text strings into an official binary storage Blob to bypass browser blockings
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const blobUrl = URL.createObjectURL(blob);
+
+            // Create and execute a safe, sandboxed anchor download link element
+            const downloadAnchor = document.createElement("a");
+            downloadAnchor.href = blobUrl;
+            downloadAnchor.setAttribute("download", `toxique_coordinates_ledger_${new Date().toISOString().slice(0,10)}.csv`);
+            
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            
+            // Immediately clean up browser execution stacks
+            document.body.removeChild(downloadAnchor);
+            URL.revokeObjectURL(blobUrl);
+        };
+
+        document.getElementById("adminProductForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            
+            const targetId = document.getElementById("formItemId").value;
+            const itemTitle = document.getElementById("formTitle").value;
+            const itemPrice = parseFloat(document.getElementById("formPrice").value);
+            const itemImg = document.getElementById("formImageSrc").value;
+            const itemDept = document.getElementById("formCategory").value;
+            const itemTag = document.getElementById("formTag").value;
+            const itemType = document.getElementById("formType").value;
+
+            if (targetId) {
+                const index = TOXIQUE_CATALOG.findIndex(item => item.id === targetId);
+                if (index !== -1) {
+                    TOXIQUE_CATALOG[index] = {
+                        ...TOXIQUE_CATALOG[index],
+                        title: itemTitle,
+                        price: itemPrice,
+                        displayPrice: `$${itemPrice.toFixed(2)}`,
+                        img: itemImg,
+                        category: itemDept,
+                        tag: itemTag,
+                        type: itemType
+                    };
+                }
+            } else {
+                const newId = "tx-custom-" + Math.floor(Math.random() * 10000);
+                TOXIQUE_CATALOG.push({
+                    id: newId, category: itemDept, tag: itemTag, title: itemTitle,
+                    price: itemPrice, displayPrice: `$${itemPrice.toFixed(2)}`,
+                    type: itemType, img: itemImg, adultItem: itemDept === "xxx"
+                });
+            }
+
+            localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
+            
+            document.getElementById("adminProductForm").reset();
+            document.getElementById("formItemId").value = "";
+            document.getElementById("formHeaderTitle").innerText = "ASSET COMPILER";
+            document.getElementById("formSubmitBtn").innerText = "COMPILE TO LIVE SERVER";
+            
+            renderControlDashboard();
+            alert("MAINFRAME COGNITION RE-SYNCHRONIZED.");
+        });
+
+        window.editAssetRecord = (itemId) => {
+            const item = TOXIQUE_CATALOG.find(i => i.id === itemId);
+            if (!item) return;
+
+            document.getElementById("formItemId").value = item.id;
+            document.getElementById("formTitle").value = item.title;
+            document.getElementById("formPrice").value = item.price;
+            document.getElementById("formImageSrc").value = item.img;
+            document.getElementById("formCategory").value = item.category;
+            document.getElementById("formTag").value = item.tag;
+            document.getElementById("formType").value = item.type;
+            
+            document.getElementById("formHeaderTitle").innerText = `MODIFY PROFILE [${item.id}]`;
+            document.getElementById("formSubmitBtn").innerText = "APPLY PROFILE CHANGES";
+        };
+
+        window.deleteAssetRecord = (itemId) => {
+            if (confirm("CONFIRM ABSOLUTE DELETION CRITERIA?")) {
+                TOXIQUE_CATALOG = TOXIQUE_CATALOG.filter(i => i.id !== itemId);
+                localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
+                renderControlDashboard();
+            }
+        };
+    </script>
+</body>
+</html>
