@@ -3,127 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOXIQUE // OFFICIAL OPERATING SYSTEM</title>
+    <title>TOXIQUE // MAINLINE STOREFRONT</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- DYNAMIC PROMOTIONAL TIMELINE MATRIX -->
-<div id="dynamicPromoBanner" class="promo-banner" style="display: none;">
-    <span id="promoBannerText">LOAD STATE INITIALIZED...</span>
-</div>
 
-    <!-- LUXURY BRAND HEADER -->
-    <header>
-        <div class="brand-logo">TOXIQUE<span>.</span></div>
-        <div class="header-right">
-            <span class="system-status">COLLECTION READY // BRAND DEPARTMENTS ONLINE</span>
-            <button id="cartToggleBtn" class="cart-trigger">BAG (<span id="cartCount">0</span>)</button>
+    <!-- PATH 3: AUTOMATED BANNER BROADCAST CORE -->
+    <div id="dynamicPromoBanner" style="display: none;">
+        <div id="promoBannerText"></div>
+    </div>
+
+    <!-- MAIN BRAND HEADER -->
+    <header class="main-header">
+        <div class="logo">TOXIQUE<span>//</span>HOUSE OF X</div>
+        <div class="nav-controls">
+            <a href="admin.html" class="nav-link">MAINFRAME</a>
+            <div class="cart-trigger" onclick="toggleCartDrawer()">BAG (<span id="cartCountGlobal">0</span>)</div>
         </div>
     </header>
 
-    <!-- CORE LORE & RITUAL MANIFESTO -->
-    <section class="universe-manifesto">
-        <div class="manifesto-content">
-            <span class="manifesto-tag">// THE MANIFESTO</span>
-            <h1>TOXIQUE IS NOT A BRAND. IT IS A RITUAL.</h1>
-            <p>An ongoing experiment in textile manipulation, avant-garde silhouettes, and curated realities. Welcome to the lab.</p>
+    <!-- PATH 3: CATEGORY NAV ROUTERS -->
+    <nav class="category-nav">
+        <button class="nav-filter active" onclick="filterStorefrontCatalog('all')">ALL COLLECTIONS</button>
+        <button class="nav-filter" onclick="filterStorefrontCatalog('garments')">GARMENTS</button>
+        <button class="nav-filter" onclick="filterStorefrontCatalog('cosmetics')">BEAUTY LABS</button>
+        <button class="nav-filter" onclick="filterStorefrontCatalog('fragrance')">FRAGRANCE</button>
+        <button class="nav-filter" onclick="filterStorefrontCatalog('xxx')">RESTRICTED XXX</button>
+    </nav>
+
+    <!-- PATH 3: MAIN HIGH-FASHION DYNAMIC STAGING GRID -->
+    <main class="storefront-container">
+        <div id="storefrontGrid" class="catalog-grid">
+            <!-- Dynamic product cards render here via script.js -->
         </div>
-    </section>
-
-    <!-- EXCLUSIVE ISOLATED DEPARTMENT FILTERS -->
-    <section class="department-nav">
-        <button class="dept-btn active" id="btn-garments">GARMENTS</button>
-        <button class="dept-btn" id="btn-cosmetics">COSMETICS</button>
-        <button class="dept-btn" id="btn-fragrance">FRAGRANCE</button>
-        <button class="dept-btn x-rated" id="btn-xxx">HOUSE OF X // 18+</button>
-    </section>
-
-    <!-- BRAND CATALOG -->
-    <main class="catalog-container">
-        <div id="productGrid" class="product-grid"></div>
     </main>
 
-    <!-- SLIDE-OUT LUXURY SIDE-CART DRAWER -->
-    <div id="sideCart" class="side-cart">
-        <div class="cart-header">
-            <h3>SELECTED ARTIFACTS</h3>
-            <button id="cartCloseBtn" class="cart-close">&times;</button>
+    <!-- SHOPPING BAG SIDE DRAWER -->
+    <div id="cartDrawer" class="cart-drawer">
+        <div class="drawer-header">
+            <h3>YOUR SELECTIONS</h3>
+            <button class="close-drawer-btn" onclick="toggleCartDrawer()">CLOSE</button>
         </div>
-        
-        <div id="cartItemsContainer" class="cart-items-list">
-            <!-- Items injected via JS appear here -->
+        <div id="drawerCartItems" class="drawer-items-container">
+            <!-- Staged items manifest here dynamically -->
         </div>
-
-        <div class="cart-footer">
-            <div class="cart-total-row">
-                <span>TOTAL VALUE:</span>
-                <span id="cartSubtotal">$0.00</span>
+        <div class="drawer-footer">
+            <div class="drawer-subtotal-line">
+                <span>ESTIMATED UNIT TOTAL:</span>
+                <strong id="drawerSubtotalAmount">$0.00</strong>
             </div>
-            <button class="checkout-btn" onclick="alert('PORTAL NOTICE: Checkout integration coming soon.')">PROCEED TO SECURE CHECKOUT</button>
+            <button id="checkoutBtn" class="checkout-action-btn">COMPILE ACQUISITION INVOICE</button>
         </div>
     </div>
+    <div id="drawerOverlay" class="drawer-overlay" onclick="toggleCartDrawer()"></div>
 
-    <div id="cartOverlay" class="cart-overlay"></div>
+    <!-- PATH 2: HIGH-FASHION CUSTOMER INVOICE PROCESSING OVERLAY MODAL -->
+    <div id="invoiceModalOverlay" style="display: none;">
+        <div class="invoice-box-frame">
+            <div class="invoice-header">
+                <h2>ACQUISITION RECORD INVOICE</h2>
+                <div class="invoice-meta-line">DATE STAMP: <span id="invoiceDateStamp">00/00/0000</span></div>
+            </div>
+            
+            <div id="invoiceManifestItems" class="invoice-manifest-lines">
+                <!-- Row strings populate here dynamically -->
+            </div>
 
-    <!-- THE UNIVERSE ENTRY PORTAL -->
-    <section class="portal-section">
-        <div class="portal-card">
-            <h3>ENTER THE UNIVERSE</h3>
-            <p>Submit your digital coordinates to sync with future supply drops, secret installations, and exclusive mainline capsules.</p>
-            <form id="universeForm" class="portal-form">
-                <input type="email" id="userEmail" placeholder="ENTER EMAIL ADDRESS..." required>
-                <button type="submit">TRANSMIT</button>
-            </form>
-            <div id="portalFeedback" class="feedback-msg"></div>
+            <div class="invoice-accounting-ledger">
+                <div class="ledger-row">
+                    <span>UNIT ASSETS SUBTOTAL:</span>
+                    <span id="invoiceSubtotal">$0.00</span>
+                </div>
+                <div class="ledger-row" id="invoiceDiscountRow" style="display: none;">
+                    <span id="invoiceDiscountLabel">CAMPAIGN DEDUCTION:</span>
+                    <span id="invoiceDiscountAmount">-$0.00</span>
+                </div>
+                <div class="ledger-row">
+                    <span>LOGISTICS HANDLING FLAT FEE:</span>
+                    <span id="invoiceShipping">$650</span>
+                </div>
+                <div class="ledger-row total-row">
+                    <span>TOTAL GROSS PAYLOAD:</span>
+                    <span id="invoiceGrandTotal">$0.00</span>
+                </div>
+            </div>
+
+            <div class="invoice-action-footer">
+                <button class="invoice-btn authorize" onclick="executeFinalTransaction()">AUTHORIZE SECURE TRANSACTIONS</button>
+                <button class="invoice-btn cancel" onclick="closeInvoiceStage()">ABORT INVOICE CONNECTION</button>
+            </div>
         </div>
-    </section>
+    </div>
 
     <script src="script.js"></script>
 </body>
-<!-- HIGH-FASHION CUSTOMER INVOICE STAGING OVERLAY -->
-<div id="invoiceModalOverlay" class="invoice-overlay" style="display: none;">
-    <div class="invoice-vault">
-        <button class="close-invoice-btn" onclick="closeInvoiceStage()">✕ CLOSE</button>
-        <div class="invoice-header">
-            <h2>TOXIQUE<span>.</span></h2>
-            <div>OFFICIAL CUSTOMER INVOICE</div>
-        </div>
-        
-        <div class="invoice-meta-grid">
-            <div>
-                <small>TRANSMISSION CHANNEL</small>
-                <div>SECURE CHECKOUT STAGING</div>
-            </div>
-            <div>
-                <small>DATE GENERATED</small>
-                <div id="invoiceDateStamp">--/--/----</div>
-            </div>
-        </div>
-
-        <div id="invoiceManifestItems" class="invoice-manifest">
-            <!-- Line items written dynamically by JavaScript -->
-        </div>
-
-        <div class="invoice-summary-block">
-            <div class="summary-row">
-                <span>Subtotal Base:</span>
-                <span id="invoiceSubtotal">$0.00</span>
-            </div>
-            <div id="invoiceDiscountRow" class="summary-row promo-highlight" style="display: none;">
-                <span id="invoiceDiscountLabel">Campaign Deduction:</span>
-                <span id="invoiceDiscountAmount">-$0.00</span>
-            </div>
-            <div class="summary-row">
-                <span>Logistics Flat Handling (Weight Scale Assessment):</span>
-                <span id="invoiceShipping">650 Per Lb Flat Base</span>
-            </div>
-            <div class="summary-row total-line">
-                <span>TOTAL ESTIMATED GROSS:</span>
-                <span id="invoiceGrandTotal">$0.00</span>
-            </div>
-        </div>
-
-        <button class="invoice-action-btn" onclick="executeFinalTransaction()">AUTHORIZE DIGITAL SECURE TRANSFER</button>
-    </div>
-</div>
 </html>
