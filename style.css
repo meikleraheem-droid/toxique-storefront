@@ -1,29 +1,34 @@
 /* ==========================================================================
-   TOXIQUE // CORPORATE CORE DESIGN FRAMEWORK SPECIFICATIONS
+   TOXIQUE // HOUSE OF X EXECUTIVE VISUAL FRAMEWORK (UPGRADED EDITORIAL SUITE)
    ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@200;300;400;600&display=swap');
+
 :root {
-    --bg-main: #06030b;
-    --bg-cards: #11091f;
-    --lux-gold: #d4af37;
-    --neon-purple: #7821ef;
-    --text-white: #f5f2fa;
-    --text-muted: #8d859c;
+    --bg-main: #0a070f;              /* Deep obsidian with slight amethyst undertone */
+    --bg-cards: #110c1a;             /* Subtle surface depth differentiation */
+    --lux-gold: #c3a463;             /* Refined muted champagne gold */
+    --neon-purple: #8146e2;          /* Sharp, ultra-saturated chemical violet accent */
+    --text-white: #fcfbfe;           /* High-contrast pure linen white */
+    --text-muted: #797185;           /* Controlled metadata text visibility */
+    --grid-line: rgba(195, 164, 99, 0.12); /* Hairline layout borders */
 }
 
+/* GLOBAL RESET MATRIX */
 body {
     background-color: var(--bg-main);
     color: var(--text-white);
-    font-family: monospace;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* MARQUEE RUNTIME ANIMATIONS */
+/* PATH 3: AUTOMATED BANNER BROADCAST CORE */
 #dynamicPromoBanner {
-    background: linear-gradient(90deg, #120721, #4c119e, #120721);
-    border-bottom: 1px solid var(--lux-gold);
-    padding: 0.75rem 0;
+    background: #000000;
+    border-bottom: 1px solid var(--grid-line);
+    padding: 0.9rem 0;
     overflow: hidden;
     white-space: nowrap;
     position: relative;
@@ -31,305 +36,360 @@ body {
 #promoBannerText {
     display: inline-block;
     padding-left: 100%;
-    font-weight: bold;
-    letter-spacing: 2px;
-    font-size: 0.85rem;
-    color: var(--text-white);
-    text-shadow: 0 0 8px rgba(120, 33, 239, 0.8);
-    animation: bannerMarqueeLoop 25s linear infinite;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-size: 0.7rem;
+    color: var(--lux-gold);
+    animation: bannerMarqueeLoop 30s linear infinite;
 }
 @keyframes bannerMarqueeLoop {
     0% { transform: translate3d(0, 0, 0); }
     100% { transform: translate3d(-100%, 0, 0); }
 }
 
-/* NAVIGATION HEADER SHEETS */
+/* EDITORIAL SYSTEM NAVIGATION HEADER */
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 3rem;
-    border-bottom: 1px solid rgba(120, 33, 239, 0.2);
+    padding: 2.5rem 4rem;
+    border-bottom: 1px solid var(--grid-line);
+    background: rgba(10, 7, 15, 0.8);
+    backdrop-filter: blur(20px);
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 4px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
 }
-.logo span { color: var(--lux-gold); }
+.logo span { 
+    color: var(--neon-purple); 
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    margin: 0 0.2rem;
+}
 
 .nav-controls {
     display: flex;
-    gap: 2rem;
+    gap: 3.5rem;
     align-items: center;
 }
 .nav-link, .cart-trigger {
     color: var(--text-white);
     text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
+    font-size: 0.75rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.4s ease, transform 0.4s ease;
 }
-.nav-link:hover, .cart-trigger:hover { color: var(--lux-gold); }
+.nav-link:hover, .cart-trigger:hover { 
+    color: var(--lux-gold);
+    transform: translateY(-1px);
+}
 
+/* CATEGORY FILTERS GRID ROW */
 .category-nav {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    background: #0b0614;
-    border-bottom: 1px solid rgba(120, 33, 239, 0.1);
+    gap: 2.5rem;
+    padding: 1.5rem 2rem;
+    background: transparent;
+    border-bottom: 1px solid var(--grid-line);
 }
 .nav-filter {
     background: transparent;
-    border: 1px solid rgba(141, 133, 156, 0.3);
+    border: none;
     color: var(--text-muted);
-    font-family: monospace;
-    padding: 0.5rem 1.25rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
     cursor: pointer;
-    letter-spacing: 1px;
-    transition: all 0.3s;
+    letter-spacing: 0.3em;
+    position: relative;
+    transition: color 0.3s ease;
+}
+.nav-filter::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 0; height: 1px;
+    background-color: var(--lux-gold);
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .nav-filter.active, .nav-filter:hover {
-    border-color: var(--lux-gold);
     color: var(--lux-gold);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+.nav-filter.active::after {
+    width: 100%;
 }
 
-/* PATH 3: LUXURY PRODUCTION PRODUCT DISPLAY GRID SYSTEM */
+/* PATH 3: LUXURY STAGING GRID AND PRODUCTION PRODUCT CARDS */
 .storefront-container {
-    padding: 3rem;
-    max-width: 1400px;
+    padding: 4rem;
+    max-width: 1600px;
     margin: 0 auto;
 }
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 4rem 3rem;
 }
 .product-card {
-    background: var(--bg-cards);
-    border: 1px solid rgba(120, 33, 239, 0.15);
-    padding: 1rem;
+    background: transparent;
+    border: none;
+    padding: 0;
     position: relative;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
-}
-.product-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--lux-gold);
+    display: flex;
+    flex-direction: column;
 }
 .card-image-box {
     width: 100%;
-    height: 340px;
-    background: #090510;
+    height: 480px;
+    background: #000000;
     overflow: hidden;
     position: relative;
-    border: 1px solid rgba(120, 33, 239, 0.05);
+    transition: border-color 0.4s ease;
 }
 .card-image-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
+    filter: grayscale(35%) contrast(105%);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
 }
 .product-card:hover .card-image-box img {
-    transform: scale(1.05);
+    transform: scale(1.03);
+    filter: grayscale(0%) contrast(100%);
 }
 .card-category-label {
     position: absolute;
-    top: 1rem; left: 1rem;
-    background: rgba(6, 3, 11, 0.85);
-    border: 1px solid var(--neon-purple);
-    color: var(--text-white);
-    padding: 0.25rem 0.6rem;
-    font-size: 0.65rem;
-    letter-spacing: 1px;
+    bottom: 1.5rem; left: 1.5rem;
+    background: #000000;
+    border: 1px solid var(--grid-line);
+    color: var(--lux-gold);
+    padding: 0.4rem 0.8rem;
+    font-size: 0.6rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    z-index: 2;
 }
 .card-details {
-    padding-top: 1rem;
-    text-align: center;
+    padding: 1.5rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 .card-brand-tag {
-    color: var(--lux-gold);
-    font-size: 0.7rem;
-    letter-spacing: 2px;
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 .card-title {
-    font-size: 1rem;
-    letter-spacing: 1px;
-    margin: 0.25rem 0 0.5rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin: 0 0 0.75rem 0;
     color: var(--text-white);
+    text-align: left;
 }
 .card-price {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: var(--text-white);
-    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--lux-gold);
+    margin-bottom: 1.5rem;
 }
 .add-to-bag-btn {
     width: 100%;
-    background: transparent;
-    border: 1px solid var(--neon-purple);
+    background: #000000;
+    border: 1px solid var(--grid-line);
     color: var(--text-white);
-    font-family: monospace;
-    padding: 0.75rem 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    padding: 1rem 0;
     cursor: pointer;
-    letter-spacing: 1px;
-    transition: all 0.3s;
+    letter-spacing: 0.3em;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .add-to-bag-btn:hover {
-    background: var(--neon-purple);
-    box-shadow: 0 0 15px rgba(120, 33, 239, 0.4);
+    background: var(--text-white);
+    color: #000000;
+    border-color: var(--text-white);
 }
 
-/* SHOPPING BAG DRAWER WORKSPACE */
+/* AUTOMATED SHOPPING DRAWER SIDE PANEL */
 .cart-drawer {
     position: fixed;
-    top: 0; right: -400px; width: 400px; height: 100%;
-    background: #0d0717;
-    border-left: 1px solid var(--neon-purple);
+    top: 0; right: -460px; width: 460px; height: 100%;
+    background: #000000;
+    border-left: 1px solid var(--grid-line);
     z-index: 10000;
-    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+    transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
 }
 .cart-drawer.active { right: 0; }
 .drawer-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid rgba(120, 33, 239, 0.2);
+    padding: 2.5rem;
+    border-bottom: 1px solid var(--grid-line);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+.drawer-header h3 {
+    margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.1em;
+}
 .close-drawer-btn {
-    background: transparent; border: none; color: var(--text-muted); font-family: monospace; cursor: pointer;
+    background: transparent; border: none; color: var(--text-muted); font-family: 'Inter', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; cursor: pointer; text-transform: uppercase;
 }
 .drawer-items-container {
-    flex: 1; padding: 1.5rem; overflow-y: auto;
+    flex: 1; padding: 2.5rem; overflow-y: auto;
 }
 .drawer-item-row {
-    display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(141,133,156,0.1);
+    display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(195,164,99,0.06);
 }
 .drawer-footer {
-    padding: 1.5rem; background: #08040f; border-top: 1px solid rgba(120, 33, 239, 0.2);
+    padding: 2.5rem; background: var(--bg-main); border-top: 1px solid var(--grid-line);
 }
 .drawer-subtotal-line {
-    display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 0.9rem;
+    display: flex; justify-content: space-between; margin-bottom: 2rem; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted);
 }
-.drawer-subtotal-line strong { color: var(--lux-gold); }
+.drawer-subtotal-line strong { color: var(--text-white); font-weight: 400; font-size: 0.95rem; }
 .checkout-action-btn {
-    width: 100%; background: var(--lux-gold); color: #000; border: none; padding: 1rem 0; font-family: monospace; font-weight: bold; letter-spacing: 2px; cursor: pointer; transition: opacity 0.3s;
+    width: 100%; background: var(--lux-gold); color: #000000; border: none; padding: 1.25rem 0; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3em; cursor: pointer; transition: background-color 0.3s;
 }
-.checkout-action-btn:hover { opacity: 0.9; }
+.checkout-action-btn:hover { background-color: var(--text-white); }
 .drawer-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: none; backdrop-filter: blur(4px);
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; display: none; backdrop-filter: blur(8px);
 }
 .drawer-overlay.active { display: block; }
 
-/* PATH 2: HIGH-FASHION MODAL ACQUISITION INVOICE DESIGN SHEETS */
+/* PATH 2: HIGH-FASHION EDITORIAL TRANSACTION INVOICE COMPILER MODAL */
 #invoiceModalOverlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(6, 3, 11, 0.9);
+    background: rgba(0, 0, 0, 0.93);
     z-index: 20000;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1.5rem;
+    padding: 2rem;
     box-sizing: border-box;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(15px);
 }
 .invoice-box-frame {
-    background: var(--bg-cards);
+    background: #000000;
     border: 1px solid var(--lux-gold);
-    box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
     width: 100%;
-    max-width: 550px;
-    padding: 2.5rem;
+    max-width: 600px;
+    padding: 3.5rem;
     box-sizing: border-box;
-    font-family: monospace;
 }
 .invoice-header {
-    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-    padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--grid-line);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 .invoice-header h2 {
-    margin: 0; font-size: 1.3rem; letter-spacing: 2px; color: var(--text-white);
+    margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 0.08em; color: var(--text-white); text-transform: uppercase;
 }
 .invoice-meta-line {
-    font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; letter-spacing: 1px;
+    font-size: 0.65rem; color: var(--text-muted); margin-top: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
 }
 .invoice-manifest-lines {
-    max-height: 200px;
+    max-height: 180px;
     overflow-y: auto;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(141, 133, 156, 0.1);
-    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--grid-line);
+    padding-bottom: 1.5rem;
 }
 .invoice-line-item {
     display: flex;
     justify-content: space-between;
-    font-size: 0.85rem;
-    margin-bottom: 0.75rem;
-    letter-spacing: 1px;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+    font-weight: 300;
 }
 .invoice-accounting-ledger {
-    background: #0a0512;
-    padding: 1.25rem;
-    border: 1px solid rgba(120, 33, 239, 0.2);
-    margin-bottom: 2rem;
+    background: var(--bg-main);
+    padding: 1.75rem;
+    border: 1px solid var(--grid-line);
+    margin-bottom: 2.5rem;
 }
 .ledger-row {
     display: flex;
     justify-content: space-between;
-    font-size: 0.85rem;
-    margin-bottom: 0.6rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.8rem;
     color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
 }
 .ledger-row.total-row {
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px dashed rgba(212, 175, 55, 0.4);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--grid-line);
     color: var(--text-white);
-    font-weight: bold;
-    font-size: 1.05rem;
+    font-weight: 400;
+    font-size: 0.95rem;
 }
 .ledger-row.total-row span:last-child {
     color: var(--lux-gold);
+    font-weight: 600;
 }
 .invoice-action-footer {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
 }
 .invoice-btn {
     width: 100%;
-    padding: 1rem;
-    font-family: monospace;
-    font-weight: bold;
-    letter-spacing: 2px;
+    padding: 1.25rem;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 0.75rem;
     cursor: pointer;
     background: transparent;
-    transition: all 0.3s;
+    transition: all 0.4s ease;
+    box-sizing: border-box;
 }
 .invoice-btn.authorize {
-    background: var(--neon-purple);
-    border: 1px solid var(--lux-gold);
-    color: var(--text-white);
+    background: var(--text-white);
+    border: 1px solid var(--text-white);
+    color: #000000;
+    font-weight: 600;
 }
 .invoice-btn.authorize:hover {
-    box-shadow: 0 0 15px rgba(120, 33, 239, 0.6);
+    background: transparent;
+    color: var(--text-white);
 }
 .invoice-btn.cancel {
-    border: 1px solid rgba(141, 133, 156, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: var(--text-muted);
-    font-size: 0.8rem;
 }
 .invoice-btn.cancel:hover {
     color: var(--text-white);
