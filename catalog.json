@@ -1,0 +1,38 @@
+[
+  {
+    "id": 101,
+    "title": "TX-01 SILK SLOUCH TROUSER",
+    "price": 18500,
+    "category": "READY-TO-WEAR",
+    "division": "COLLECTION ONE",
+    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80&ar=2:3",
+    "description": "Relaxed-fit tailoring executed in ultra-heavyweight washed silk. Features minimalist structural pleats and hidden enclosure hardware."
+  },
+  {
+    "id": 102,
+    "title": "TX-02 OVERSIZED STUDIO BLAZER",
+    "price": 27000,
+    "category": "OUTERWEAR",
+    "division": "COLLECTION ONE",
+    "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80&ar=2:3",
+    "description": "Deconstructed double-breasted blazer with dropped shoulders and raw edge processing. Cut from a premium high-density wool blend."
+  },
+  {
+    "id": 103,
+    "title": "TX-03 CHROME LINK AMULET",
+    "price": 12500,
+    "category": "ACCESSORIES",
+    "division": "COLLECTION ONE",
+    "image": "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80&ar=2:3",
+    "description": "Solid core metal casting with multi-tonal industrial chrome plating. Completed with a custom geometric toggle clasp system."
+  },
+  {
+    "id": 104,
+    "title": "TX-04 DECONSTRUCTED RIBBED KNIT",
+    "price": 16000,
+    "category": "READY-TO-WEAR",
+    "division": "COLLECTION ONE",
+    "image": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=80&ar=2:3",
+    "description": "Distressed heavy ribbed cotton jersey knit. Kinetic drape detailing along the side-seams with elongated drop cuffs."
+  }
+]
