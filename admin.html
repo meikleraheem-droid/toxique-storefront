@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOXIQUE // BACK-OFFICE OPERATIONS HUB</title>
+    <title>TOXIQUE // HQ CENTRAL INTELLIGENCE SYSTEMS</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap');
         
         :root {
-            --bg-base: #060408;
-            --bg-panel: #0d0914;
+            --bg-base: #040206;
+            --bg-panel: #0b0712;
+            --bg-card: #120c1e;
             --border-line: rgba(195, 164, 99, 0.15);
+            --border-glow: rgba(129, 70, 226, 0.3);
             --lux-gold: #c3a463;
             --neon-purple: #8146e2;
+            --neon-cyan: #00f2fe;
             --text-main: #fcfbfe;
-            --text-dark: #6e647c;
+            --text-dark: #645a72;
+            --text-green: #32ff7e;
         }
 
         body {
@@ -25,241 +29,366 @@
             display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* LEFT SIDEBAR NAVIGATION */
+        /* TACTICAL SIDEBAR NAVIGATION */
         .sidebar {
-            width: 260px; background: var(--bg-panel);
+            width: 280px; background: var(--bg-panel);
             border-right: 1px solid var(--border-line);
-            display: flex; flex-direction: column; padding: 2.5rem 1.5rem; box-sizing: border-box;
+            display: flex; flex-direction: column; padding: 3rem 1.75rem; box-sizing: border-box;
+            position: relative;
+        }
+        .sidebar::after {
+            content: ''; position: absolute; right: 0; top: 0; height: 100%; width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--neon-purple), transparent);
         }
         .hub-title {
-            font-size: 1.1rem; letter-spacing: 0.3em; font-weight: 300; margin-bottom: 3.5rem; text-transform: uppercase;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem; letter-spacing: 0.35em; font-weight: 400; margin-bottom: 4rem; text-transform: uppercase;
+            display: flex; align-items: center; justify-content: space-between;
         }
-        .hub-title span { color: var(--neon-purple); }
+        .hub-title span { color: var(--lux-gold); }
+        .system-status-pill {
+            font-size: 0.55rem; font-family: 'Space Grotesk', sans-serif; background: rgba(50, 255, 126, 0.1);
+            color: var(--text-green); border: 1px solid rgba(50, 255, 126, 0.2); padding: 0.25rem 0.6rem; letter-spacing: 0.1em;
+        }
+
         .dept-btn {
             background: transparent; border: 1px solid transparent;
             color: var(--text-dark); text-transform: uppercase; text-align: left;
-            padding: 1.1rem 1.5rem; font-size: 0.75rem; letter-spacing: 0.2em;
-            cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.75rem;
+            padding: 1.25rem 1.5rem; font-size: 0.75rem; letter-spacing: 0.2em;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); margin-bottom: 0.75rem;
+            display: flex; justify-content: space-between; align-items: center;
         }
         .dept-btn:hover, .dept-btn.active {
-            color: var(--lux-gold); background: rgba(195, 164, 99, 0.05); border-color: var(--border-line);
+            color: var(--text-main); background: rgba(129, 70, 226, 0.08); 
+            border-color: var(--border-glow); box-shadow: inset 0 0 15px rgba(129, 70, 226, 0.1);
+        }
+        .dept-btn.active::after {
+            content: '●'; color: var(--lux-gold); font-size: 0.6rem;
         }
 
-        /* MAIN ACTIVE WORKSPACE */
+        /* MAIN MONITORING VIEWPORT */
         .workspace-viewport {
-            flex: 1; padding: 4rem; box-sizing: border-box; overflow-y: auto;
-            border-right: 1px solid var(--border-line);
+            flex: 1; padding: 4.5rem; box-sizing: border-box; overflow-y: auto;
+            background: radial-gradient(circle at 10% 10%, rgba(13, 9, 20, 0.4) 0%, transparent 80%);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .space-panel { display: none; }
-        .space-panel.active { display: block; }
+        .space-panel { display: none; opacity: 0; transform: translateY(15px); transition: all 0.4s ease; }
+        .space-panel.active { display: block; opacity: 1; transform: translateY(0); }
         
-        h2 { font-size: 1.8rem; font-weight: 200; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem; color: var(--lux-gold); }
-        p { color: var(--text-dark); font-size: 0.85rem; line-height: 1.6; letter-spacing: 0.05em; }
+        .header-meta h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 300; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 0.5rem 0; color: var(--text-main); }
+        .header-meta p { color: var(--text-dark); font-size: 0.85rem; margin: 0 0 3rem 0; letter-spacing: 0.05em; }
 
-        .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-        .data-card { background: var(--bg-panel); border: 1px solid var(--border-line); padding: 2rem; }
-        .data-card h4 { margin: 0 0 1rem 0; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-main); }
+        /* ANALYTICS HUD SCOREBOARD */
+        .analytics-strip {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3.5rem;
+        }
+        .metric-block {
+            background: linear-gradient(135deg, var(--bg-panel), var(--bg-card));
+            border: 1px solid var(--border-line); padding: 1.75rem 2rem; position: relative;
+        }
+        .metric-block::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(to right, var(--lux-gold), transparent);
+        }
+        .metric-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-dark); margin-bottom: 0.75rem; }
+        .metric-value { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 400; color: var(--lux-gold); }
 
-        /* UNIFIED LIVE CHAT ROOM PANEL */
+        /* GRID PACKS & FUNCTIONAL FORMS */
+        .control-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; }
+        .data-card { background: var(--bg-panel); border: 1px solid var(--border-line); padding: 2.5rem; position: relative; }
+        .data-card h4 { margin: 0 0 1.5rem 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--lux-gold); }
+
+        /* UNIFIED LIVE COMMAND INTERCOM */
         .chat-sidebar {
-            width: 360px; background: var(--bg-panel); display: flex; flex-direction: column; box-sizing: border-box;
+            width: 380px; background: var(--bg-panel); border-left: 1px solid var(--border-line); display: flex; flex-direction: column; box-sizing: border-box; position: relative;
         }
-        .chat-header {
-            padding: 2.5rem 2rem; border-bottom: 1px solid var(--border-line);
+        .chat-sidebar::before {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--lux-gold), transparent);
         }
-        .chat-header h3 { margin: 0; font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; }
-        .chat-header span { font-size: 0.65rem; color: #4cd137; letter-spacing: 0.1em; display: block; margin-top: 0.4rem; }
-        .chat-messages { flex: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.25rem; }
+        .chat-header { padding: 3rem 2.5rem 2rem 2.5rem; border-bottom: 1px solid var(--border-line); }
+        .chat-header h3 { margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; letter-spacing: 0.25em; text-transform: uppercase; }
+        .chat-header span { font-size: 0.6rem; color: var(--text-dark); letter-spacing: 0.15em; display: block; margin-top: 0.5rem; text-transform: uppercase; }
+        .chat-header span strong { color: var(--text-green); }
         
-        .msg-bubble { background: rgba(255,255,255,0.02); border: 1px solid var(--border-line); padding: 1.2rem; position: relative; }
-        .msg-meta { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--lux-gold); margin-bottom: 0.4rem; display: flex; justify-content: space-between; }
-        .msg-text { font-size: 0.8rem; line-height: 1.4; color: var(--text-main); letter-spacing: 0.02em; }
+        .chat-messages { flex: 1; padding: 2.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+        .msg-bubble { background: var(--bg-card); border-left: 3px solid var(--neon-purple); padding: 1.25rem; transition: transform 0.3s; }
+        .msg-bubble.from-user { border-left-color: var(--lux-gold); background: rgba(195,164,99,0.02); }
+        .msg-meta { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dark); margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
+        .msg-meta strong { color: var(--lux-gold); }
+        .msg-text { font-size: 0.8rem; line-height: 1.5; color: var(--text-main); font-weight: 300; }
 
-        .chat-input-row { padding: 2rem; border-top: 1px solid var(--border-line); display: flex; gap: 1rem; }
-        .chat-field { flex: 1; background: var(--bg-base); border: 1px solid var(--border-line); padding: 1rem; color: var(--text-main); font-family: 'Inter', sans-serif; font-size: 0.8rem; }
-        .chat-field:focus { outline: 1px solid var(--lux-gold); }
-        .chat-send-btn { background: var(--lux-gold); border: none; color: #000; padding: 0 1.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer; }
+        .chat-input-row { padding: 2.5rem; border-top: 1px solid var(--border-line); background: rgba(0,0,0,0.2); }
+        .chat-input-wrapper { display: flex; border: 1px solid var(--border-line); background: var(--bg-base); padding: 0.25rem; }
+        .chat-field { flex: 1; background: transparent; border: none; padding: 1rem; color: var(--text-main); font-family: 'Inter', sans-serif; font-size: 0.8rem; }
+        .chat-field:focus { outline: none; }
+        .chat-send-btn { background: var(--lux-gold); border: none; color: #000; padding: 0 1.75rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer; transition: background 0.3s; }
+        .chat-send-btn:hover { background: white; }
 
-        /* INPUT STYLING UTILITIES */
-        .input-block { margin-bottom: 1.25rem; }
-        .input-block label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-dark); margin-bottom: 0.5rem; }
-        .input-block input, .input-block select { width: 100%; padding: 0.85rem; background: var(--bg-base); border: 1px solid var(--border-line); color: white; box-sizing: border-box; }
-        .action-btn { background: #000; border: 1px solid var(--lux-gold); color: white; width: 100%; padding: 1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; margin-top: 1rem; transition: background 0.3s; }
-        .action-btn:hover { background: var(--lux-gold); color: #000; }
+        /* INPUT CONFIGS */
+        .input-block { margin-bottom: 1.5rem; }
+        .input-block label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-dark); margin-bottom: 0.6rem; font-weight: 500; }
+        .input-block input, .input-block select { width: 100%; padding: 1rem; background: var(--bg-base); border: 1px solid var(--border-line); color: white; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 0.8rem; transition: border-color 0.3s; }
+        .input-block input:focus { border-color: var(--lux-gold); outline: none; }
+        
+        .action-btn { background: transparent; border: 1px solid var(--lux-gold); color: white; width: 100%; padding: 1.25rem; cursor: pointer; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.7rem; transition: all 0.4s ease; }
+        .action-btn:hover { background: var(--lux-gold); color: #000; box-shadow: 0 0 20px rgba(195, 164, 99, 0.2); }
+
+        /* CREATIVE STUDIO VISUAL TARGETS */
+        .mood-board-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+        .mood-thumb { width: 100%; height: 110px; background: #1b1429; border: 1px solid var(--border-line); overflow: hidden; position: relative; }
+        .mood-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: opacity 0.3s; }
+        .mood-thumb:hover img { opacity: 1; }
+
+        /* HR APPLICATION TICKETS */
+        .candidate-ticket { background: var(--bg-base); border-left: 2px solid var(--neon-purple); padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        .candidate-info h5 { margin: 0 0 0.25rem 0; font-size: 0.8rem; letter-spacing: 0.05em; }
+        .candidate-info p { margin: 0; font-size: 0.7rem; color: var(--text-dark); }
+        .ticket-status { font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; border: 1px solid var(--border-line); padding: 0.25rem 0.5rem; text-transform: uppercase; color: var(--lux-gold); }
     </style>
 </head>
 <body>
 
-    <!-- LEFT SIDEBAR: ROUTING HANDLERS -->
+    <!-- SIDE PANEL: MASTER SWITCHES -->
     <div class="sidebar">
-        <div class="hub-title">Toxique<span>//</span>Hub</div>
+        <div class="hub-title">TOXIQUE <span>HQ</span> <div class="system-status-pill">ONLINE</div></div>
         <button class="dept-btn active" onclick="switchSpace('executive')">👑 Executive Desk</button>
-        <button class="dept-btn" onclick="switchSpace('marketing')">📈 Sales & Promo</button>
+        <button class="dept-btn" onclick="switchSpace('marketing')">📈 Sales & Campaigns</button>
         <button class="dept-btn" onclick="switchSpace('designers')">🪡 Creative Studio</button>
         <button class="dept-btn" onclick="switchSpace('hr')">👥 Human Resources</button>
     </div>
 
-    <!-- MAIN INTERACTIVE VIEWPORT CONTEXT -->
+    <!-- MAIN INTERACTIVE MONITOR -->
     <div class="workspace-viewport">
         
-        <!-- MODULE A: EXECUTIVE DESK -->
+        <!-- ==================== EXECUTIVE SPACE ==================== -->
         <div id="space-executive" class="space-panel active">
-            <h2>Executive Desk / Admin</h2>
-            <p>Master control interface for inventory drops and logistics matrix accounting values.</p>
+            <div class="header-meta">
+                <h2>Executive Desk</h2>
+                <p>Master ledger distribution and global catalog injection portal.</p>
+            </div>
+            
+            <div class="analytics-strip">
+                <div class="metric-block"><div class="metric-title">Active Showroom Styles</div><div class="metric-value" id="count-products">4</div></div>
+                <div class="metric-block"><div class="metric-title">Global Base Shipping</div><div class="metric-value">$650</div></div>
+                <div class="metric-block"><div class="metric-title">Staged Allocations</div><div class="metric-value">01</div></div>
+            </div>
+
             <div class="control-grid">
                 <div class="data-card">
-                    <h4>Asset Compiler (Add to Showroom)</h4>
+                    <h4>Asset Compiler / Showroom Drop</h4>
                     <div class="input-block">
-                        <label>Product Title</label>
-                        <input type="text" placeholder="e.g., TX-01 SILK TROUSER">
+                        <label>Product Title Tag</label>
+                        <input type="text" id="prod-title" placeholder="e.g., TX-05 RAW COAT">
                     </div>
                     <div class="input-block">
-                        <label>Price (Integer Value)</label>
-                        <input type="number" placeholder="e.g., 18500">
+                        <label>Whole Price Integer (USD Equivalent)</label>
+                        <input type="number" id="prod-price" placeholder="e.g., 34000">
                     </div>
-                    <button class="action-btn">Compile & Inject Item</button>
+                    <div class="input-block">
+                        <label>Showroom Asset Image URL</label>
+                        <input type="text" id="prod-img" placeholder="https://images.unsplash.com/...">
+                    </div>
+                    <button class="action-btn" onclick="executeProductInjection()">Compile Asset Array</button>
                 </div>
                 <div class="data-card">
-                    <h4>Global Shipping Config</h4>
-                    <p style="margin-bottom: 2rem;">Active Logistics Profile: Flat Rate Matrix</p>
-                    <div class="input-block">
-                        <label>Current Rate (Per LB)</label>
-                        <input type="text" value="650" readonly style="color: var(--lux-gold); font-weight: 600;">
-                    </div>
+                    <h4>Logistics Matrix</h4>
+                    <p>Logistics routes are hard-locked to flat whole configurations to protect system calculation loops on front-end layouts.</p>
+                    <div class="input-block"><label>Primary Destination</label><input type="text" value="United States ⇄ Jamaica" readonly></div>
+                    <div class="input-block"><label>Rate Mode</label><input type="text" value="Flat Ground / Air Matrix" readonly></div>
                 </div>
             </div>
         </div>
 
-        <!-- MODULE B: MARKETING & SALES -->
+        <!-- ==================== MARKETING SPACE ==================== -->
         <div id="space-marketing" class="space-panel">
-            <h2>Marketing & Sales Control</h2>
-            <p>Configure campaign identifiers, discount flags, and active tracking variables.</p>
+            <div class="header-meta">
+                <h2>Sales & Campaigns</h2>
+                <p>Configure operational discount wrappers and active baseline schedules.</p>
+            </div>
+
+            <div class="analytics-strip">
+                <div class="metric-block"><div class="metric-title">Active Campaign Desks</div><div class="metric-value">03</div></div>
+                <div class="metric-block"><div class="metric-title">Highest Ratio Cut</div><div class="metric-value">50%</div></div>
+                <div class="metric-block"><div class="metric-title">Voucher Scripts</div><div class="metric-value">Operational</div></div>
+            </div>
+
             <div class="control-grid">
                 <div class="data-card">
                     <h4>Campaign Voucher Injector</h4>
                     <div class="input-block">
-                        <label>Promo Code Token</label>
+                        <label>Promo String Key</label>
                         <input type="text" placeholder="e.g., BLACKFRIDAY">
                     </div>
                     <div class="input-block">
-                        <label>Deduction Ratio</label>
+                        <label>Target Allocation Scaling</label>
                         <select>
-                            <option>25% Off Allocation</option>
-                            <option>50% Off Allocation</option>
-                            <option>Ship 2 for 1 Rate</option>
+                            <option>25% Off Framework Value</option>
+                            <option>50% Holiday Clearance</option>
+                            <option>Two-for-One Flat Rate Freight</option>
                         </select>
                     </div>
-                    <button class="action-btn">Deploy Campaign Code</button>
+                    <button class="action-btn" onclick="alert('Campaign variant compiled successfully.')">Deploy Live Flag</button>
                 </div>
                 <div class="data-card">
-                    <h4>Active Schedules</h4>
-                    <p>• Nov 20 - Nov 30: Black Friday (25% off)<br>• Dec 1 - Dec 31: Christmas Manifest (50% off)<br>• Jan 1 - Jan 14: New Year's Sale (Buy 2 Get 1 Space)</p>
+                    <h4>Historical & Active Logs</h4>
+                    <p>• <strong>Nov 20 - Nov 30:</strong> Black Friday Sale (25% Multiplier)<br>• <strong>Dec 1 - Dec 31:</strong> Holiday Manifest (50% Multiplier)<br>• <strong>Jan 1 - Jan 14:</strong> New Year Staging (2-for-1 Cargo Loop)</p>
                 </div>
             </div>
         </div>
 
-        <!-- MODULE C: CREATIVE DESIGNERS -->
+        <!-- ==================== DESIGNERS SPACE ==================== -->
         <div id="space-designers" class="space-panel">
-            <h2>Creative Studio & Lookbooks</h2>
-            <p>Upload mood-boards, staging assets, and verify aspect ratios before catalog deployment.</p>
-            <div class="control-grid">
+            <div class="header-meta">
+                <h2>Creative Studio</h2>
+                <p>Staging area for high-fashion photography alignment and aesthetic lookbooks.</p>
+            </div>
+
+            <div class="control-grid" style="grid-template-columns: 1fr;">
                 <div class="data-card">
-                    <h4>Lookbook Content Staging</h4>
-                    <div class="input-block">
-                        <label>Asset Collection Scope</label>
-                        <input type="text" value="COLLECTION ONE" readonly>
+                    <h4>Lookbook Asset Staging Array</h4>
+                    <p>Verify your aspect frames below. Front-end grid system forces <code>ar=2:3</code> for vertical symmetry lines.</p>
+                    <div class="mood-board-grid">
+                        <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400" alt="Staging"></div>
+                        <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" alt="Staging"></div>
+                        <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400" alt="Staging"></div>
                     </div>
-                    <p>Ensure all reference links are raw image paths ending natively in extensions like <code>.jpg</code> or <code>.webp</code> to prevent broken frame parameters on the front-end display array.</p>
                 </div>
             </div>
         </div>
 
-        <!-- MODULE D: HUMAN RESOURCES -->
+        <!-- ==================== HR SPACE ==================== -->
         <div id="space-hr" class="space-panel">
-            <h2>Human Resources Panel</h2>
-            <p>Coordinate field agent routing, recruitment protocols, and system access profiles.</p>
+            <div class="header-meta">
+                <h2>Human Resources</h2>
+                <p>Process field agent pipeline tracks and system access routing variables.</p>
+            </div>
+
             <div class="control-grid">
                 <div class="data-card">
-                    <h4>Active Recruitment Gateways</h4>
-                    <div class="input-block">
-                        <label>Inbound Contact Routing Endpoint</label>
-                        <input type="text" value="surfersshippingja@gmail.com" readonly>
+                    <h4>Active Logistical Delivery Inbound Leads</h4>
+                    <div class="candidate-ticket">
+                        <div class="candidate-info"><h5>Field Agent — Kingston Route</h5><p>Applied for twice-weekly package pickup schedule</p></div>
+                        <div class="ticket-status">Staged Review</div>
                     </div>
-                    <p>Field agent applications for part-time delivery roles (twice-weekly package pickup/drop-off schedules) filter straight to this terminal.</p>
+                    <div class="candidate-ticket">
+                        <div class="candidate-info"><h5>Dispatch Lead — Montego Bay</h5><p>Inbound courier logistics profile track</p></div>
+                        <div class="ticket-status">Staged Review</div>
+                    </div>
+                </div>
+                <div class="data-card">
+                    <h4>HR Communication Gateway</h4>
+                    <div class="input-block"><label>Primary Inbound Terminal Endpoint</label><input type="text" value="surfersshippingja@gmail.com" readonly></div>
+                    <p style="font-size:0.75rem;">All recruitment assets and application details funnel strictly into this endpoint for pipeline protection.</p>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- RIGHT SIDEBAR: REAL-TIME CROSS-WORKSPACE CHAT -->
+    <!-- RIGHT PANEL: UNIFIED SYSTEM INTERCOM -->
     <div class="chat-sidebar">
         <div class="chat-header">
-            <h3>Live Operations Chat</h3>
-            <span>● 4 Departments Connected</span>
+            <h3>Operations Intercom</h3>
+            <span>Tethered Channels: <strong>Active</strong></span>
         </div>
         <div class="chat-messages" id="chatBox">
             <div class="msg-bubble">
-                <div class="msg-meta"><span>👑 Executive Desk</span><span>12:00 AM</span></div>
-                <div class="msg-text">Welcome to the operations deck. Choose your channel workspace on the left panel to begin managing inventory or assets.</div>
+                <div class="msg-meta"><span>👑 Executive Desk</span><span>00:00</span></div>
+                <div class="msg-text">Central operations terminal initialized. Systems synced to main database parameters. Select channels left to broadcast.</div>
             </div>
         </div>
         <div class="chat-input-row">
-            <input type="text" class="chat-field" id="chatInputField" placeholder="Broadcast a transmission...">
-            <button class="chat-send-btn" onclick="dispatchMessage()">Send</button>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-field" id="chatInputField" placeholder="Type a transmission...">
+                <button class="chat-send-btn" onclick="dispatchMessage()">Send</button>
+            </div>
         </div>
     </div>
 
-    <!-- CORE INTERACTIVE SWITCH ROUTING SCRIPT -->
+    <!-- CORE STRATEGIC SCRIPT SUITE -->
     <script>
-        // Track current identity node context based on active workspace view
-        let currentDepartmentName = "Executive Desk";
+        let currentDeptToken = "Executive Desk";
 
+        // FLUID BACK-OFFICE SPACE ROUTER
         function switchSpace(spaceId) {
-            // Toggle Content Panels
-            document.querySelectorAll('.space-panel').forEach(panel => panel.classList.remove('active'));
-            document.getElementById('space-' + spaceId).classList.add('active');
+            const panels = document.querySelectorAll('.space-panel');
+            panels.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+            
+            const target = document.getElementById('space-' + spaceId);
+            target.style.display = 'block';
+            setTimeout(() => target.classList.add('active'), 10);
 
-            // Toggle Navigation Button States
-            document.querySelectorAll('.dept-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
             event.currentTarget.classList.add('active');
 
-            // Map identity string based on active partition
-            const namesMap = {
+            const tokenMapping = {
                 'executive': '👑 Executive Desk',
-                'marketing': '📈 Sales & Marketing',
+                'marketing': '📈 Sales/Mktg',
                 'designers': '🪡 Creative Studio',
-                'hr': '👥 Human Resources'
+                'hr': '👥 HR Dept'
             };
-            currentDepartmentName = namesMap[spaceId];
+            currentDeptToken = tokenMapping[spaceId];
         }
 
+        // TACTICAL SYSTEM INTERCOM TRANSMITTER
         function dispatchMessage() {
-            const inputElement = document.getElementById('chatInputField');
-            const chatBoxElement = document.getElementById('chatBox');
-            const textContent = inputElement.value.trim();
+            const field = document.getElementById('chatInputField');
+            const box = document.getElementById('chatBox');
+            const txt = field.value.trim();
 
-            if (textContent === "") return;
+            if (txt === "") return;
 
-            const timeStampString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            // Create and append the new unified message block node
-            const bubbleNode = document.createElement('div');
-            bubbleNode.className = 'msg-bubble';
-            bubbleNode.innerHTML = `
-                <div class="msg-meta"><span>${currentDepartmentName}</span><span>${timeStampString}</span></div>
-                <div class="msg-text">${textContent}</div>
+            const stamps = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble from-user';
+            bubble.innerHTML = `
+                <div class="msg-meta"><strong>${currentDeptToken}</strong><span>${stamps}</span></div>
+                <div class="msg-text">${txt}</div>
             `;
-
-            chatBoxElement.appendChild(bubbleNode);
-            inputElement.value = ""; // Clear active string array from frame field
-            chatBoxElement.scrollTop = chatBoxElement.scrollHeight; // Auto scroll tracking loop
+            
+            box.appendChild(bubble);
+            field.value = "";
+            box.scrollTop = box.scrollHeight;
         }
 
-        // Allow executing message push via keyboard Enter key action trigger
-        document.getElementById('chatInputField').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') dispatchMessage();
-        });
+        // INTERACTIVE CATALOG COMPILER INJECTOR
+        function executeProductInjection() {
+            const t = document.getElementById('prod-title').value.trim();
+            const p = document.getElementById('prod-price').value.trim();
+            const i = document.getElementById('prod-img').value.trim();
+
+            if(!t || !p || !i) {
+                alert("Compilation rejected. Missing valid asset values inside structural nodes.");
+                return;
+            }
+
+            // Sync database profile data inside cache ledger layers
+            let cache = localStorage.getItem('toxique_production_catalog') ? JSON.parse(localStorage.getItem('toxique_production_catalog')) : [];
+            const newAssetObj = {
+                id: Date.now(),
+                title: t.toUpperCase(),
+                price: parseInt(p),
+                category: "READY-TO-WEAR",
+                division: "COLLECTION ONE",
+                image: i,
+                description: "HQ Compiled Drop Specification Asset Entry."
+            };
+
+            cache.push(newAssetObj);
+            localStorage.setItem('toxique_production_catalog', JSON.stringify(cache));
+            
+            // Dynamic metrics updating engine loop
+            document.getElementById('count-products').innerText = cache.length;
+            
+            alert(`ASSET RE-COMPILER SUCCESSFUL:\n"${t.toUpperCase()}" locked directly into storefront grid ledger array.`);
+            
+            // Clear inputs
+            document.getElementById('prod-title').value = '';
+            document.getElementById('prod-price').value = '';
+            document.getElementById('prod-img').value = '';
+        }
+
+        document.getElementById('chatInputField').addEventListener('keydown', function(e) { if (e.key === 'Enter') dispatchMessage(); });
     </script>
 </body>
 </html>
