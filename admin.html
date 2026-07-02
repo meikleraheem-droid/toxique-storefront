@@ -3,189 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOXIQUE // COUTURES MAINFRAME</title>
+    <title>TOXIQUE // BACK-OFFICE OPERATIONS HUB</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&display=swap');
+        
         :root {
-            --bg-deep: #0a0512; --bg-surface: #140d24; --lux-gold: #d4af37; --neon-purple: #7821ef; --text-main: #f5f2fa; --text-muted: #968fa3;
+            --bg-base: #060408;
+            --bg-panel: #0d0914;
+            --border-line: rgba(195, 164, 99, 0.15);
+            --lux-gold: #c3a463;
+            --neon-purple: #8146e2;
+            --text-main: #fcfbfe;
+            --text-dark: #6e647c;
         }
-        body { background-color: var(--bg-deep); color: var(--text-main); font-family: monospace; padding: 2rem; margin: 0; }
-        .header { border-bottom: 1px solid var(--lux-gold); padding-bottom: 1.5rem; margin-bottom: 2.5rem; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 2rem; font-weight: bold; letter-spacing: 4px; }
-        .logo span { color: var(--lux-gold); }
-        .return-btn { background: transparent; border: 1px solid var(--text-muted); color: var(--text-main); padding: 0.5rem 1rem; text-decoration: none; font-size: 0.8rem; }
-        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
-        .metric-card { background: var(--bg-surface); border: 1px solid var(--neon-purple); padding: 1.5rem; position: relative; }
-        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--lux-gold); }
-        .metric-label { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .metric-value { font-size: 1.8rem; font-weight: bold; }
-        .workspace-layout { display: grid; grid-template-columns: 1fr; gap: 3rem; margin-bottom: 4rem; }
-        @media (min-width: 992px) { .workspace-layout { grid-template-columns: 380px 1fr; } }
-        .form-vault { background: var(--bg-surface); border: 1px solid var(--neon-purple); padding: 2rem; margin-bottom: 2rem; }
-        .form-vault h2 { margin-top: 0; color: var(--lux-gold); font-size: 1.2rem; letter-spacing: 2px; border-bottom: 1px solid rgba(212,175,55,0.1); padding-bottom: 0.75rem; }
-        .input-group { margin-bottom: 1.25rem; }
-        .input-group label { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.5rem; }
-        .input-group input, .input-group select { width: 100%; background: #0d071a; border: 1px solid rgba(120,33,239,0.5); padding: 0.75rem; color: var(--text-main); font-family: monospace; box-sizing: border-box; }
-        .compile-btn { width: 100%; background: var(--neon-purple); color: var(--text-main); border: 1px solid var(--lux-gold); padding: 1rem; font-family: monospace; font-weight: bold; cursor: pointer; }
-        .matrix-table { width: 100%; border-collapse: collapse; background: var(--bg-surface); border: 1px solid var(--neon-purple); }
-        .matrix-table th, .matrix-table td { padding: 1rem; text-align: left; border-bottom: 1px solid rgba(212,175,55,0.1); }
-        .matrix-table th { color: var(--lux-gold); background: rgba(120,33,239,0.2); font-size: 0.8rem; }
-        .action-row-btn { background: transparent; border: 1px solid var(--text-muted); color: var(--text-main); padding: 0.25rem 0.6rem; cursor: pointer; font-family: monospace; }
-        .action-row-btn.wipe:hover { border-color: #ff3e3e; color: #ff3e3e; }
 
-        /* PATH 1: VAULT OVERLAY STYLES */
-        .security-gate-vault { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #06030b; z-index: 99999; display: flex; justify-content: center; align-items: center; padding: 1.5rem; box-sizing: border-box; }
-        .security-card { background: #110a1f; border: 1px solid #ff3e3e; box-shadow: 0 0 40px rgba(255, 62, 62, 0.15); width: 100%; max-width: 420px; padding: 3rem; text-align: center; font-family: monospace; }
-        .security-card h2 { color: #f5f2fa; letter-spacing: 4px; font-size: 1.5rem; margin-top: 0; }
-        .security-card h2 span { color: #ff3e3e; }
-        .security-input-group { margin-bottom: 1.5rem; }
-        .security-input-group input { width: 100%; background: #07040d; border: 1px solid rgba(255, 62, 62, 0.3); padding: 0.9rem; color: #f5f2fa; font-family: monospace; text-align: center; letter-spacing: 4px; font-size: 1.1rem; box-sizing: border-box; }
-        .security-gate-btn { width: 100%; background: transparent; color: #ff3e3e; border: 1px solid #ff3e3e; padding: 0.9rem; font-family: monospace; font-weight: bold; cursor: pointer; }
-        .security-gate-btn:hover { background: #ff3e3e; color: #06030b; }
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            display: flex; height: 100vh; overflow: hidden;
+        }
+
+        /* LEFT SIDEBAR NAVIGATION */
+        .sidebar {
+            width: 260px; background: var(--bg-panel);
+            border-right: 1px solid var(--border-line);
+            display: flex; flex-direction: column; padding: 2.5rem 1.5rem; box-sizing: border-box;
+        }
+        .hub-title {
+            font-size: 1.1rem; letter-spacing: 0.3em; font-weight: 300; margin-bottom: 3.5rem; text-transform: uppercase;
+        }
+        .hub-title span { color: var(--neon-purple); }
+        .dept-btn {
+            background: transparent; border: 1px solid transparent;
+            color: var(--text-dark); text-transform: uppercase; text-align: left;
+            padding: 1.1rem 1.5rem; font-size: 0.75rem; letter-spacing: 0.2em;
+            cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.75rem;
+        }
+        .dept-btn:hover, .dept-btn.active {
+            color: var(--lux-gold); background: rgba(195, 164, 99, 0.05); border-color: var(--border-line);
+        }
+
+        /* MAIN ACTIVE WORKSPACE */
+        .workspace-viewport {
+            flex: 1; padding: 4rem; box-sizing: border-box; overflow-y: auto;
+            border-right: 1px solid var(--border-line);
+        }
+        .space-panel { display: none; }
+        .space-panel.active { display: block; }
+        
+        h2 { font-size: 1.8rem; font-weight: 200; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem; color: var(--lux-gold); }
+        p { color: var(--text-dark); font-size: 0.85rem; line-height: 1.6; letter-spacing: 0.05em; }
+
+        .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+        .data-card { background: var(--bg-panel); border: 1px solid var(--border-line); padding: 2rem; }
+        .data-card h4 { margin: 0 0 1rem 0; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-main); }
+
+        /* UNIFIED LIVE CHAT ROOM PANEL */
+        .chat-sidebar {
+            width: 360px; background: var(--bg-panel); display: flex; flex-direction: column; box-sizing: border-box;
+        }
+        .chat-header {
+            padding: 2.5rem 2rem; border-bottom: 1px solid var(--border-line);
+        }
+        .chat-header h3 { margin: 0; font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; }
+        .chat-header span { font-size: 0.65rem; color: #4cd137; letter-spacing: 0.1em; display: block; margin-top: 0.4rem; }
+        .chat-messages { flex: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.25rem; }
+        
+        .msg-bubble { background: rgba(255,255,255,0.02); border: 1px solid var(--border-line); padding: 1.2rem; position: relative; }
+        .msg-meta { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--lux-gold); margin-bottom: 0.4rem; display: flex; justify-content: space-between; }
+        .msg-text { font-size: 0.8rem; line-height: 1.4; color: var(--text-main); letter-spacing: 0.02em; }
+
+        .chat-input-row { padding: 2rem; border-top: 1px solid var(--border-line); display: flex; gap: 1rem; }
+        .chat-field { flex: 1; background: var(--bg-base); border: 1px solid var(--border-line); padding: 1rem; color: var(--text-main); font-family: 'Inter', sans-serif; font-size: 0.8rem; }
+        .chat-field:focus { outline: 1px solid var(--lux-gold); }
+        .chat-send-btn { background: var(--lux-gold); border: none; color: #000; padding: 0 1.5rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer; }
+
+        /* INPUT STYLING UTILITIES */
+        .input-block { margin-bottom: 1.25rem; }
+        .input-block label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .input-block input, .input-block select { width: 100%; padding: 0.85rem; background: var(--bg-base); border: 1px solid var(--border-line); color: white; box-sizing: border-box; }
+        .action-btn { background: #000; border: 1px solid var(--lux-gold); color: white; width: 100%; padding: 1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.7rem; margin-top: 1rem; transition: background 0.3s; }
+        .action-btn:hover { background: var(--lux-gold); color: #000; }
     </style>
 </head>
 <body>
 
-    <!-- PATH 1: LOCK SCREEN ENVELOPE GATEWAY -->
-    <div id="mainframeSecurityGate" class="security-gate-vault">
-        <div class="security-card">
-            <h2>ACCESS RESTRICTED<span>XXX</span></h2>
-            <p style="color:#968fa3; font-size:0.75rem; text-transform:uppercase; margin-bottom:2rem;">Toxique Back-Office Decryption Node</p>
-            <div class="security-input-group">
-                <input type="password" id="gatePasscodeField" placeholder="••••••••" onkeydown="handleGateKeypress(event)">
-            </div>
-            <button class="security-gate-btn" onclick="verifyMainframeCredentials()">AUTHORIZE DECRYPTION KEY</button>
-            <br><a href="index.html" style="display:inline-block; margin-top:1.5rem; color:#968fa3; font-size:0.7rem; text-decoration:none;">&lt;&lt; ABORT & RETURN</a>
-        </div>
+    <!-- LEFT SIDEBAR: ROUTING HANDLERS -->
+    <div class="sidebar">
+        <div class="hub-title">Toxique<span>//</span>Hub</div>
+        <button class="dept-btn active" onclick="switchSpace('executive')">👑 Executive Desk</button>
+        <button class="dept-btn" onclick="switchSpace('marketing')">📈 Sales & Promo</button>
+        <button class="dept-btn" onclick="switchSpace('designers')">🪡 Creative Studio</button>
+        <button class="dept-btn" onclick="switchSpace('hr')">👥 Human Resources</button>
     </div>
 
-    <div class="header">
-        <div class="logo">TOXIQUE<span>.</span> MAINFRAME</div>
-        <a href="index.html" class="return-btn">&lt;&lt; STOREFRONT CHANNEL</a>
-    </div>
-
-    <div class="metrics-grid">
-        <div class="metric-card"><div class="metric-label">Gross Revenue (Total)</div><div class="metric-value" id="metricGrossVolume">$0.00</div></div>
-        <div class="metric-card"><div class="metric-label">Completed Shipments</div><div class="metric-value" id="metricOrdersCount">0 ASSETS</div></div>
-        <div class="metric-card"><div class="metric-label">System Status</div><div class="metric-value" style="color:#7821ef;">ONLINE</div></div>
-    </div>
-
-    <div class="workspace-layout">
-        <div>
-            <div class="form-vault">
-                <h2>LIVE BANNER TUNER</h2>
-                <div class="input-group">
-                    <label for="adminBannerInput">Custom Ticker Message</label>
-                    <input type="text" id="adminBannerInput" placeholder="Leave empty for smart calendar mode...">
+    <!-- MAIN INTERACTIVE VIEWPORT CONTEXT -->
+    <div class="workspace-viewport">
+        
+        <!-- MODULE A: EXECUTIVE DESK -->
+        <div id="space-executive" class="space-panel active">
+            <h2>Executive Desk / Admin</h2>
+            <p>Master control interface for inventory drops and logistics matrix accounting values.</p>
+            <div class="control-grid">
+                <div class="data-card">
+                    <h4>Asset Compiler (Add to Showroom)</h4>
+                    <div class="input-block">
+                        <label>Product Title</label>
+                        <input type="text" placeholder="e.g., TX-01 SILK TROUSER">
+                    </div>
+                    <div class="input-block">
+                        <label>Price (Integer Value)</label>
+                        <input type="number" placeholder="e.g., 18500">
+                    </div>
+                    <button class="action-btn">Compile & Inject Item</button>
                 </div>
-                <button class="compile-btn" style="background: transparent; color: var(--lux-gold);" onclick="saveCustomBannerText()">UPDATE HEADER TRANSMISSION</button>
+                <div class="data-card">
+                    <h4>Global Shipping Config</h4>
+                    <p style="margin-bottom: 2rem;">Active Logistics Profile: Flat Rate Matrix</p>
+                    <div class="input-block">
+                        <label>Current Rate (Per LB)</label>
+                        <input type="text" value="650" readonly style="color: var(--lux-gold); font-weight: 600;">
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <!-- PATH 3: ASSET MASTER CATALOG COMPILER FORM -->
-            <div class="form-vault">
-                <h2 id="formHeaderTitle">ASSET COMPILER</h2>
-                <form id="adminProductForm">
-                    <input type="hidden" id="formItemId" value="">
-                    <div class="input-group"><label for="formTitle">Asset Title</label><input type="text" id="formTitle" required></div>
-                    <div class="input-group"><label for="formPrice">Price (USD)</label><input type="number" id="formPrice" step="0.01" required></div>
-                    <div class="input-group"><label for="formImageSrc">Image URL</label><input type="text" id="formImageSrc" required></div>
-                    <div class="input-group">
-                        <label for="formCategory">Division Line</label>
-                        <select id="formCategory" required>
-                            <option value="garments">Garments</option><option value="cosmetics">Cosmetics</option><option value="fragrance">Fragrance</option><option value="xxx">Restricted XXX</option>
+        <!-- MODULE B: MARKETING & SALES -->
+        <div id="space-marketing" class="space-panel">
+            <h2>Marketing & Sales Control</h2>
+            <p>Configure campaign identifiers, discount flags, and active tracking variables.</p>
+            <div class="control-grid">
+                <div class="data-card">
+                    <h4>Campaign Voucher Injector</h4>
+                    <div class="input-block">
+                        <label>Promo Code Token</label>
+                        <input type="text" placeholder="e.g., BLACKFRIDAY">
+                    </div>
+                    <div class="input-block">
+                        <label>Deduction Ratio</label>
+                        <select>
+                            <option>25% Off Allocation</option>
+                            <option>50% Off Allocation</option>
+                            <option>Ship 2 for 1 Rate</option>
                         </select>
                     </div>
-                    <div class="input-group"><label for="formTag">Sub-Brand Label</label><input type="text" id="formTag" required></div>
-                    <button type="submit" class="compile-btn" id="formSubmitBtn">COMPILE TO LIVE CATALOG</button>
-                </form>
+                    <button class="action-btn">Deploy Campaign Code</button>
+                </div>
+                <div class="data-card">
+                    <h4>Active Schedules</h4>
+                    <p>• Nov 20 - Nov 30: Black Friday (25% off)<br>• Dec 1 - Dec 31: Christmas Manifest (50% off)<br>• Jan 1 - Jan 14: New Year's Sale (Buy 2 Get 1 Space)</p>
+                </div>
             </div>
         </div>
 
-        <div>
-            <h3 style="color:var(--lux-gold); letter-spacing:2px; margin-top:0;">CATALOG MASTER REGISTRY</h3>
-            <table class="matrix-table">
-                <thead><tr><th>ID</th><th>Title</th><th>Division</th><th>Price</th><th>Directives</th></tr></thead>
-                <tbody id="adminInventoryTableBody"></tbody>
-            </table>
+        <!-- MODULE C: CREATIVE DESIGNERS -->
+        <div id="space-designers" class="space-panel">
+            <h2>Creative Studio & Lookbooks</h2>
+            <p>Upload mood-boards, staging assets, and verify aspect ratios before catalog deployment.</p>
+            <div class="control-grid">
+                <div class="data-card">
+                    <h4>Lookbook Content Staging</h4>
+                    <div class="input-block">
+                        <label>Asset Collection Scope</label>
+                        <input type="text" value="COLLECTION ONE" readonly>
+                    </div>
+                    <p>Ensure all reference links are raw image paths ending natively in extensions like <code>.jpg</code> or <code>.webp</code> to prevent broken frame parameters on the front-end display array.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE D: HUMAN RESOURCES -->
+        <div id="space-hr" class="space-panel">
+            <h2>Human Resources Panel</h2>
+            <p>Coordinate field agent routing, recruitment protocols, and system access profiles.</p>
+            <div class="control-grid">
+                <div class="data-card">
+                    <h4>Active Recruitment Gateways</h4>
+                    <div class="input-block">
+                        <label>Inbound Contact Routing Endpoint</label>
+                        <input type="text" value="surfersshippingja@gmail.com" readonly>
+                    </div>
+                    <p>Field agent applications for part-time delivery roles (twice-weekly package pickup/drop-off schedules) filter straight to this terminal.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR: REAL-TIME CROSS-WORKSPACE CHAT -->
+    <div class="chat-sidebar">
+        <div class="chat-header">
+            <h3>Live Operations Chat</h3>
+            <span>● 4 Departments Connected</span>
+        </div>
+        <div class="chat-messages" id="chatBox">
+            <div class="msg-bubble">
+                <div class="msg-meta"><span>👑 Executive Desk</span><span>12:00 AM</span></div>
+                <div class="msg-text">Welcome to the operations deck. Choose your channel workspace on the left panel to begin managing inventory or assets.</div>
+            </div>
+        </div>
+        <div class="chat-input-row">
+            <input type="text" class="chat-field" id="chatInputField" placeholder="Broadcast a transmission...">
+            <button class="chat-send-btn" onclick="dispatchMessage()">Send</button>
         </div>
     </div>
 
+    <!-- CORE INTERACTIVE SWITCH ROUTING SCRIPT -->
     <script>
-        // PATH 1: AUTHENTICATION MATRIX CONTROL LOGIC
-        const MAINFRAME_ACCESS_KEY = "TOXIQUE2026"; 
-        function verifyMainframeCredentials() {
-            const val = document.getElementById("gatePasscodeField").value;
-            if (val === MAINFRAME_ACCESS_KEY) {
-                document.getElementById("mainframeSecurityGate").style.setProperty("display", "none", "important");
-                sessionStorage.setItem("toxique_vault_unlocked", "true");
-            } else {
-                alert("SECURITY EXCEPTION: ACCESS DENIED.");
-                document.getElementById("gatePasscodeField").value = "";
-            }
-        }
-        function handleGateKeypress(e) { if (e.key === "Enter") verifyMainframeCredentials(); }
-        (() => { if (sessionStorage.getItem("toxique_vault_unlocked") === "true") { document.addEventListener("DOMContentLoaded", () => { document.getElementById("mainframeSecurityGate").style.setProperty("display", "none", "important"); }); } })();
+        // Track current identity node context based on active workspace view
+        let currentDepartmentName = "Executive Desk";
 
-        // CATALOG & DATA MANAGEMENTS
-        let TOXIQUE_CATALOG = JSON.parse(localStorage.getItem("toxique_live_catalog")) || [];
-        let PURCHASE_HISTORY = JSON.parse(localStorage.getItem("toxique_sales_ledger")) || [];
+        function switchSpace(spaceId) {
+            // Toggle Content Panels
+            document.querySelectorAll('.space-panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById('space-' + spaceId).classList.add('active');
 
-        document.addEventListener("DOMContentLoaded", () => {
-            renderDashboardFramework();
-            document.getElementById("adminBannerInput").value = localStorage.getItem("toxique_custom_banner_msg") || "";
-        });
+            // Toggle Navigation Button States
+            document.querySelectorAll('.dept-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
 
-        function renderDashboardFramework() {
-            populateInventoryTable();
-            // Calculate mock ledger data variables
-            let revenue = PURCHASE_HISTORY.reduce((sum, item) => sum + item.pricePaid, 0);
-            document.getElementById("metricGrossVolume").innerText = `$${revenue.toFixed(2)}`;
-            document.getElementById("metricOrdersCount").innerText = `${PURCHASE_HISTORY.length} SECURE SHIPMENTS`;
-        }
-
-        function populateInventoryTable() {
-            const tbody = document.getElementById("adminInventoryTableBody");
-            if(!tbody) return;
-            tbody.innerHTML = TOXIQUE_CATALOG.map(item => `
-                <tr>
-                    <td style="color:var(--lux-gold); font-size:0.8rem;">${item.id}</td>
-                    <td><strong>${item.title}</strong></td>
-                    <td style="text-transform:uppercase; font-size:0.8rem; color:var(--text-muted);">${item.category}</td>
-                    <td>$${parseFloat(item.price).toFixed(2)}</td>
-                    <td><button class="action-row-btn wipe" onclick="deleteAssetRecord('${item.id}')">WIPE</button></td>
-                </tr>
-            `).join('');
-        }
-
-        window.saveCustomBannerText = () => {
-            localStorage.setItem("toxique_custom_banner_msg", document.getElementById("adminBannerInput").value.trim());
-            alert("BANNER METRICS OVERRIDDEN SUCCESSFULLY.");
-        };
-
-        document.getElementById("adminProductForm").addEventListener("submit", (e) => {
-            e.preventDefault();
-            const pPrice = parseFloat(document.getElementById("formPrice").value);
-            const newItem = {
-                id: "tx-custom-" + Math.floor(Math.random() * 10000),
-                category: document.getElementById("formCategory").value,
-                tag: document.getElementById("formTag").value,
-                title: document.getElementById("formTitle").value,
-                price: pPrice,
-                img: document.getElementById("formImageSrc").value
+            // Map identity string based on active partition
+            const namesMap = {
+                'executive': '👑 Executive Desk',
+                'marketing': '📈 Sales & Marketing',
+                'designers': '🪡 Creative Studio',
+                'hr': '👥 Human Resources'
             };
-            TOXIQUE_CATALOG.push(newItem);
-            localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
-            document.getElementById("adminProductForm").reset();
-            renderDashboardFramework();
-            alert("ASSET SYNCHRONIZED TO LIVE CATALOG ARRAY.");
-        });
+            currentDepartmentName = namesMap[spaceId];
+        }
 
-        window.deleteAssetRecord = (itemId) => {
-            if (confirm("CONFIPE ASSET RECORD FROM LEDGER?")) {
-                TOXIQUE_CATALOG = TOXIQUE_CATALOG.filter(i => i.id !== itemId);
-                localStorage.setItem("toxique_live_catalog", JSON.stringify(TOXIQUE_CATALOG));
-                renderDashboardFramework();
-            }
-        };
+        function dispatchMessage() {
+            const inputElement = document.getElementById('chatInputField');
+            const chatBoxElement = document.getElementById('chatBox');
+            const textContent = inputElement.value.trim();
+
+            if (textContent === "") return;
+
+            const timeStampString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Create and append the new unified message block node
+            const bubbleNode = document.createElement('div');
+            bubbleNode.className = 'msg-bubble';
+            bubbleNode.innerHTML = `
+                <div class="msg-meta"><span>${currentDepartmentName}</span><span>${timeStampString}</span></div>
+                <div class="msg-text">${textContent}</div>
+            `;
+
+            chatBoxElement.appendChild(bubbleNode);
+            inputElement.value = ""; // Clear active string array from frame field
+            chatBoxElement.scrollTop = chatBoxElement.scrollHeight; // Auto scroll tracking loop
+        }
+
+        // Allow executing message push via keyboard Enter key action trigger
+        document.getElementById('chatInputField').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') dispatchMessage();
+        });
     </script>
 </body>
 </html>
