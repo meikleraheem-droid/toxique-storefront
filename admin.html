@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOXIQUE // HQ CENTRAL INTELLIGENCE SYSTEMS</title>
+    <title>TOXIQUE // HQ MASTER CENTRAL CONTROL SYSTEMS</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap');
         
@@ -29,9 +29,9 @@
             display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* TACTICAL SIDEBAR NAVIGATION */
+        /* SIDEBAR INTERFACE ARCHITECTURE */
         .sidebar {
-            width: 280px; background: var(--bg-panel);
+            width: 290px; background: var(--bg-panel);
             border-right: 1px solid var(--border-line);
             display: flex; flex-direction: column; padding: 3rem 1.75rem; box-sizing: border-box;
             position: relative;
@@ -51,11 +51,15 @@
             color: var(--text-green); border: 1px solid rgba(50, 255, 126, 0.2); padding: 0.25rem 0.6rem; letter-spacing: 0.1em;
         }
 
+        .dept-btn-container {
+            display: flex; flex-direction: column; flex: 1; overflow-y: auto; gap: 0.5rem;
+        }
+
         .dept-btn {
             background: transparent; border: 1px solid transparent;
             color: var(--text-dark); text-transform: uppercase; text-align: left;
             padding: 1.25rem 1.5rem; font-size: 0.75rem; letter-spacing: 0.2em;
-            cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); margin-bottom: 0.75rem;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex; justify-content: space-between; align-items: center;
         }
         .dept-btn:hover, .dept-btn.active {
@@ -66,11 +70,10 @@
             content: '●'; color: var(--lux-gold); font-size: 0.6rem;
         }
 
-        /* MAIN MONITORING VIEWPORT */
+        /* VIEWPORT CONFIGURATIONS */
         .workspace-viewport {
             flex: 1; padding: 4.5rem; box-sizing: border-box; overflow-y: auto;
             background: radial-gradient(circle at 10% 10%, rgba(13, 9, 20, 0.4) 0%, transparent 80%);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .space-panel { display: none; opacity: 0; transform: translateY(15px); transition: all 0.4s ease; }
         .space-panel.active { display: block; opacity: 1; transform: translateY(0); }
@@ -78,7 +81,7 @@
         .header-meta h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.2rem; font-weight: 300; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 0.5rem 0; color: var(--text-main); }
         .header-meta p { color: var(--text-dark); font-size: 0.85rem; margin: 0 0 3rem 0; letter-spacing: 0.05em; }
 
-        /* ANALYTICS HUD SCOREBOARD */
+        /* HUD STATS GRID */
         .analytics-strip {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3.5rem;
         }
@@ -92,12 +95,11 @@
         .metric-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-dark); margin-bottom: 0.75rem; }
         .metric-value { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 400; color: var(--lux-gold); }
 
-        /* GRID PACKS & FUNCTIONAL FORMS */
-        .control-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; }
+        .control-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; margin-bottom: 2.5rem; }
         .data-card { background: var(--bg-panel); border: 1px solid var(--border-line); padding: 2.5rem; position: relative; }
         .data-card h4 { margin: 0 0 1.5rem 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--lux-gold); }
 
-        /* UNIFIED LIVE COMMAND INTERCOM */
+        /* LIVE SYSTEM INTERCOM PANEL */
         .chat-sidebar {
             width: 380px; background: var(--bg-panel); border-left: 1px solid var(--border-line); display: flex; flex-direction: column; box-sizing: border-box; position: relative;
         }
@@ -111,7 +113,7 @@
         .chat-header span strong { color: var(--text-green); }
         
         .chat-messages { flex: 1; padding: 2.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
-        .msg-bubble { background: var(--bg-card); border-left: 3px solid var(--neon-purple); padding: 1.25rem; transition: transform 0.3s; }
+        .msg-bubble { background: var(--bg-card); border-left: 3px solid var(--neon-purple); padding: 1.25rem; }
         .msg-bubble.from-user { border-left-color: var(--lux-gold); background: rgba(195,164,99,0.02); }
         .msg-meta { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dark); margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
         .msg-meta strong { color: var(--lux-gold); }
@@ -122,58 +124,75 @@
         .chat-field { flex: 1; background: transparent; border: none; padding: 1rem; color: var(--text-main); font-family: 'Inter', sans-serif; font-size: 0.8rem; }
         .chat-field:focus { outline: none; }
         .chat-send-btn { background: var(--lux-gold); border: none; color: #000; padding: 0 1.75rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer; transition: background 0.3s; }
-        .chat-send-btn:hover { background: white; }
 
-        /* INPUT CONFIGS */
+        /* CONTROLS FORMATTING */
         .input-block { margin-bottom: 1.5rem; }
         .input-block label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-dark); margin-bottom: 0.6rem; font-weight: 500; }
-        .input-block input, .input-block select { width: 100%; padding: 1rem; background: var(--bg-base); border: 1px solid var(--border-line); color: white; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 0.8rem; transition: border-color 0.3s; }
-        .input-block input:focus { border-color: var(--lux-gold); outline: none; }
+        .input-block input, .input-block select, .input-block textarea { width: 100%; padding: 1rem; background: var(--bg-base); border: 1px solid var(--border-line); color: white; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 0.8rem; }
+        .input-block input:focus, .input-block textarea:focus { border-color: var(--lux-gold); outline: none; }
         
         .action-btn { background: transparent; border: 1px solid var(--lux-gold); color: white; width: 100%; padding: 1.25rem; cursor: pointer; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.7rem; transition: all 0.4s ease; }
         .action-btn:hover { background: var(--lux-gold); color: #000; box-shadow: 0 0 20px rgba(195, 164, 99, 0.2); }
+        .spawn-btn { border-color: var(--neon-purple); color: var(--text-main); }
+        .spawn-btn:hover { background: var(--neon-purple); color: white; box-shadow: 0 0 20px rgba(129, 70, 226, 0.4); }
 
-        /* CREATIVE STUDIO VISUAL TARGETS */
-        .mood-board-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
-        .mood-thumb { width: 100%; height: 110px; background: #1b1429; border: 1px solid var(--border-line); overflow: hidden; position: relative; }
-        .mood-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: opacity 0.3s; }
-        .mood-thumb:hover img { opacity: 1; }
+        .mood-board-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .mood-thumb { width: 100%; height: 110px; background: #1b1429; border: 1px solid var(--border-line); overflow: hidden; }
+        .mood-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
 
-        /* HR APPLICATION TICKETS */
         .candidate-ticket { background: var(--bg-base); border-left: 2px solid var(--neon-purple); padding: 1.25rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
-        .candidate-info h5 { margin: 0 0 0.25rem 0; font-size: 0.8rem; letter-spacing: 0.05em; }
+        .candidate-info h5 { margin: 0 0 0.25rem 0; font-size: 0.8rem; }
         .candidate-info p { margin: 0; font-size: 0.7rem; color: var(--text-dark); }
-        .ticket-status { font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; border: 1px solid var(--border-line); padding: 0.25rem 0.5rem; text-transform: uppercase; color: var(--lux-gold); }
+        .ticket-status { font-family: 'Space Grotesk', sans-serif; font-size: 0.6rem; border: 1px solid var(--border-line); padding: 0.25rem 0.5rem; color: var(--lux-gold); text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <!-- SIDE PANEL: MASTER SWITCHES -->
+    <!-- LEFT MASTER NAV BAR SIDEBAR -->
     <div class="sidebar">
         <div class="hub-title">TOXIQUE <span>HQ</span> <div class="system-status-pill">ONLINE</div></div>
-        <button class="dept-btn active" onclick="switchSpace('executive')">👑 Executive Desk</button>
-        <button class="dept-btn" onclick="switchSpace('marketing')">📈 Sales & Campaigns</button>
-        <button class="dept-btn" onclick="switchSpace('designers')">🪡 Creative Studio</button>
-        <button class="dept-btn" onclick="switchSpace('hr')">👥 Human Resources</button>
+        
+        <!-- Target container box for custom department button spawns -->
+        <div class="dept-btn-container" id="sidebarButtonContainer">
+            <button class="dept-btn active" id="btn-executive" onclick="switchSpace('executive')">👑 Executive Desk</button>
+            <button class="dept-btn" id="btn-marketing" onclick="switchSpace('marketing')">📈 Sales & Campaigns</button>
+            <button class="dept-btn" id="btn-designers" onclick="switchSpace('designers')">🪡 Creative Studio</button>
+            <button class="dept-btn" id="btn-hr" onclick="switchSpace('hr')">👥 Human Resources</button>
+        </div>
     </div>
 
-    <!-- MAIN INTERACTIVE MONITOR -->
-    <div class="workspace-viewport">
+    <!-- MAIN CONTROL CORE FRAME -->
+    <div class="workspace-viewport" id="viewportContainer">
         
-        <!-- ==================== EXECUTIVE SPACE ==================== -->
+        <!-- ==================== EXECUTIVE SPACE (MASTER COMMAND HUB) ==================== -->
         <div id="space-executive" class="space-panel active">
             <div class="header-meta">
                 <h2>Executive Desk</h2>
-                <p>Master ledger distribution and global catalog injection portal.</p>
+                <p>Master operational dashboard, global asset injector, and infrastructure designer room.</p>
             </div>
             
             <div class="analytics-strip">
                 <div class="metric-block"><div class="metric-title">Active Showroom Styles</div><div class="metric-value" id="count-products">4</div></div>
                 <div class="metric-block"><div class="metric-title">Global Base Shipping</div><div class="metric-value">$650</div></div>
-                <div class="metric-block"><div class="metric-title">Staged Allocations</div><div class="metric-value">01</div></div>
+                <div class="metric-block"><div class="metric-title">Active Divisions</div><div class="metric-value" id="count-depts">4</div></div>
             </div>
 
+            <!-- DYNAMIC INFRASTRUCTURE GENERATOR FOR THE EXECUTIVE -->
             <div class="control-grid">
+                <div class="data-card" style="border-color: rgba(129, 70, 226, 0.45);">
+                    <h4>🧬 Spawn Operational Department Workspace</h4>
+                    <p style="margin-bottom: 1.5rem;">Create a fresh workspace partition with dedicated functional trackers instantly synced into the core system layout mapping.</p>
+                    <div class="input-block">
+                        <label>Department Workspace Name</label>
+                        <input type="text" id="new-dept-name" placeholder="e.g., Logistics Control, Public Relations">
+                    </div>
+                    <div class="input-block">
+                        <label>Workspace Functional Objectives</label>
+                        <textarea id="new-dept-purpose" rows="2" placeholder="Describe the focus parameters for this team desk context..."></textarea>
+                    </div>
+                    <button class="action-btn spawn-btn" onclick="executeDepartmentSpawning()">Generate Workspace Instance</button>
+                </div>
+
                 <div class="data-card">
                     <h4>Asset Compiler / Showroom Drop</h4>
                     <div class="input-block">
@@ -190,102 +209,57 @@
                     </div>
                     <button class="action-btn" onclick="executeProductInjection()">Compile Asset Array</button>
                 </div>
-                <div class="data-card">
-                    <h4>Logistics Matrix</h4>
-                    <p>Logistics routes are hard-locked to flat whole configurations to protect system calculation loops on front-end layouts.</p>
-                    <div class="input-block"><label>Primary Destination</label><input type="text" value="United States ⇄ Jamaica" readonly></div>
-                    <div class="input-block"><label>Rate Mode</label><input type="text" value="Flat Ground / Air Matrix" readonly></div>
-                </div>
             </div>
         </div>
 
         <!-- ==================== MARKETING SPACE ==================== -->
         <div id="space-marketing" class="space-panel">
-            <div class="header-meta">
-                <h2>Sales & Campaigns</h2>
-                <p>Configure operational discount wrappers and active baseline schedules.</p>
-            </div>
-
-            <div class="analytics-strip">
-                <div class="metric-block"><div class="metric-title">Active Campaign Desks</div><div class="metric-value">03</div></div>
-                <div class="metric-block"><div class="metric-title">Highest Ratio Cut</div><div class="metric-value">50%</div></div>
-                <div class="metric-block"><div class="metric-title">Voucher Scripts</div><div class="metric-value">Operational</div></div>
-            </div>
-
+            <div class="header-meta"><h2>Sales & Campaigns</h2><p>Configure operational discount wrappers and active baseline schedules.</p></div>
             <div class="control-grid">
                 <div class="data-card">
                     <h4>Campaign Voucher Injector</h4>
-                    <div class="input-block">
-                        <label>Promo String Key</label>
-                        <input type="text" placeholder="e.g., BLACKFRIDAY">
-                    </div>
-                    <div class="input-block">
-                        <label>Target Allocation Scaling</label>
-                        <select>
-                            <option>25% Off Framework Value</option>
-                            <option>50% Holiday Clearance</option>
-                            <option>Two-for-One Flat Rate Freight</option>
-                        </select>
-                    </div>
-                    <button class="action-btn" onclick="alert('Campaign variant compiled successfully.')">Deploy Live Flag</button>
+                    <div class="input-block"><label>Promo String Key</label><input type="text" placeholder="BLACKFRIDAY"></div>
+                    <div class="input-block"><label>Target Allocation Scaling</label><select><option>25% Off Framework Value</option><option>50% Holiday Clearance</option></select></div>
+                    <button class="action-btn" onclick="alert('Campaign variant deployed.')">Deploy Live Flag</button>
                 </div>
                 <div class="data-card">
-                    <h4>Historical & Active Logs</h4>
-                    <p>• <strong>Nov 20 - Nov 30:</strong> Black Friday Sale (25% Multiplier)<br>• <strong>Dec 1 - Dec 31:</strong> Holiday Manifest (50% Multiplier)<br>• <strong>Jan 1 - Jan 14:</strong> New Year Staging (2-for-1 Cargo Loop)</p>
+                    <h4>Historical Logs</h4>
+                    <p>• <strong>Nov 20 - Nov 30:</strong> Black Friday Sale (25% Multiplier)<br>• <strong>Dec 1 - Dec 31:</strong> Holiday Manifest (50% Multiplier)</p>
                 </div>
             </div>
         </div>
 
         <!-- ==================== DESIGNERS SPACE ==================== -->
         <div id="space-designers" class="space-panel">
-            <div class="header-meta">
-                <h2>Creative Studio</h2>
-                <p>Staging area for high-fashion photography alignment and aesthetic lookbooks.</p>
-            </div>
-
-            <div class="control-grid" style="grid-template-columns: 1fr;">
-                <div class="data-card">
-                    <h4>Lookbook Asset Staging Array</h4>
-                    <p>Verify your aspect frames below. Front-end grid system forces <code>ar=2:3</code> for vertical symmetry lines.</p>
-                    <div class="mood-board-grid">
-                        <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400" alt="Staging"></div>
-                        <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400" alt="Staging"></div>
-                        <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400" alt="Staging"></div>
-                    </div>
+            <div class="header-meta"><h2>Creative Studio</h2><p>Staging area for high-fashion photography alignment and aesthetic lookbooks.</p></div>
+            <div class="data-card">
+                <h4>Lookbook Asset Staging Array</h4>
+                <div class="mood-board-grid">
+                    <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400"></div>
+                    <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"></div>
+                    <div class="mood-thumb"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400"></div>
                 </div>
             </div>
         </div>
 
         <!-- ==================== HR SPACE ==================== -->
         <div id="space-hr" class="space-panel">
-            <div class="header-meta">
-                <h2>Human Resources</h2>
-                <p>Process field agent pipeline tracks and system access routing variables.</p>
-            </div>
-
+            <div class="header-meta"><h2>Human Resources</h2><p>Process field agent pipeline tracks and system access routing variables.</p></div>
             <div class="control-grid">
                 <div class="data-card">
-                    <h4>Active Logistical Delivery Inbound Leads</h4>
-                    <div class="candidate-ticket">
-                        <div class="candidate-info"><h5>Field Agent — Kingston Route</h5><p>Applied for twice-weekly package pickup schedule</p></div>
-                        <div class="ticket-status">Staged Review</div>
-                    </div>
-                    <div class="candidate-ticket">
-                        <div class="candidate-info"><h5>Dispatch Lead — Montego Bay</h5><p>Inbound courier logistics profile track</p></div>
-                        <div class="ticket-status">Staged Review</div>
-                    </div>
+                    <h4>Active Delivery Inbound Leads</h4>
+                    <div class="candidate-ticket"><div class="candidate-info"><h5>Field Agent — Kingston Route</h5><p>Applied for twice-weekly package pickup schedule</p></div><div class="ticket-status">Staged Review</div></div>
                 </div>
                 <div class="data-card">
                     <h4>HR Communication Gateway</h4>
-                    <div class="input-block"><label>Primary Inbound Terminal Endpoint</label><input type="text" value="surfersshippingja@gmail.com" readonly></div>
-                    <p style="font-size:0.75rem;">All recruitment assets and application details funnel strictly into this endpoint for pipeline protection.</p>
+                    <div class="input-block"><label>Endpoint Contact</label><input type="text" value="surfersshippingja@gmail.com" readonly></div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- RIGHT PANEL: UNIFIED SYSTEM INTERCOM -->
+    <!-- RIGHT PANEL: UNIFIED COMMAND ROOM INTERCOM -->
     <div class="chat-sidebar">
         <div class="chat-header">
             <h3>Operations Intercom</h3>
@@ -294,7 +268,7 @@
         <div class="chat-messages" id="chatBox">
             <div class="msg-bubble">
                 <div class="msg-meta"><span>👑 Executive Desk</span><span>00:00</span></div>
-                <div class="msg-text">Central operations terminal initialized. Systems synced to main database parameters. Select channels left to broadcast.</div>
+                <div class="msg-text">Central operations terminal initialized. Systems synced to core database matrix framework layers.</div>
             </div>
         </div>
         <div class="chat-input-row">
@@ -305,32 +279,111 @@
         </div>
     </div>
 
-    <!-- CORE STRATEGIC SCRIPT SUITE -->
+    <!-- ENGINE CONTROL LOGIC SCRIPTS -->
     <script>
         let currentDeptToken = "Executive Desk";
+        let departmentCount = 4;
 
-        // FLUID BACK-OFFICE SPACE ROUTER
+        // DYNAMIC WORKSPACE SPLER ROUTING LOOPS
         function switchSpace(spaceId) {
             const panels = document.querySelectorAll('.space-panel');
             panels.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
             
             const target = document.getElementById('space-' + spaceId);
-            target.style.display = 'block';
-            setTimeout(() => target.classList.add('active'), 10);
+            if (target) {
+                target.style.display = 'block';
+                setTimeout(() => target.classList.add('active'), 10);
+            }
 
             document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            
+            const targetedBtn = document.getElementById('btn-' + spaceId);
+            if (targetedBtn) targetedBtn.classList.add('active');
 
-            const tokenMapping = {
-                'executive': '👑 Executive Desk',
-                'marketing': '📈 Sales/Mktg',
-                'designers': '🪡 Creative Studio',
-                'hr': '👥 HR Dept'
-            };
-            currentDeptToken = tokenMapping[spaceId];
+            // Set current identity tracking node dynamically based on attributes or HTML string text
+            if(spaceId === 'executive') currentDeptToken = "👑 Executive Desk";
+            else if(spaceId === 'marketing') currentDeptToken = "📈 Sales/Mktg";
+            else if(spaceId === 'designers') currentDeptToken = "🪡 Creative Studio";
+            else if(spaceId === 'hr') currentDeptToken = "👥 HR Dept";
+            else {
+                currentDeptToken = "⚡ " + (targetedBtn ? targetedBtn.innerText.replace('●', '').trim() : "Custom Node");
+            }
         }
 
-        // TACTICAL SYSTEM INTERCOM TRANSMITTER
+        // EXECUTIVE SPARK MATRIX ENGINE: ADDS ENTIRE DEPARTMENT DOM BLOCKS DYNAMICALLY
+        function executeDepartmentSpawning() {
+            const nameField = document.getElementById('new-dept-name');
+            const purposeField = document.getElementById('new-dept-purpose');
+            
+            const name = nameField.value.trim();
+            const purpose = purposeField.value.trim();
+
+            if (!name || !purpose) {
+                alert("Workspace parameters invalid. Enter target partition labels.");
+                return;
+            }
+
+            // Create system-safe unique string layout parameters
+            const cleanId = name.toLowerCase().replace(/[^a-z0-8]/g, '-');
+
+            // 1. Compile and Append Nav Sidebar Trigger Button Link node
+            const buttonContainer = document.getElementById('sidebarButtonContainer');
+            const newButton = document.createElement('button');
+            newButton.className = 'dept-btn';
+            newButton.id = 'btn-' + cleanId;
+            newButton.innerText = '⚙️ ' + name;
+            newButton.setAttribute('onclick', `switchSpace('${cleanId}')`);
+            buttonContainer.appendChild(newButton);
+
+            // 2. Compile and Append Main Content Pane Layout Viewport Block
+            const viewportContainer = document.getElementById('viewportContainer');
+            const newPane = document.createElement('div');
+            newPane.id = 'space-' + cleanId;
+            newPane.className = 'space-panel';
+            newPane.innerHTML = `
+                <div class="header-meta">
+                    <h2>${name} Control</h2>
+                    <p>Custom spawned active operational department workspace node layout.</p>
+                </div>
+                <div class="control-grid" style="grid-template-columns: 1fr;">
+                    <div class="data-card" style="border-left: 2px solid var(--lux-gold);">
+                        <h4>Objective Mission Tracker</h4>
+                        <p style="font-size: 1rem; color: var(--text-main); font-style: italic; background: rgba(0,0,0,0.2); padding: 1.5rem; border: 1px dashed var(--border-line);">
+                            "${purpose}"
+                        </p>
+                        <div class="input-block" style="margin-top:2rem;">
+                            <label>Workspace Functional Console Output Log</label>
+                            <input type="text" value="System environment online. Terminal channel bound successfully." readonly style="color: var(--text-green);">
+                        </div>
+                    </div>
+                </div>
+            `;
+            viewportContainer.appendChild(newPane);
+
+            // 3. Update Global Dashboard Metrics Counters
+            departmentCount++;
+            document.getElementById('count-depts').innerText = departmentCount;
+
+            // 4. Inject automatic tracking broadcast announcement across the Intercom Chat Room
+            const intercomBox = document.getElementById('chatBox');
+            const systemBubble = document.createElement('div');
+            systemBubble.className = 'msg-bubble';
+            systemBubble.style.borderLeftColor = 'var(--text-green)';
+            systemBubble.innerHTML = `
+                <div class="msg-meta"><strong style="color:var(--text-green)">⚡ HQ COMPILER ENGINE</strong><span>SYSTEM</span></div>
+                <div class="msg-text">Infrastructure Expansion Triggered: New department channel [<strong>${name.toUpperCase()}</strong>] compiled and online.</div>
+            `;
+            intercomBox.appendChild(systemBubble);
+            intercomBox.scrollTop = intercomBox.scrollHeight;
+
+            // Clear configuration fields
+            nameField.value = '';
+            purposeField.value = '';
+
+            alert(`INFRASTRUCTURE ONLINE: Workspace division for [${name.toUpperCase()}] constructed cleanly.`);
+        }
+
+        // TACTICAL SYSTEM INTERCOM TRANSMITTER LOGIC
         function dispatchMessage() {
             const field = document.getElementById('chatInputField');
             const box = document.getElementById('chatBox');
@@ -351,41 +404,25 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        // INTERACTIVE CATALOG COMPILER INJECTOR
+        // INTERACTIVE CATALOG INJECTION CONTROLLER
         function executeProductInjection() {
             const t = document.getElementById('prod-title').value.trim();
             const p = document.getElementById('prod-price').value.trim();
             const i = document.getElementById('prod-img').value.trim();
 
             if(!t || !p || !i) {
-                alert("Compilation rejected. Missing valid asset values inside structural nodes.");
+                alert("Compilation rejected. Missing valid asset entries.");
                 return;
             }
 
-            // Sync database profile data inside cache ledger layers
             let cache = localStorage.getItem('toxique_production_catalog') ? JSON.parse(localStorage.getItem('toxique_production_catalog')) : [];
-            const newAssetObj = {
-                id: Date.now(),
-                title: t.toUpperCase(),
-                price: parseInt(p),
-                category: "READY-TO-WEAR",
-                division: "COLLECTION ONE",
-                image: i,
-                description: "HQ Compiled Drop Specification Asset Entry."
-            };
-
-            cache.push(newAssetObj);
+            cache.push({ id: Date.now(), title: t.toUpperCase(), price: parseInt(p), category: "READY-TO-WEAR", division: "COLLECTION ONE", image: i });
             localStorage.setItem('toxique_production_catalog', JSON.stringify(cache));
             
-            // Dynamic metrics updating engine loop
             document.getElementById('count-products').innerText = cache.length;
+            alert(`ASSET LEDGER ADDED:\n"${t.toUpperCase()}" locked directly into storefront database.`);
             
-            alert(`ASSET RE-COMPILER SUCCESSFUL:\n"${t.toUpperCase()}" locked directly into storefront grid ledger array.`);
-            
-            // Clear inputs
-            document.getElementById('prod-title').value = '';
-            document.getElementById('prod-price').value = '';
-            document.getElementById('prod-img').value = '';
+            document.getElementById('prod-title').value = ''; document.getElementById('prod-price').value = ''; document.getElementById('prod-img').value = '';
         }
 
         document.getElementById('chatInputField').addEventListener('keydown', function(e) { if (e.key === 'Enter') dispatchMessage(); });
