@@ -1,72 +1,68 @@
 /* ==========================================================================
-   TOXIQUE // HOUSE OF X EXECUTIVE VISUAL FRAMEWORK (UPGRADED EDITORIAL SUITE)
+   TOXIQUE // HOUSE OF X EXECUTIVE VISUAL FRAMEWORK (GRAPHICS & INTERACTIVE EXPANSION)
    ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@200;300;400;600&display=swap');
 
 :root {
-    --bg-main: #0a070f;              /* Deep obsidian with slight amethyst undertone */
-    --bg-cards: #110c1a;             /* Subtle surface depth differentiation */
-    --lux-gold: #c3a463;             /* Refined muted champagne gold */
-    --neon-purple: #8146e2;          /* Sharp, ultra-saturated chemical violet accent */
-    --text-white: #fcfbfe;           /* High-contrast pure linen white */
-    --text-muted: #797185;           /* Controlled metadata text visibility */
-    --grid-line: rgba(195, 164, 99, 0.12); /* Hairline layout borders */
+    --bg-main: #060408;              /* Ultra-deep matte charcoal-black */
+    --bg-surface: #0e0a14;           /* High-contrast dark amethyst surface block */
+    --lux-gold: #c3a463;             /* Polished brass gold accent */
+    --neon-purple: #8146e2;          /* Vivid ultraviolet glow line */
+    --text-white: #fcfbfe;           /* Pure paper white text */
+    --text-muted: #6e647c;           /* Deep ash grey metadata text */
+    --grid-line: rgba(195, 164, 99, 0.2); /* Sharpened brass structural borders */
 }
 
-/* GLOBAL RESET MATRIX */
 body {
     background-color: var(--bg-main);
     color: var(--text-white);
     font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
 }
 
-/* PATH 3: AUTOMATED BANNER BROADCAST CORE */
+/* PATH 3: BRUTALIST TICKER BROADCAST BANNER */
 #dynamicPromoBanner {
     background: #000000;
-    border-bottom: 1px solid var(--grid-line);
-    padding: 0.9rem 0;
+    border-bottom: 2px solid var(--lux-gold);
+    padding: 1.1rem 0;
     overflow: hidden;
     white-space: nowrap;
-    position: relative;
 }
 #promoBannerText {
     display: inline-block;
     padding-left: 100%;
     font-family: 'Inter', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.35em;
-    font-size: 0.7rem;
-    color: var(--lux-gold);
-    animation: bannerMarqueeLoop 30s linear infinite;
+    letter-spacing: 0.4em;
+    font-size: 0.75rem;
+    color: var(--text-white);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    animation: bannerMarqueeLoop 25s linear infinite;
 }
 @keyframes bannerMarqueeLoop {
     0% { transform: translate3d(0, 0, 0); }
     100% { transform: translate3d(-100%, 0, 0); }
 }
 
-/* EDITORIAL SYSTEM NAVIGATION HEADER */
+/* ASYMMETRICAL EDITORIAL NAVIGATION HEADER */
 .main-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2.5rem 4rem;
+    padding: 3rem 4.5rem;
     border-bottom: 1px solid var(--grid-line);
-    background: rgba(10, 7, 15, 0.8);
-    backdrop-filter: blur(20px);
-    position: sticky;
-    top: 0;
-    z-index: 999;
+    background: rgba(6, 4, 8, 0.9);
+    backdrop-filter: blur(25px);
+    position: sticky; top: 0; z-index: 999;
 }
 .logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem;
+    font-size: 2.6rem;
     font-weight: 300;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
 }
 .logo span { 
@@ -74,324 +70,212 @@ body {
     font-style: italic;
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    margin: 0 0.2rem;
 }
 
-.nav-controls {
-    display: flex;
-    gap: 3.5rem;
-    align-items: center;
-}
+.nav-controls { display: flex; gap: 4rem; align-items: center; }
 .nav-link, .cart-trigger {
     color: var(--text-white);
     text-decoration: none;
     font-size: 0.75rem;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.3em;
     cursor: pointer;
-    transition: color 0.4s ease, transform 0.4s ease;
+    position: relative;
+    padding-bottom: 0.25rem;
+    transition: color 0.3s;
 }
-.nav-link:hover, .cart-trigger:hover { 
-    color: var(--lux-gold);
-    transform: translateY(-1px);
+.nav-link::after, .cart-trigger::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+    background-color: var(--lux-gold); transition: width 0.3s ease;
 }
+.nav-link:hover::after, .cart-trigger:hover::after { width: 100%; }
+.nav-link:hover, .cart-trigger:hover { color: var(--lux-gold); }
 
-/* CATEGORY FILTERS GRID ROW */
+/* CATEGORY BAR WITH SEPARATORS */
 .category-nav {
     display: flex;
     justify-content: center;
-    gap: 2.5rem;
-    padding: 1.5rem 2rem;
-    background: transparent;
+    gap: 0;
+    padding: 0;
     border-bottom: 1px solid var(--grid-line);
+    background: #000;
 }
 .nav-filter {
-    background: transparent;
-    border: none;
+    background: transparent; border: none;
     color: var(--text-muted);
     font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 0.7rem;
+    font-weight: 300; font-size: 0.75rem;
     text-transform: uppercase;
-    padding: 0.5rem 0;
+    padding: 1.5rem 3rem;
     cursor: pointer;
-    letter-spacing: 0.3em;
-    position: relative;
-    transition: color 0.3s ease;
+    letter-spacing: 0.25em;
+    border-right: 1px solid var(--grid-line);
+    transition: all 0.4s ease;
 }
-.nav-filter::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; width: 0; height: 1px;
-    background-color: var(--lux-gold);
-    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-}
+.nav-filter:first-child { border-left: 1px solid var(--grid-line); }
 .nav-filter.active, .nav-filter:hover {
     color: var(--lux-gold);
-}
-.nav-filter.active::after {
-    width: 100%;
+    background: var(--bg-surface);
 }
 
-/* PATH 3: LUXURY STAGING GRID AND PRODUCTION PRODUCT CARDS */
+/* PATH 3: REFINED BRUTALIST PRODUCT SHOWROOM CARDS */
 .storefront-container {
-    padding: 4rem;
+    padding: 5rem 4.5rem;
     max-width: 1600px;
     margin: 0 auto;
 }
 .catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 4rem 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 5rem 3.5rem;
 }
 .product-card {
-    background: transparent;
-    border: none;
+    background: var(--bg-surface);
+    border: 1px solid var(--grid-line);
     padding: 0;
     position: relative;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+}
+.product-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--lux-gold);
 }
 .card-image-box {
-    width: 100%;
-    height: 480px;
-    background: #000000;
+    width: 100%; height: 500px;
+    background: #000;
     overflow: hidden;
     position: relative;
-    transition: border-color 0.4s ease;
+    border-bottom: 1px solid var(--grid-line);
 }
 .card-image-box img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
-    filter: grayscale(35%) contrast(105%);
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+    filter: grayscale(45%) brightness(90%);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
 }
 .product-card:hover .card-image-box img {
-    transform: scale(1.03);
-    filter: grayscale(0%) contrast(100%);
+    transform: scale(1.05);
+    filter: grayscale(0%) brightness(100%);
 }
 .card-category-label {
-    position: absolute;
-    bottom: 1.5rem; left: 1.5rem;
-    background: #000000;
-    border: 1px solid var(--grid-line);
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: rgba(0,0,0,0.85);
+    border: 1px solid var(--lux-gold);
     color: var(--lux-gold);
-    padding: 0.4rem 0.8rem;
-    font-size: 0.6rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    font-size: 0.6rem; font-weight: 400;
+    letter-spacing: 0.25em; text-transform: uppercase;
     z-index: 2;
 }
 .card-details {
-    padding: 1.5rem 0 0 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 2rem;
+    display: flex; flex-direction: column;
 }
 .card-brand-tag {
     color: var(--text-muted);
-    font-size: 0.65rem;
-    font-weight: 400;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
+    font-size: 0.65rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    margin-bottom: 0.6rem;
 }
 .card-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
-    font-weight: 300;
-    letter-spacing: 0.02em;
-    margin: 0 0 0.75rem 0;
+    font-size: 1.6rem; font-weight: 300;
+    letter-spacing: 0.05em; margin: 0 0 1rem 0;
     color: var(--text-white);
-    text-align: left;
 }
 .card-price {
     font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    color: var(--lux-gold);
-    margin-bottom: 1.5rem;
+    font-size: 1rem; font-weight: 300;
+    letter-spacing: 0.05em; color: var(--lux-gold);
+    margin-bottom: 2rem;
 }
 .add-to-bag-btn {
     width: 100%;
     background: #000000;
-    border: 1px solid var(--grid-line);
+    border: 1px solid var(--lux-gold);
     color: var(--text-white);
     font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 0.75rem;
+    font-weight: 400; font-size: 0.75rem;
     text-transform: uppercase;
-    padding: 1rem 0;
+    padding: 1.25rem 0;
     cursor: pointer;
-    letter-spacing: 0.3em;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0.35em;
+    transition: all 0.4s ease;
 }
 .add-to-bag-btn:hover {
-    background: var(--text-white);
+    background: var(--lux-gold);
     color: #000000;
-    border-color: var(--text-white);
 }
 
-/* AUTOMATED SHOPPING DRAWER SIDE PANEL */
+/* GLASS-TEXTURED SHOPPING ACCORDION BAG */
 .cart-drawer {
-    position: fixed;
-    top: 0; right: -460px; width: 460px; height: 100%;
-    background: #000000;
-    border-left: 1px solid var(--grid-line);
+    position: fixed; top: 0; right: -480px; width: 480px; height: 100%;
+    background: rgba(14, 10, 20, 0.95);
+    backdrop-filter: blur(30px);
+    border-left: 2px solid var(--lux-gold);
     z-index: 10000;
     transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
 }
 .cart-drawer.active { right: 0; }
 .drawer-header {
-    padding: 2.5rem;
-    border-bottom: 1px solid var(--grid-line);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 3rem; border-bottom: 1px solid var(--grid-line);
+    display: flex; justify-content: space-between; align-items: center;
 }
 .drawer-header h3 {
-    margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.1em;
+    margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 0.15em;
 }
 .close-drawer-btn {
-    background: transparent; border: none; color: var(--text-muted); font-family: 'Inter', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; cursor: pointer; text-transform: uppercase;
+    background: transparent; border: none; color: var(--lux-gold); font-family: 'Inter', sans-serif; font-size: 0.75rem; letter-spacing: 0.25em; cursor: pointer; text-transform: uppercase;
 }
-.drawer-items-container {
-    flex: 1; padding: 2.5rem; overflow-y: auto;
-}
+.drawer-items-container { padding: 3rem; flex: 1; overflow-y: auto; }
 .drawer-item-row {
-    display: flex; justify-content: space-between; align-items: center; padding-bottom: 1.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(195,164,99,0.06);
+    display: flex; justify-content: space-between; align-items: center; padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid var(--grid-line);
 }
 .drawer-footer {
-    padding: 2.5rem; background: var(--bg-main); border-top: 1px solid var(--grid-line);
+    padding: 3rem; background: #000; border-top: 2px solid var(--lux-gold);
 }
 .drawer-subtotal-line {
-    display: flex; justify-content: space-between; margin-bottom: 2rem; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted);
+    display: flex; justify-content: space-between; margin-bottom: 2.5rem; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted);
 }
-.drawer-subtotal-line strong { color: var(--text-white); font-weight: 400; font-size: 0.95rem; }
+.drawer-subtotal-line strong { color: var(--text-white); font-weight: 600; font-size: 1.1rem; }
 .checkout-action-btn {
-    width: 100%; background: var(--lux-gold); color: #000000; border: none; padding: 1.25rem 0; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.3em; cursor: pointer; transition: background-color 0.3s;
+    width: 100%; background: var(--lux-gold); color: #000; border: none; padding: 1.4rem 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.35em; cursor: pointer; transition: background-color 0.3s;
 }
 .checkout-action-btn:hover { background-color: var(--text-white); }
 .drawer-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; display: none; backdrop-filter: blur(8px);
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: none; backdrop-filter: blur(12px);
 }
 .drawer-overlay.active { display: block; }
 
-/* PATH 2: HIGH-FASHION EDITORIAL TRANSACTION INVOICE COMPILER MODAL */
+/* REFINED HIGH-CONTRAST INVOICE SYSTEM MODAL */
 #invoiceModalOverlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.93);
-    z-index: 20000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    box-sizing: border-box;
-    backdrop-filter: blur(15px);
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95); z-index: 20000;
+    display: flex; justify-content: center; align-items: center; padding: 2rem; box-sizing: border-box; backdrop-filter: blur(20px);
 }
 .invoice-box-frame {
-    background: #000000;
-    border: 1px solid var(--lux-gold);
-    width: 100%;
-    max-width: 600px;
-    padding: 3.5rem;
-    box-sizing: border-box;
+    background: var(--bg-surface);
+    border: 2px solid var(--lux-gold);
+    width: 100%; max-width: 620px; padding: 4rem; box-sizing: border-box;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8);
 }
-.invoice-header {
-    border-bottom: 1px solid var(--grid-line);
-    padding-bottom: 1.5rem;
-    margin-bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-.invoice-header h2 {
-    margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; letter-spacing: 0.08em; color: var(--text-white); text-transform: uppercase;
-}
-.invoice-meta-line {
-    font-size: 0.65rem; color: var(--text-muted); margin-top: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
-}
-.invoice-manifest-lines {
-    max-height: 180px;
-    overflow-y: auto;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--grid-line);
-    padding-bottom: 1.5rem;
-}
-.invoice-line-item {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    margin-bottom: 1rem;
-    letter-spacing: 0.05em;
-    font-weight: 300;
-}
-.invoice-accounting-ledger {
-    background: var(--bg-main);
-    padding: 1.75rem;
-    border: 1px solid var(--grid-line);
-    margin-bottom: 2.5rem;
-}
-.ledger-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    margin-bottom: 0.8rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-}
-.ledger-row.total-row {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--grid-line);
-    color: var(--text-white);
-    font-weight: 400;
-    font-size: 0.95rem;
-}
-.ledger-row.total-row span:last-child {
-    color: var(--lux-gold);
-    font-weight: 600;
-}
-.invoice-action-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-.invoice-btn {
-    width: 100%;
-    padding: 1.25rem;
-    font-family: 'Inter', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    font-size: 0.75rem;
-    cursor: pointer;
-    background: transparent;
-    transition: all 0.4s ease;
-    box-sizing: border-box;
-}
-.invoice-btn.authorize {
-    background: var(--text-white);
-    border: 1px solid var(--text-white);
-    color: #000000;
-    font-weight: 600;
-}
-.invoice-btn.authorize:hover {
-    background: transparent;
-    color: var(--text-white);
-}
-.invoice-btn.cancel {
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: var(--text-muted);
-}
-.invoice-btn.cancel:hover {
-    color: var(--text-white);
-    border-color: var(--text-white);
-}
+.invoice-header { border-bottom: 2px solid var(--lux-gold); padding-bottom: 2rem; margin-bottom: 2.5rem; }
+.invoice-header h2 { margin: 0; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; letter-spacing: 0.1em; color: var(--text-white); text-transform: uppercase; }
+.invoice-meta-line { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.8rem; letter-spacing: 0.25em; text-transform: uppercase; }
+.invoice-manifest-lines { max-height: 200px; overflow-y: auto; margin-bottom: 2.5rem; border-bottom: 1px solid var(--grid-line); padding-bottom: 2rem; }
+.invoice-line-item { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 1.25rem; letter-spacing: 0.05em; font-weight: 300; }
+.invoice-accounting-ledger { background: #000; padding: 2rem; border: 1px solid var(--grid-line); margin-bottom: 3rem; }
+.ledger-row { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.2em; }
+.ledger-row.total-row { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--grid-line); color: var(--text-white); font-weight: 400; font-size: 1.1rem; }
+.ledger-row.total-row span:last-child { color: var(--lux-gold); font-weight: 600; }
+.invoice-action-footer { display: flex; flex-direction: column; gap: 1.25rem; }
+.invoice-btn { width: 100%; padding: 1.4rem; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.35em; font-size: 0.75rem; cursor: pointer; background: transparent; transition: all 0.4s ease; box-sizing: border-box; }
+.invoice-btn.authorize { background: var(--text-white); border: 1px solid var(--text-white); color: #000; font-weight: 600; }
+.invoice-btn.authorize:hover { background: transparent; color: var(--text-white); }
+.invoice-btn.cancel { border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-muted); }
+.invoice-btn.cancel:hover { color: var(--text-white); border-color: var(--text-white); }
