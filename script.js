@@ -74,7 +74,7 @@ function initializeStorefrontCatalog() {
                 <img src="${product.image}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" 
                      onerror="this.src='https://placehold.co/600x800/120c1e/fcfbfe?text=TOXIQUE+STYLE'">
             </div>
-            <div style="padding-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; justify-content:间-between;">
+            <div style="padding-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; justify-content: space-between;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
                     <div>
                         <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400;">${product.title}</h3>
@@ -112,31 +112,31 @@ window.filterStorefrontCatalog = function(categoryToken) {
  */
 function evaluateCurrentPromotionalMarkdown() {
     const today = new Date();
-    const currentYear = today.getFullYear();
     const currentMonth = today.getMonth(); // 0 = Jan, 10 = Nov, 11 = Dec
     const currentDate = today.getDate();
 
     // Check Black Friday Markdown window (Nov 20 to Nov 30)
     if (currentMonth === 10 && currentDate >= 20 && currentDate <= 30) {
-        return { label: "BLACK FRIDAY CAMPAIGN (25% DEDUCTION)", discountFactor: 0.25 };
+        return { label: "BLACK FRIDAY CAMPAIGN // 25% DEDUCTION APPLIED LIVE ON SITE", discountFactor: 0.25 };
     }
     // Check Christmas Markdown window (Month of December)
     else if (currentMonth === 11) {
-        return { label: "CHRISTMAS WINTER ALLOCATION (50% DEDUCTION)", discountFactor: 0.50 };
+        return { label: "CHRISTMAS WINTER ALLOCATION // 50% DEDUCTION APPLIED LIVE ON SITE", discountFactor: 0.50 };
     }
     
-    return { label: null, discountFactor: 0.00 };
+    // FALLBACK STATE: Keeps the banner beautifully active on regular calendar dates
+    return { label: "TOXIQUE // HAUTE COUTURE LUXURY ONLINE CATALOG // EMBRACE THE RITUAL", discountFactor: 0.00 };
 }
 
-// Automatically reveal banner broadcasts if active
+// Automatically reveal banner broadcasts and inject active telemetry
 function checkActiveBroadcastTelemetry() {
     const banner = document.getElementById('dynamicPromoBanner');
     const textNode = document.getElementById('promoBannerText');
     if (!banner || !textNode) return;
 
     const promo = evaluateCurrentPromotionalMarkdown();
-    if (promo.discountFactor > 0) {
-        textNode.innerText = `${promo.label} IS CURRENTLY ACTIVE LIVE ON SITE // SYSTEM MARKS APPLIED DOWNSCALE`;
+    if (promo.label) {
+        textNode.innerText = promo.label;
         banner.style.display = 'block';
     }
 }
@@ -152,7 +152,7 @@ window.toggleCartDrawer = function() {
     drawer.classList.toggle('active');
     if (overlay) overlay.classList.toggle('active');
     
-    // Fallback if your CSS sheet doesn't handle classes perfectly:
+    // Fallback mechanics if CSS sheet positioning overrides are active
     if (drawer.style.right === '0px') {
         drawer.style.right = '-450px';
         if (overlay) overlay.style.display = 'none';
@@ -260,11 +260,9 @@ function compileAcquisitionInvoice() {
     const dateNode = document.getElementById('invoiceDateStamp');
     if (!modal || !manifest) return;
 
-    // Stamp current processing calendar date info 
     const now = new Date();
     if (dateNode) dateNode.innerText = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}/${now.getFullYear()}`;
 
-    // Populate lines item data inputs
     manifest.innerHTML = '';
     virtualShoppingBag.forEach(item => {
         const itemPrice = parseInt(item.price);
@@ -274,12 +272,10 @@ function compileAcquisitionInvoice() {
         manifest.appendChild(line);
     });
 
-    // Run numbers engine parameters
     const totals = calculateBagTotals();
     
     document.getElementById('invoiceSubtotal').innerText = `$${totals.unitSubtotal.toLocaleString()}`;
     
-    // Render dynamic deductions logic
     const promoRow = document.getElementById('invoiceDiscountRow');
     if (totals.promoDeduction > 0) {
         document.getElementById('invoiceDiscountAmount').innerText = `-$${totals.promoDeduction.toLocaleString()}`;
@@ -288,11 +284,9 @@ function compileAcquisitionInvoice() {
         promoRow.style.display = 'none';
     }
 
-    // Flat fee configuration
     document.getElementById('invoiceShipping').innerText = `$${totals.handlingFee.toLocaleString()}`;
     document.getElementById('invoiceGrandTotal').innerText = `$${totals.grandTotal.toLocaleString()}`;
 
-    // Reveal final rendering invoice layout overlay view
     modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; z-index:2000;';
 }
 
