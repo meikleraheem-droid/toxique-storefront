@@ -279,3 +279,18 @@ body {
 .invoice-btn.authorize:hover { background: transparent; color: var(--text-white); }
 .invoice-btn.cancel { border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-muted); }
 .invoice-btn.cancel:hover { color: var(--text-white); border-color: var(--text-white); }
+/* ==========================================================================
+   PATH 3: TOXIQUE BROADCAST BANNER STRUCTURAL ENGINE
+   ========================================================================== */
+.global-broadcast-banner {
+    width: 100%;
+    background-color: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.8rem 1rem;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}

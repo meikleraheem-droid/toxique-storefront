@@ -74,3 +74,46 @@ function initStorefront() {
 
 // Fire the compiler on structural DOM load
 document.addEventListener('DOMContentLoaded', initStorefront);
+// ==========================================
+// TOXIQUE BROADCAST BANNER CONFIGURATION ENGINE
+// ==========================================
+function initExecutiveBanner() {
+    const bannerContainer = document.getElementById('dynamicPromoBanner');
+    const bannerTextElement = document.getElementById('promoBannerText');
+    const bannerInput = document.getElementById('exec-banner-input');
+    
+    // Fetch banner layout option configuration or fall back to high-end default text
+    const activeText = localStorage.getItem('toxique_banner_text') || "WELCOME TO THE TOXIQUE COLLECTIVE RITUAL";
+    
+    // If layout finds the storefront banner slot, render text and show the block
+    if (bannerContainer && bannerTextElement) {
+        bannerTextElement.innerText = activeText.toUpperCase();
+        bannerContainer.style.display = "block";
+    }
+    
+    // If layout finds the admin input container, pre-populate field
+    if (bannerInput) {
+        bannerInput.value = activeText;
+    }
+}
+
+function publishExecutiveBanner() {
+    const newText = document.getElementById('exec-banner-input').value;
+    if (!newText) return;
+    
+    // Save string directly into localized web storage layer
+    localStorage.setItem('toxique_banner_text', newText.toUpperCase());
+    alert("Executive Broadcast Updated Successfully.");
+    
+    // Instant fallback check for multi-frame testing
+    const bannerContainer = document.getElementById('dynamicPromoBanner');
+    const bannerTextElement = document.getElementById('promoBannerText');
+    if (bannerContainer && bannerTextElement) {
+        bannerTextElement.innerText = newText.toUpperCase();
+        bannerContainer.style.display = "block";
+    }
+}
+
+// Add banner initializer into your existing DOMContentLoaded event hook if it exists, 
+// or let this standalone window listener trigger it cleanly:
+window.addEventListener('DOMContentLoaded', initExecutiveBanner);
