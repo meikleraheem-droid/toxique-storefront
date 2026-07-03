@@ -1,220 +1,333 @@
 /**
- * TOXIQUE // HOUSE OF X CORE STOREFRONT COMPILER
- * Renders raw catalog database arrays into premium editorial layout cards
+ * TOXIQUE // MAINLINE STOREFRONT CORE ENGINE
+ * Shared Local Cache Target: 'toxique_production_catalog'
  */
-function renderStorefrontCatalog(products) {
-    const catalogGrid = document.querySelector('.catalog-grid');
-    if (!catalogGrid) return;
 
-    // Clear placeholder content
-    catalogGrid.innerHTML = '';
+// Global App State
+let storefrontActiveFilter = 'all';
+let virtualShoppingBag = [];
 
-    if (products.length === 0) {
-        catalogGrid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 6rem 0; font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--text-muted); font-size: 1.4rem; letter-spacing: 0.1em;">
-                Division currently initializing. Sign up for allocation notifications.
-            </div>
-        `;
+// DOM Element Listeners Initialization
+document.addEventListener('DOMContentLoaded', () => {
+    initializeStorefrontCatalog();
+    checkActiveBroadcastTelemetry();
+    syncGlobalBagCount();
+});
+
+/**
+ * 1. DYNAMIC CATALOG PRODUCTION GRID PIPELINE
+ */
+function initializeStorefrontCatalog() {
+    const gridContainer = document.getElementById('storefrontGrid');
+    if (!gridContainer) return;
+
+    // Fetch live entries from your master admin desk catalog array
+    let productionCatalog = localStorage.getItem('toxique_production_catalog') 
+        ? JSON.parse(localStorage.getItem('toxique_production_catalog')) 
+        : [];
+
+    // Filter pipeline logic
+    if (storefrontActiveFilter !== 'all') {
+        productionCatalog = productionCatalog.filter(product => {
+            const productDiv = (product.division || '').toLowerCase().trim();
+            
+            // Map the storefront nav buttons cleanly onto the entry allocations
+            if (storefrontActiveFilter === 'garments') return productDiv === 'garments' || productDiv === 'collection one';
+            if (storefrontActiveFilter === 'cosmetics') return productDiv === 'cosmetics' || productDiv === 'beauty' || productDiv === 'beauty labs';
+            if (storefrontActiveFilter === 'fragrance') return productDiv === 'fragrance' || productDiv === 'perfume';
+            if (storefrontActiveFilter === 'xxx') return productDiv === 'xxx' || productDiv === 'restricted xxx';
+            return false;
+        });
+    }
+
+    gridContainer.innerHTML = '';
+
+    if (productionCatalog.length === 0) {
+        gridContainer.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 5rem 0; color: #645a72; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;">
+                NO ASSETS FOUND IN THIS DEDICATED SHOWROOM CATEGORY.
+            </div>`;
         return;
     }
 
-    // Loop through assets and compile custom HTML nodes
-    products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = 'product-card';
+    // Loop & build luxury layout presentation templates
+    productionCatalog.forEach(product => {
+        const basePrice = parseInt(product.price);
+        const activePromo = evaluateCurrentPromotionalMarkdown();
+        
+        let displayPrice = basePrice;
+        let originalPriceHtml = '';
 
-        // Enforce clean whole integers without currency symbol duplicates
-        // Price displays natively as a raw premium figure (e.g., $18500)
-        const formattedPrice = `$${product.price}`;
+        // Wire up automated markdown modifications dynamically onto the card if active
+        if (activePromo.discountFactor > 0) {
+            displayPrice = Math.floor(basePrice * (1 - activePromo.discountFactor));
+            originalPriceHtml = `<span style="text-decoration: line-through; color: #645a72; margin-right: 0.75rem; font-size: 0.85rem;">$${basePrice.toLocaleString()}</span>`;
+        }
 
-        productCard.innerHTML = `
-            <div class="card-image-box">
-                <span class="card-category-label">${product.division || 'COLLECTION ONE'}</span>
-                <img src="${product.image}" alt="${product.title}" loading="lazy" />
+        const formattedPrice = displayPrice.toLocaleString();
+        const cardFrame = document.createElement('div');
+        cardFrame.className = 'product-card';
+        cardFrame.style.cssText = 'background: var(--bg-card, #0b0712); border: 1px solid rgba(195,164,99,0.15); padding: 1.25rem; position: relative; transition: all 0.4s ease; display: flex; flex-direction: column; justify-content: space-between;';
+
+        cardFrame.innerHTML = `
+            <div style="width: 100%; height: 400px; overflow: hidden; background: #000; position: relative;">
+                <img src="${product.image}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" 
+                     onerror="this.src='https://placehold.co/600x800/120c1e/fcfbfe?text=TOXIQUE+STYLE'">
             </div>
-            <div class="card-details">
-                <span class="card-brand-tag">${product.category}</span>
-                <h3 class="card-title">${product.title.toUpperCase()}</h3>
-                <span class="card-price">${formattedPrice}</span>
-                <button class="add-to-bag-btn" onclick="handleAddToBag(${product.id})">
-                    Add To Bag
+            <div style="padding-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; justify-content:间-between;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+                    <div>
+                        <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400;">${product.title}</h3>
+                        <span style="font-size: 0.65rem; color: #645a72; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-top: 0.25rem;">${product.division || 'COLLECTION ONE'}</span>
+                    </div>
+                    <div style="font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; color: #c3a463; white-space: nowrap;">
+                        ${originalPriceHtml}$${formattedPrice}
+                    </div>
+                </div>
+                <button onclick="injectItemToBag(${product.id})" style="background: transparent; border: 1px solid rgba(195,164,99,0.3); color: #fcfbfe; padding: 0.75rem; width: 100%; font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; margin-top: 1rem; transition: background 0.3s;"
+                        onmouseover="this.style.background='rgba(195,164,99,0.1)'" onmouseout="this.style.background='transparent'">
+                    ADD TO SELECTIONS
                 </button>
             </div>
         `;
-        catalogGrid.appendChild(productCard);
+        gridContainer.appendChild(cardFrame);
     });
 }
 
+// Nav filter action trigger handling
+window.filterStorefrontCatalog = function(categoryToken) {
+    storefrontActiveFilter = categoryToken;
+    document.querySelectorAll('.nav-filter').forEach(btn => {
+        if (btn.innerText.toLowerCase().includes(categoryToken) || (categoryToken === 'all' && btn.innerText.includes('ALL'))) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    initializeStorefrontCatalog();
+};
+
 /**
- * MASTER DATA INITIALIZATION
- * Pulls local storage cache or falls back to standard framework catalog
+ * 2. AUTOMATED PROMOTIONAL CALCULATOR ENGINE
  */
-function initStorefront() {
-    let localCatalog = localStorage.getItem('toxique_production_catalog');
+function evaluateCurrentPromotionalMarkdown() {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth(); // 0 = Jan, 10 = Nov, 11 = Dec
+    const currentDate = today.getDate();
+
+    // Check Black Friday Markdown window (Nov 20 to Nov 30)
+    if (currentMonth === 10 && currentDate >= 20 && currentDate <= 30) {
+        return { label: "BLACK FRIDAY CAMPAIGN (25% DEDUCTION)", discountFactor: 0.25 };
+    }
+    // Check Christmas Markdown window (Month of December)
+    else if (currentMonth === 11) {
+        return { label: "CHRISTMAS WINTER ALLOCATION (50% DEDUCTION)", discountFactor: 0.50 };
+    }
     
-    if (localCatalog) {
-        const parsedProducts = JSON.parse(localCatalog);
-        renderStorefrontCatalog(parsedProducts);
-        initializeCategoryFilters(parsedProducts);
+    return { label: null, discountFactor: 0.00 };
+}
+
+// Automatically reveal banner broadcasts if active
+function checkActiveBroadcastTelemetry() {
+    const banner = document.getElementById('dynamicPromoBanner');
+    const textNode = document.getElementById('promoBannerText');
+    if (!banner || !textNode) return;
+
+    const promo = evaluateCurrentPromotionalMarkdown();
+    if (promo.discountFactor > 0) {
+        textNode.innerText = `${promo.label} IS CURRENTLY ACTIVE LIVE ON SITE // SYSTEM MARKS APPLIED DOWNSCALE`;
+        banner.style.display = 'block';
+    }
+}
+
+/**
+ * 3. SHOPPING BAG / DRAWER TRANSLATION MANAGEMENT
+ */
+window.toggleCartDrawer = function() {
+    const drawer = document.getElementById('cartDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    if (!drawer) return;
+    
+    drawer.classList.toggle('active');
+    if (overlay) overlay.classList.toggle('active');
+    
+    // Fallback if your CSS sheet doesn't handle classes perfectly:
+    if (drawer.style.right === '0px') {
+        drawer.style.right = '-450px';
+        if (overlay) overlay.style.display = 'none';
     } else {
-        // Fallback to fetch raw local file if storage isn't initialized yet
-        fetch('./catalog.json')
-            .then(res => res.json())
-            .then(data => {
-                localStorage.setItem('toxique_production_catalog', JSON.stringify(data));
-                renderStorefrontCatalog(data);
-                initializeCategoryFilters(data);
-            })
-            .catch(err => {
-                console.warn("Storage empty. Use /admin.html to compile your initial drop manifest.");
-                renderStorefrontCatalog([]);
-            });
-    }
-}
-
-// Fire the compiler on structural DOM load
-document.addEventListener('DOMContentLoaded', initStorefront);
-// ==========================================
-// TOXIQUE BROADCAST BANNER CONFIGURATION ENGINE
-// ==========================================
-function initExecutiveBanner() {
-    const bannerContainer = document.getElementById('dynamicPromoBanner');
-    const bannerTextElement = document.getElementById('promoBannerText');
-    const bannerInput = document.getElementById('exec-banner-input');
-    
-    // Fetch banner layout option configuration or fall back to high-end default text
-    const activeText = localStorage.getItem('toxique_banner_text') || "WELCOME TO THE TOXIQUE COLLECTIVE RITUAL";
-    
-    // If layout finds the storefront banner slot, render text and show the block
-    if (bannerContainer && bannerTextElement) {
-        bannerTextElement.innerText = activeText.toUpperCase();
-        bannerContainer.style.display = "block";
+        drawer.style.right = '0px';
+        if (overlay) overlay.style.display = 'block';
     }
     
-    // If layout finds the admin input container, pre-populate field
-    if (bannerInput) {
-        bannerInput.value = activeText;
-    }
-}
+    renderVirtualBagItems();
+};
 
-function publishExecutiveBanner() {
-    const newText = document.getElementById('exec-banner-input').value;
-    if (!newText) return;
+window.injectItemToBag = function(productId) {
+    let productionCatalog = JSON.parse(localStorage.getItem('toxique_production_catalog')) || [];
+    const targetProduct = productionCatalog.find(p => p.id === productId);
     
-    // Save string directly into localized web storage layer
-    localStorage.setItem('toxique_banner_text', newText.toUpperCase());
-    alert("Executive Broadcast Updated Successfully.");
+    if (targetProduct) {
+        virtualShoppingBag.push(targetProduct);
+        syncGlobalBagCount();
+        alert(`SELECTION REGISTERED: Added "${targetProduct.title}" to bag.`);
+    }
+};
+
+function syncGlobalBagCount() {
+    const countNode = document.getElementById('cartCountGlobal');
+    if (countNode) countNode.innerText = virtualShoppingBag.length;
+}
+
+function calculateBagTotals() {
+    let unitSubtotal = 0;
+    let promoDeduction = 0;
+    const promo = evaluateCurrentPromotionalMarkdown();
+
+    virtualShoppingBag.forEach(item => {
+        const priceInt = parseInt(item.price);
+        unitSubtotal += priceInt;
+        if (promo.discountFactor > 0) {
+            promoDeduction += Math.floor(priceInt * promo.discountFactor);
+        }
+    });
+
+    const handlingFee = virtualShoppingBag.length > 0 ? 650 : 0;
+    const grandTotal = (unitSubtotal - promoDeduction) + handlingFee;
+
+    return { unitSubtotal, promoDeduction, handlingFee, grandTotal };
+}
+
+function renderVirtualBagItems() {
+    const container = document.getElementById('drawerCartItems');
+    const subtotalNode = document.getElementById('drawerSubtotalAmount');
+    if (!container) return;
+
+    container.innerHTML = '';
     
-    // Instant fallback check for multi-frame testing
-    const bannerContainer = document.getElementById('dynamicPromoBanner');
-    const bannerTextElement = document.getElementById('promoBannerText');
-    if (bannerContainer && bannerTextElement) {
-        bannerTextElement.innerText = newText.toUpperCase();
-        bannerContainer.style.display = "block";
-    }
-}
-
-// Add banner initializer into your existing DOMContentLoaded event hook if it exists, 
-// or let this standalone window listener trigger it cleanly:
-window.addEventListener('DOMContentLoaded', initExecutiveBanner);
-// PATH 5 INTEGRATION: ROBUST LUXURY PALETTE SWITCH ENGINE
-function updateLuxuryPalette(mode) {
-    if(mode === 'alabaster') {
-        document.body.classList.add('alabaster-theme');
-        // Explicitly force Alabaster text and panel properties down the DOM chain
-        document.documentElement.style.setProperty('--bg-base', '#f7f5fa');
-        document.documentElement.style.setProperty('--bg-panel', '#ffffff');
-        document.documentElement.style.setProperty('--bg-card', '#f0ecf5');
-        document.documentElement.style.setProperty('--border-line', 'rgba(17, 17, 17, 0.15)');
-        document.documentElement.style.setProperty('--text-main', '#111111');
-        alert("THEME PARADIGM SHIFT: Alabaster Luxury Interface configuration active.");
-    } else {
-        document.body.classList.remove('alabaster-theme');
-        // Hard-reset everything back to your signature TOXIQUE Dark Cyberpunk Aesthetic
-        document.documentElement.style.setProperty('--bg-base', '#040206');
-        document.documentElement.style.setProperty('--bg-panel', '#0b0712');
-        document.documentElement.style.setProperty('--bg-card', '#120c1e');
-        document.documentElement.style.setProperty('--border-line', 'rgba(195, 164, 99, 0.15)');
-        document.documentElement.style.setProperty('--text-main', '#fcfbfe');
-        alert("THEME PARADIGM SHIFT: Deep Onyx Core Matrix configuration active.");
-    }
-}
-
-    }
-}
-
-// --- OPTION C: LIVE INTERFACE ROUTING ENGINE ---
-function toggleAssistancePanel() {
-    const panel = document.getElementById('assistancePanel');
-    const btn = document.getElementById('widgetToggleBtn');
-    if (panel.style.display === 'none' || !panel.style.display) {
-        panel.style.display = 'block';
-        btn.innerText = 'CLOSE';
-    } else {
-        panel.style.display = 'none';
-        btn.innerText = 'ASSISTANCE';
-    }
-}
-
-function getStoredMessages() {
-    return JSON.parse(localStorage.getItem('toxique_desk_logs')) || [];
-}
-
-function initCommsDesk() {
-    const logContainer = document.getElementById('adminMessageLog');
-    if (!logContainer) return; // Only process if rendered inside administrative container
-    
-    const logs = getStoredMessages();
-    if (logs.length === 0) {
-        logContainer.innerHTML = `<div style="color: #999; font-style: italic;">Awaiting incoming secure customer inquiries...</div>`;
+    if (virtualShoppingBag.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding: 4rem 1rem; color: #645a72; font-size: 0.75rem; letter-spacing: 0.1em;">SELECTIONS RECORD CONTAINER VACANT.</div>`;
+        if (subtotalNode) subtotalNode.innerText = "$0";
         return;
     }
-    
-    logContainer.innerHTML = logs.map(log => `
-        <div style="margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid #f0f0f0;">
-            <span style="color: #888; font-size: 0.7rem;">[${log.timestamp}]</span> 
-            <strong style="color: #111;">INQUIRY:</strong> ${log.text}
-        </div>
-    `).join('');
-    logContainer.scrollTop = logContainer.scrollHeight;
+
+    virtualShoppingBag.forEach((item, index) => {
+        const itemRow = document.createElement('div');
+        itemRow.style.cssText = 'display: flex; gap: 1rem; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1rem 0;';
+        
+        const itemPrice = parseInt(item.price);
+        const promo = evaluateCurrentPromotionalMarkdown();
+        const outputPrice = promo.discountFactor > 0 ? Math.floor(itemPrice * (1 - promo.discountFactor)) : itemPrice;
+
+        itemRow.innerHTML = `
+            <img src="${item.image}" style="width: 50px; height: 65px; object-fit: cover; border: 1px solid rgba(195,164,99,0.15);" onerror="this.src='https://placehold.co/40x50'">
+            <div style="flex-grow: 1;">
+                <h4 style="margin:0; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase;">${item.title}</h4>
+                <span style="font-size:0.7rem; color:#c3a463;">$${outputPrice.toLocaleString()}</span>
+            </div>
+            <button onclick="removeBagItemIndex(${index})" style="background:transparent; border:none; color:#ff4d4d; font-size:0.65rem; letter-spacing:0.1em; cursor:pointer; text-transform:uppercase;">REMOVE</button>
+        `;
+        container.appendChild(itemRow);
+    });
+
+    const totals = calculateBagTotals();
+    if (subtotalNode) subtotalNode.innerText = `$${totals.grandTotal.toLocaleString()}`;
 }
 
-function transmitToDesk(messageText) {
-    const logs = getStoredMessages();
-    const timestamp = new Date().toLocaleTimeString();
-    
-    logs.push({ text: messageText, timestamp: timestamp });
-    localStorage.setItem('toxique_desk_logs', JSON.stringify(logs));
-    
-    // Refresh view instantly if administrative console runs alongside local storage loop
-    initCommsDesk();
-}
+window.removeBagItemIndex = function(index) {
+    virtualShoppingBag.splice(index, 1);
+    syncGlobalBagCount();
+    renderVirtualBagItems();
+};
 
-function sendQuickInquiry(trackName) {
-    transmitToDesk(`[TRACK INITIATED] Customer clicked option: ${trackName}`);
-    alert("Inquiry successfully routed to Executive Desk.");
-    toggleAssistancePanel();
-}
-
-function sendCustomInquiry() {
-    const input = document.getElementById('customClientMessage');
-    if (!input || !input.value.trim()) return;
-    
-    transmitToDesk(input.value.trim());
-    input.value = '';
-    alert("Message transmitted securely to Executive Desk.");
-    toggleAssistancePanel();
-}
-
-function clearCommsLog() {
-    if(confirm("Confirm total wipe of all historical desk communication records?")) {
-        localStorage.removeItem('toxique_desk_logs');
-        initCommsDesk();
-    }
-}
-
-// Tie everything safely into the existing global router lifecycle hook
-window.addEventListener('DOMContentLoaded', () => {
-    initLuxuryPalette();
-    initCommsDesk();
+/**
+ * 4. INVOICE OVERLAY MATRIX UTILITIES
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const checkBtn = document.getElementById('checkoutBtn');
+    if (checkBtn) checkBtn.addEventListener('click', compileAcquisitionInvoice);
 });
+
+function compileAcquisitionInvoice() {
+    if (virtualShoppingBag.length === 0) {
+        alert("Operation rejected. Shopping bag contents missing asset items.");
+        return;
+    }
+
+    const modal = document.getElementById('invoiceModalOverlay');
+    const manifest = document.getElementById('invoiceManifestItems');
+    const dateNode = document.getElementById('invoiceDateStamp');
+    if (!modal || !manifest) return;
+
+    // Stamp current processing calendar date info 
+    const now = new Date();
+    if (dateNode) dateNode.innerText = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')}/${now.getFullYear()}`;
+
+    // Populate lines item data inputs
+    manifest.innerHTML = '';
+    virtualShoppingBag.forEach(item => {
+        const itemPrice = parseInt(item.price);
+        const line = document.createElement('div');
+        line.style.cssText = 'display:flex; justify-content:space-between; padding:0.5rem 0; font-size:0.8rem; border-bottom:1px dashed rgba(0,0,0,0.05); color:#111;';
+        line.innerHTML = `<span>• ${item.title.toUpperCase()} [${item.division || 'STORE'}]</span> <span>$${itemPrice.toLocaleString()}</span>`;
+        manifest.appendChild(line);
+    });
+
+    // Run numbers engine parameters
+    const totals = calculateBagTotals();
+    
+    document.getElementById('invoiceSubtotal').innerText = `$${totals.unitSubtotal.toLocaleString()}`;
+    
+    // Render dynamic deductions logic
+    const promoRow = document.getElementById('invoiceDiscountRow');
+    if (totals.promoDeduction > 0) {
+        document.getElementById('invoiceDiscountAmount').innerText = `-$${totals.promoDeduction.toLocaleString()}`;
+        promoRow.style.display = 'flex';
+    } else {
+        promoRow.style.display = 'none';
+    }
+
+    // Flat fee configuration
+    document.getElementById('invoiceShipping').innerText = `$${totals.handlingFee.toLocaleString()}`;
+    document.getElementById('invoiceGrandTotal').innerText = `$${totals.grandTotal.toLocaleString()}`;
+
+    // Reveal final rendering invoice layout overlay view
+    modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; align-items:center; justify-content:center; z-index:2000;';
+}
+
+window.closeInvoiceStage = function() {
+    const modal = document.getElementById('invoiceModalOverlay');
+    if (modal) modal.style.display = 'none';
+};
+
+window.executeFinalTransaction = function() {
+    alert("TRANSACTION COMPLETED // Acquisition records successfully cataloged. Inventory allocation finalized.");
+    virtualShoppingBag = [];
+    syncGlobalBagCount();
+    closeInvoiceStage();
+    toggleCartDrawer();
+};
+
+/**
+ * 5. TOXIQUE CUSTOMER ASSISTANCE MODAL ROUTERS
+ */
+window.toggleAssistancePanel = function() {
+    const panel = document.getElementById('assistancePanel');
+    if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+};
+
+window.sendQuickInquiry = function(trackType) {
+    alert(`TRANSMISSION INITIALIZED:\nRouting quick request tracking token for [${trackType.toUpperCase()}] straight into master operations terminal framework.`);
+    toggleAssistancePanel();
+};
+
+window.sendCustomInquiry = function() {
+    const field = document.getElementById('customClientMessage');
+    const text = field ? field.value.trim() : '';
+    if (!text) return;
+
+    alert(`DIRECT TRANSMISSION FIRED:\n"${text}" sent to dashboard master console queue updates.`);
+    if (field) field.value = '';
+    toggleAssistancePanel();
+};
