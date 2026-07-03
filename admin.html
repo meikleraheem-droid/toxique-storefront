@@ -21,12 +21,24 @@
             --text-red: #ff4d4d;
         }
 
+        /* Light Mode Alabaster Overrides */
+        body.alabaster-theme {
+            --bg-base: #f7f5fa;
+            --bg-panel: #ffffff;
+            --bg-card: #f0ecf5;
+            --border-line: rgba(17, 17, 17, 0.15);
+            --border-glow: rgba(129, 70, 226, 0.2);
+            --text-main: #111111;
+            --text-dark: #666666;
+        }
+
         body {
             margin: 0; padding: 0;
             background-color: var(--bg-base);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             display: flex; height: 100vh; overflow: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* SIDEBAR INTERFACE ARCHITECTURE */
@@ -35,6 +47,7 @@
             border-right: 1px solid var(--border-line);
             display: flex; flex-direction: column; padding: 3rem 1.75rem; box-sizing: border-box;
             position: relative;
+            transition: background 0.4s ease, border-color 0.4s ease;
         }
         .sidebar::after {
             content: ''; position: absolute; right: 0; top: 0; height: 100%; width: 2px;
@@ -77,41 +90,41 @@
 
         /* HUD STATS GRID */
         .analytics-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3.5rem; }
-        .metric-block { background: linear-gradient(135deg, var(--bg-panel), var(--bg-card)); border: 1px solid var(--border-line); padding: 1.75rem 2rem; position: relative; }
+        .metric-block { background: linear-gradient(135deg, var(--bg-panel), var(--bg-card)); border: 1px solid var(--border-line); padding: 1.75rem 2rem; position: relative; transition: background 0.4s ease, border-color 0.4s ease; }
         .metric-block::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(to right, var(--lux-gold), transparent); }
         .metric-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-dark); margin-bottom: 0.75rem; }
         .metric-value { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 400; color: var(--lux-gold); }
 
         .control-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; margin-bottom: 2.5rem; }
-        .data-card { background: var(--bg-panel); border: 1px solid var(--border-line); padding: 2.5rem; position: relative; margin-bottom: 2.5rem; }
+        .data-card { background: var(--bg-panel); border: 1px solid var(--border-line); padding: 2.5rem; position: relative; margin-bottom: 2.5rem; transition: background 0.4s ease, border-color 0.4s ease; }
         .data-card h4 { margin: 0 0 1.5rem 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--lux-gold); }
 
         /* LIVE STYLES LEDGER TABLE UTILITY */
         .table-container { width: 100%; overflow-x: auto; margin-top: 1rem; }
         .ledger-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.8rem; }
         .ledger-table th { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem; color: var(--text-dark); padding: 1rem; border-bottom: 1px solid var(--border-line); }
-        .ledger-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
+        .ledger-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; color: var(--text-main); }
         .thumb-preview { width: 40px; height: 50px; object-fit: cover; border: 1px solid var(--border-line); }
         
-        .inline-action-btn { background: transparent; border: 1px solid var(--border-line); color: var(--text-main); padding: 0.4rem 0.8rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; margin-right: 0.5rem; }
+        .inline-action-btn { background: transparent; border: 1px solid var(--border-line); color: var(--text-main); padding: 0.4rem 0.8rem; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; margin-right: 0.5rem; transition: background 0.3s, color 0.3s; }
         .inline-action-btn.edit-trigger { border-color: var(--lux-gold); color: var(--lux-gold); }
         .inline-action-btn.delete-trigger { border-color: var(--text-red); color: var(--text-red); }
-        .inline-action-btn:hover { background: white; color: black !important; }
+        .inline-action-btn:hover { background: var(--text-main); color: var(--bg-base) !important; }
 
         /* LIVE SYSTEM INTERCOM PANEL */
-        .chat-sidebar { width: 380px; background: var(--bg-panel); border-left: 1px solid var(--border-line); display: flex; flex-direction: column; box-sizing: border-box; }
+        .chat-sidebar { width: 380px; background: var(--bg-panel); border-left: 1px solid var(--border-line); display: flex; flex-direction: column; box-sizing: border-box; transition: background 0.4s ease, border-color 0.4s ease; }
         .chat-header { padding: 3rem 2.5rem 2rem 2.5rem; border-bottom: 1px solid var(--border-line); }
         .chat-header h3 { margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; letter-spacing: 0.25em; text-transform: uppercase; }
         .chat-header span { font-size: 0.6rem; color: var(--text-dark); letter-spacing: 0.15em; display: block; margin-top: 0.5rem; text-transform: uppercase; }
         .chat-header span strong { color: var(--text-green); }
         .chat-messages { flex: 1; padding: 2.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
-        .msg-bubble { background: var(--bg-card); border-left: 3px solid var(--neon-purple); padding: 1.25rem; }
+        .msg-bubble { background: var(--bg-card); border-left: 3px solid var(--neon-purple); padding: 1.25rem; transition: background 0.4s ease; }
         .msg-bubble.from-user { border-left-color: var(--lux-gold); background: rgba(195,164,99,0.02); }
         .msg-meta { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dark); margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
         .msg-text { font-size: 0.8rem; line-height: 1.5; color: var(--text-main); }
 
         .chat-input-row { padding: 2.5rem; border-top: 1px solid var(--border-line); }
-        .chat-input-wrapper { display: flex; border: 1px solid var(--border-line); background: var(--bg-base); padding: 0.25rem; }
+        .chat-input-wrapper { display: flex; border: 1px solid var(--border-line); background: var(--bg-base); padding: 0.25rem; transition: background 0.4s ease; }
         .chat-field { flex: 1; background: transparent; border: none; padding: 1rem; color: var(--text-main); font-size: 0.8rem; }
         .chat-field:focus { outline: none; }
         .chat-send-btn { background: var(--lux-gold); border: none; color: #000; padding: 0 1.75rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; }
@@ -119,13 +132,21 @@
         /* CONTROLS FORMATTING */
         .input-block { margin-bottom: 1.5rem; }
         .input-block label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-dark); margin-bottom: 0.6rem; font-weight: 500; }
-        .input-block input, .input-block select, .input-block textarea { width: 100%; padding: 1rem; background: var(--bg-base); border: 1px solid var(--border-line); color: white; box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 0.8rem; }
-        .input-block input:focus { border-color: var(--lux-gold); outline: none; }
+        .input-block input, .input-block select, .input-block textarea { width: 100%; padding: 1rem; background: var(--bg-base); border: 1px solid var(--border-line); color: var(--text-main); box-sizing: border-box; font-family: 'Inter', sans-serif; font-size: 0.8rem; transition: background 0.4s, border-color 0.4s, color 0.4s; }
+        .input-block input:focus, .input-block textarea:focus { border-color: var(--lux-gold); outline: none; }
         
-        .action-btn { background: transparent; border: 1px solid var(--lux-gold); color: white; width: 100%; padding: 1.25rem; cursor: pointer; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.7rem; transition: all 0.4s ease; }
+        .action-btn { background: transparent; border: 1px solid var(--lux-gold); color: var(--text-main); width: 100%; padding: 1.25rem; cursor: pointer; font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.25em; font-size: 0.7rem; transition: all 0.4s ease; }
         .action-btn:hover { background: var(--lux-gold); color: #000; box-shadow: 0 0 20px rgba(195, 164, 99, 0.2); }
         .spawn-btn { border-color: var(--neon-purple); }
         .spawn-btn:hover { background: var(--neon-purple); color: white; }
+
+        /* INTEGRATED PATH MODULES */
+        .integrated-panel-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; margin-bottom: 2.5rem; }
+        .theme-engine-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
+        .theme-btn { flex: 1; padding: 0.8rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold; font-family: 'Space Grotesk', sans-serif; border: 1px solid var(--text-main); transition: background 0.3s, color 0.3s; }
+        .theme-btn.onyx { background: #111; color: #fff; }
+        .theme-btn.alabaster { background: #fff; color: #111; }
+        .theme-btn:hover { opacity: 0.85; }
     </style>
 </head>
 <body>
@@ -157,9 +178,32 @@
                 <div class="metric-block"><div class="metric-title">Active Divisions</div><div class="metric-value" id="count-depts">4</div></div>
             </div>
 
+            <!-- PATH 3 & 5: BROADCAST & THEME PANELS SYSTEM COHESION -->
+            <div class="integrated-panel-row">
+                <!-- BROADCAST CONTROL BLOCK -->
+                <div class="data-card" style="margin-bottom: 0;">
+                    <h4>📢 Storefront Broadcast Banner</h4>
+                    <div class="input-block" style="margin-top: 1rem;">
+                        <label>Active Message Text</label>
+                        <input type="text" id="exec-banner-input" placeholder="e.g., BLACK FRIDAY SPECIALS RUNNING NOVEMBER 20 TO NOVEMBER 30">
+                    </div>
+                    <button onclick="publishExecutiveBanner()" class="action-btn" style="margin-top: 0.5rem;">Publish Live Broadcast</button>
+                </div>
+
+                <!-- PALETTE ENGINE ENGINE BLOCK -->
+                <div class="data-card" style="margin-bottom: 0;">
+                    <h4>🔮 Luxury Palette Engine</h4>
+                    <p style="font-size: 0.75rem; color: var(--text-dark); margin-bottom: 1.5rem;">Mutate mainframe visual profiles interface cache arrays seamlessly.</p>
+                    <div class="theme-engine-buttons">
+                        <button onclick="updateLuxuryPalette('onyx')" class="theme-btn onyx">Onyx Mode</button>
+                        <button onclick="updateLuxuryPalette('alabaster')" class="theme-btn alabaster">Alabaster Mode</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="control-grid">
                 <!-- DYNAMIC ASSET COMPILER & MODIFIER FORM -->
-                <div class="data-card" id="compilerFormBlock">
+                <div class="data-card" id="compilerFormBlock" style="margin-bottom: 0;">
                     <h4 id="compilerFormTitle">📦 Compile Asset Array (New Style Entry)</h4>
                     <input type="hidden" id="edit-prod-id" value="">
                     
@@ -184,7 +228,7 @@
                 </div>
 
                 <!-- SPAWN OPERATIONAL DIVISION PANEL -->
-                <div class="data-card" style="border-color: rgba(129, 70, 226, 0.45);">
+                <div class="data-card" style="border-color: rgba(129, 70, 226, 0.45); margin-bottom: 0;">
                     <h4>🧬 Spawn Operational Department Workspace</h4>
                     <div class="input-block">
                         <label>Department Workspace Name</label>
@@ -192,7 +236,7 @@
                     </div>
                     <div class="input-block">
                         <label>Workspace Functional Objectives</label>
-                        <textarea id="new-dept-purpose" rows="2" placeholder="Describe focus parameters..."></textarea>
+                        <textarea id="new-dept-purpose" rows="4" placeholder="Describe focus parameters..."></textarea>
                     </div>
                     <button class="action-btn spawn-btn" onclick="executeDepartmentSpawning()">Generate Workspace Instance</button>
                 </div>
@@ -201,7 +245,7 @@
             <!-- LIVE INTERACTIVE STYLES LEDGER REAL-TIME HUB -->
             <div class="data-card" style="grid-column: 1 / -1;">
                 <h4>🏛️ Master Showroom Inventory Ledger</h4>
-                <p style="margin-bottom: 1.5rem;">Modify labels or expunge active production values straight from the customer storefront array cache.</p>
+                <p style="margin-bottom: 1.5rem; color: var(--text-dark);">Modify labels or expunge active production values straight from the customer storefront array cache.</p>
                 <div class="table-container">
                     <table class="ledger-table">
                         <thead>
@@ -310,7 +354,7 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td><img src="${product.image}" class="thumb-preview" onerror="this.src='https://placehold.co/40x50/120c1e/fcfbfe?text=Style'"></td>
-                    <td style="font-weight:500; letter-spacing:0.05em; color:var(--text-main);">${product.title.toUpperCase()}</td>
+                    <td style="font-weight:500; letter-spacing:0.05em;">${product.title.toUpperCase()}</td>
                     <td style="color:var(--lux-gold); font-weight:600;">$${product.price}</td>
                     <td style="font-size:0.7rem; color:var(--text-dark);">${product.division || 'COLLECTION ONE'}</td>
                     <td>
@@ -400,6 +444,7 @@
             renderMasterLedgerTable();
         }
 
+        // RESET FORM LOOP UTILITY
         function resetFormToDefault() {
             document.getElementById('edit-prod-id').value = '';
             document.getElementById('prod-title').value = '';
@@ -451,65 +496,29 @@
             box.appendChild(bubble); field.value = ""; box.scrollTop = box.scrollHeight;
         }
         document.getElementById('chatInputField').addEventListener('keydown', function(e) { if (e.key === 'Enter') dispatchMessage(); });
+
+        // PATH 3 INTEGRATION: LIVE BROADCAST BANNER CONTROLLER
+        function publishExecutiveBanner() {
+            const bannerInput = document.getElementById('exec-banner-input');
+            const message = bannerInput.value.trim();
+            if(!message) {
+                alert("Transmission halted. Broadcast text node is completely empty.");
+                return;
+            }
+            alert(`STOREFRONT TELEMETRY INJECTED: Broadcast string updated to:\n"${message.toUpperCase()}"`);
+            bannerInput.value = '';
+        }
+
+        // PATH 5 INTEGRATION: LUXURY PALETTE SWITCH ENGINE
+        function updateLuxuryPalette(mode) {
+            if(mode === 'alabaster') {
+                document.body.classList.add('alabaster-theme');
+                alert("THEME PARADIGM SHIFT: Alabaster Luxury Interface configuration active.");
+            } else {
+                document.body.classList.remove('alabaster-theme');
+                alert("THEME PARADIGM SHIFT: Deep Onyx Core Matrix configuration active.");
+            }
+        }
     </script>
 </body>
 </html>
-<!-- PATH 3: EXECUTIVE LIVE BANNER VARIABLE FIELD -->
-<section class="exec-banner-control" style="margin: 2rem 0; padding: 2rem; border: 1px solid #111; background: #fafafa;">
-    <h2 style="margin-top: 0; text-transform: uppercase; letter-spacing: 0.15em; font-size: 1rem; font-family: inherit;">Storefront Broadcast Banner</h2>
-    <div style="margin-top: 1.5rem;">
-        <label style="display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; font-weight: bold; font-family: inherit;">Active Message Text</label>
-        <input type="text" id="exec-banner-input" style="width: 100%; padding: 0.8rem; border: 1px solid #111; box-sizing: border-box; font-family: inherit; font-size: 0.85rem;" placeholder="e.g., BLACK FRIDAY SPECIALS RUNNING NOVEMBER 20 TO NOVEMBER 30">
-        <button onclick="publishExecutiveBanner()" style="background: #111; color: #fff; border: none; padding: 1rem 2rem; margin-top: 1rem; cursor: pointer; letter-spacing: 0.15em; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; width: 100%; font-family: inherit;">Publish Live Broadcast</button>
-    </div>
-</section>
-<!-- ==========================================================================
-     PATH 5: EXECUTIVE THEME ENGINE CONTROL (OPTION A)
-     ========================================================================== -->
-<section class="exec-theme-control" style="margin: 2rem 0; padding: 2rem; border: 1px solid #111; background: #fafafa;">
-    <h2 style="margin-top: 0; text-transform: uppercase; letter-spacing: 0.15em; font-size: 1rem; font-family: inherit;">Luxury Palette Engine</h2>
-    <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
-        <button onclick="updateLuxuryPalette('onyx')" style="flex: 1; background: #111; color: #fff; border: 1px solid #111; padding: 0.8rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold;">Onyx Mode</button>
-        <button onclick="updateLuxuryPalette('alabaster')" style="flex: 1; background: #fff; color: #111; border: 1px solid #111; padding: 0.8rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold;">Alabaster Mode</button>
-    </div>
-</section>
-
-<!-- ==========================================================================
-     PATH 7: EXECUTIVE CONTROL WORKSPACE GRID
-     ========================================================================== -->
-<div class="executive-control-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; padding: 2rem; max-width: 1200px; margin: 0 auto; box-sizing: border-box; background: #ffffff; color: #111111;">
-    
-    <!-- CARD 1: BROADCAST CONTROL -->
-    <div class="control-card" style="border: 1px solid #111; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; background: #ffffff;">
-        <div>
-            <h2 style="margin: 0 0 1.5rem 0; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.9rem; color: #111111; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Broadcast Banner</h2>
-            <label style="display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: #666; font-weight: bold;">Active Message Text</label>
-            <input type="text" id="exec-banner-input" style="width: 100%; padding: 0.8rem; border: 1px solid #111; box-sizing: border-box; font-size: 0.8rem; background: #ffffff; color: #111111;" placeholder="e.g., BLACK FRIDAY SPECIALS RUNNING NOVEMBER 20 TO NOVEMBER 30">
-        </div>
-        <button onclick="publishExecutiveBanner()" style="background: #111; color: #fff; border: none; padding: 0.8rem; margin-top: 1.5rem; cursor: pointer; letter-spacing: 0.15em; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; width: 100%;">Publish Live Broadcast</button>
-    </div>
-
-    <!-- CARD 2: PALETTE ENGINE -->
-    <div class="control-card" style="border: 1px solid #111; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; background: #ffffff;">
-        <div>
-            <h2 style="margin: 0 0 1.5rem 0; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.9rem; color: #111111; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Luxury Palette Engine</h2>
-            <p style="font-size: 0.75rem; color: #666; line-height: 1.4; margin-bottom: 1.5rem;">Shift the global storefront interface theme between light and dark luxury layouts instantly.</p>
-        </div>
-        <div style="display: flex; gap: 1rem;">
-            <button onclick="updateLuxuryPalette('onyx')" style="flex: 1; background: #111; color: #fff; border: 1px solid #111; padding: 0.8rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold;">Onyx Mode</button>
-            <button onclick="updateLuxuryPalette('alabaster')" style="flex: 1; background: #fff; color: #111; border: 1px solid #111; padding: 0.8rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold;">Alabaster Mode</button>
-        </div>
-    </div>
-
-    <!-- CARD 3: COMMUNICATIONS DESK -->
-    <div class="control-card" style="border: 1px solid #111; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; background: #ffffff;">
-        <div>
-            <h2 style="margin: 0 0 1.5rem 0; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.9rem; color: #111111; font-weight: bold; border-bottom: 1px solid #eee; padding-bottom: 0.5rem;">Communications Desk</h2>
-            <div id="adminMessageLog" style="height: 120px; overflow-y: auto; border: 1px solid #eee; background: #fafafa; padding: 0.8rem; font-family: monospace; font-size: 0.75rem; line-height: 1.4; color: #111111; margin-bottom: 1rem; box-sizing: border-box;">
-                <div style="color: #999; font-style: italic;">Awaiting incoming secure customer inquiries...</div>
-            </div>
-        </div>
-        <button onclick="clearCommsLog()" style="background: transparent; color: #ff3333; border: 1px solid #ff3333; padding: 0.6rem; cursor: pointer; letter-spacing: 0.1em; font-size: 0.7rem; text-transform: uppercase; font-weight: bold; width: 100%;">Purge Desk Logs</button>
-    </div>
-
-</div>
