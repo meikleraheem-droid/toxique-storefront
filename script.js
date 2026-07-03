@@ -117,35 +117,29 @@ function publishExecutiveBanner() {
 // Add banner initializer into your existing DOMContentLoaded event hook if it exists, 
 // or let this standalone window listener trigger it cleanly:
 window.addEventListener('DOMContentLoaded', initExecutiveBanner);
-// ==========================================================================
-// UNIFIED ENGINE: PATH 5 (THEME PALETTE) & PATH 6 (DESK COMMUNICATIONS)
-// ==========================================================================
-
-// --- OPTION A: LUXURY PALETTE CONFIGURATION ENGINE ---
-function initLuxuryPalette() {
-    const savedPalette = localStorage.getItem('toxique_palette') || 'alabaster';
-    applyPaletteStyle(savedPalette);
-}
-
+// PATH 5 INTEGRATION: ROBUST LUXURY PALETTE SWITCH ENGINE
 function updateLuxuryPalette(mode) {
-    localStorage.setItem('toxique_palette', mode);
-    applyPaletteStyle(mode);
-    // Notify executive instantly in workspace view
-    alert(`System palette adapted to: ${mode.toUpperCase()}`);
+    if(mode === 'alabaster') {
+        document.body.classList.add('alabaster-theme');
+        // Explicitly force Alabaster text and panel properties down the DOM chain
+        document.documentElement.style.setProperty('--bg-base', '#f7f5fa');
+        document.documentElement.style.setProperty('--bg-panel', '#ffffff');
+        document.documentElement.style.setProperty('--bg-card', '#f0ecf5');
+        document.documentElement.style.setProperty('--border-line', 'rgba(17, 17, 17, 0.15)');
+        document.documentElement.style.setProperty('--text-main', '#111111');
+        alert("THEME PARADIGM SHIFT: Alabaster Luxury Interface configuration active.");
+    } else {
+        document.body.classList.remove('alabaster-theme');
+        // Hard-reset everything back to your signature TOXIQUE Dark Cyberpunk Aesthetic
+        document.documentElement.style.setProperty('--bg-base', '#040206');
+        document.documentElement.style.setProperty('--bg-panel', '#0b0712');
+        document.documentElement.style.setProperty('--bg-card', '#120c1e');
+        document.documentElement.style.setProperty('--border-line', 'rgba(195, 164, 99, 0.15)');
+        document.documentElement.style.setProperty('--text-main', '#fcfbfe');
+        alert("THEME PARADIGM SHIFT: Deep Onyx Core Matrix configuration active.");
+    }
 }
 
-function applyPaletteStyle(mode) {
-    const root = document.documentElement;
-    if (mode === 'onyx') {
-        root.style.setProperty('--bg-color', '#111111');
-        root.style.setProperty('--text-color', '#ffffff');
-        document.body.style.backgroundColor = '#111111';
-        document.body.style.color = '#ffffff';
-    } else {
-        root.style.setProperty('--bg-color', '#ffffff');
-        root.style.setProperty('--text-color', '#111111');
-        document.body.style.backgroundColor = '#ffffff';
-        document.body.style.color = '#111111';
     }
 }
 
