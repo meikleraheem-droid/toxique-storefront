@@ -463,3 +463,24 @@
         <button onclick="publishExecutiveBanner()" style="background: #111; color: #fff; border: none; padding: 1rem 2rem; margin-top: 1rem; cursor: pointer; letter-spacing: 0.15em; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; width: 100%; font-family: inherit;">Publish Live Broadcast</button>
     </div>
 </section>
+<!-- ==========================================================================
+     PATH 5: EXECUTIVE THEME ENGINE CONTROL (OPTION A)
+     ========================================================================== -->
+<section class="exec-theme-control" style="margin: 2rem 0; padding: 2rem; border: 1px solid #111; background: #fafafa;">
+    <h2 style="margin-top: 0; text-transform: uppercase; letter-spacing: 0.15em; font-size: 1rem; font-family: inherit;">Luxury Palette Engine</h2>
+    <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+        <button onclick="updateLuxuryPalette('onyx')" style="flex: 1; background: #111; color: #fff; border: 1px solid #111; padding: 0.8rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold;">Onyx Mode</button>
+        <button onclick="updateLuxuryPalette('alabaster')" style="flex: 1; background: #fff; color: #111; border: 1px solid #111; padding: 0.8rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; font-weight: bold;">Alabaster Mode</button>
+    </div>
+</section>
+
+<!-- ==========================================================================
+     PATH 6: ADMINISTRATIVE COMMUNICATIONS DESK (OPTION C)
+     ========================================================================== -->
+<section class="exec-comms-desk" style="margin: 2rem 0; padding: 2rem; border: 1px solid #111; background: #fafafa;">
+    <h2 style="margin-top: 0; text-transform: uppercase; letter-spacing: 0.15em; font-size: 1rem; font-family: inherit;">Administrative Communications Desk</h2>
+    <div id="adminMessageLog" style="margin-top: 1.5rem; max-height: 250px; overflow-y: auto; border: 1px solid #eee; background: #fff; padding: 1rem; font-family: monospace; font-size: 0.8rem; line-height: 1.5;">
+        <div style="color: #999; font-style: italic;">Awaiting incoming secure customer inquiries...</div>
+    </div>
+    <button onclick="clearCommsLog()" style="background: transparent; color: #ff3333; border: 1px solid #ff3333; padding: 0.5rem 1rem; margin-top: 1rem; cursor: pointer; letter-spacing: 0.1em; font-size: 0.7rem; text-transform: uppercase; font-weight: bold;">Purge Desk Logs</button>
+</section>

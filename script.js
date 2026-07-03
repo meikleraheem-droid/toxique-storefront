@@ -117,3 +117,110 @@ function publishExecutiveBanner() {
 // Add banner initializer into your existing DOMContentLoaded event hook if it exists, 
 // or let this standalone window listener trigger it cleanly:
 window.addEventListener('DOMContentLoaded', initExecutiveBanner);
+// ==========================================================================
+// UNIFIED ENGINE: PATH 5 (THEME PALETTE) & PATH 6 (DESK COMMUNICATIONS)
+// ==========================================================================
+
+// --- OPTION A: LUXURY PALETTE CONFIGURATION ENGINE ---
+function initLuxuryPalette() {
+    const savedPalette = localStorage.getItem('toxique_palette') || 'alabaster';
+    applyPaletteStyle(savedPalette);
+}
+
+function updateLuxuryPalette(mode) {
+    localStorage.setItem('toxique_palette', mode);
+    applyPaletteStyle(mode);
+    // Notify executive instantly in workspace view
+    alert(`System palette adapted to: ${mode.toUpperCase()}`);
+}
+
+function applyPaletteStyle(mode) {
+    const root = document.documentElement;
+    if (mode === 'onyx') {
+        root.style.setProperty('--bg-color', '#111111');
+        root.style.setProperty('--text-color', '#ffffff');
+        document.body.style.backgroundColor = '#111111';
+        document.body.style.color = '#ffffff';
+    } else {
+        root.style.setProperty('--bg-color', '#ffffff');
+        root.style.setProperty('--text-color', '#111111');
+        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.color = '#111111';
+    }
+}
+
+// --- OPTION C: LIVE INTERFACE ROUTING ENGINE ---
+function toggleAssistancePanel() {
+    const panel = document.getElementById('assistancePanel');
+    const btn = document.getElementById('widgetToggleBtn');
+    if (panel.style.display === 'none' || !panel.style.display) {
+        panel.style.display = 'block';
+        btn.innerText = 'CLOSE';
+    } else {
+        panel.style.display = 'none';
+        btn.innerText = 'ASSISTANCE';
+    }
+}
+
+function getStoredMessages() {
+    return JSON.parse(localStorage.getItem('toxique_desk_logs')) || [];
+}
+
+function initCommsDesk() {
+    const logContainer = document.getElementById('adminMessageLog');
+    if (!logContainer) return; // Only process if rendered inside administrative container
+    
+    const logs = getStoredMessages();
+    if (logs.length === 0) {
+        logContainer.innerHTML = `<div style="color: #999; font-style: italic;">Awaiting incoming secure customer inquiries...</div>`;
+        return;
+    }
+    
+    logContainer.innerHTML = logs.map(log => `
+        <div style="margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid #f0f0f0;">
+            <span style="color: #888; font-size: 0.7rem;">[${log.timestamp}]</span> 
+            <strong style="color: #111;">INQUIRY:</strong> ${log.text}
+        </div>
+    `).join('');
+    logContainer.scrollTop = logContainer.scrollHeight;
+}
+
+function transmitToDesk(messageText) {
+    const logs = getStoredMessages();
+    const timestamp = new Date().toLocaleTimeString();
+    
+    logs.push({ text: messageText, timestamp: timestamp });
+    localStorage.setItem('toxique_desk_logs', JSON.stringify(logs));
+    
+    // Refresh view instantly if administrative console runs alongside local storage loop
+    initCommsDesk();
+}
+
+function sendQuickInquiry(trackName) {
+    transmitToDesk(`[TRACK INITIATED] Customer clicked option: ${trackName}`);
+    alert("Inquiry successfully routed to Executive Desk.");
+    toggleAssistancePanel();
+}
+
+function sendCustomInquiry() {
+    const input = document.getElementById('customClientMessage');
+    if (!input || !input.value.trim()) return;
+    
+    transmitToDesk(input.value.trim());
+    input.value = '';
+    alert("Message transmitted securely to Executive Desk.");
+    toggleAssistancePanel();
+}
+
+function clearCommsLog() {
+    if(confirm("Confirm total wipe of all historical desk communication records?")) {
+        localStorage.removeItem('toxique_desk_logs');
+        initCommsDesk();
+    }
+}
+
+// Tie everything safely into the existing global router lifecycle hook
+window.addEventListener('DOMContentLoaded', () => {
+    initLuxuryPalette();
+    initCommsDesk();
+});
