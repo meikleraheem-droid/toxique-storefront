@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOXIQUE // HQ CENTRAL PRIVILEGE & LEDGER SYSTEMS</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Space+Grotesk:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=200;300;400;500;600&family=Space+Grotesk:wght=300;400;500&display=swap');
         
         :root {
             --bg-base: #040206;
@@ -151,7 +151,6 @@
 </head>
 <body>
 
-    <!-- LEFT MASTER NAV BAR SIDEBAR -->
     <div class="sidebar">
         <div class="hub-title">TOXIQUE <span>HQ</span> <div class="system-status-pill">ONLINE</div></div>
         <div class="dept-btn-container" id="sidebarButtonContainer">
@@ -162,10 +161,8 @@
         </div>
     </div>
 
-    <!-- MAIN CONTROL CORE FRAME -->
     <div class="workspace-viewport" id="viewportContainer">
         
-        <!-- ==================== EXECUTIVE SPACE (MASTER COMMAND HUB) ==================== -->
         <div id="space-executive" class="space-panel active">
             <div class="header-meta">
                 <h2>Executive Desk</h2>
@@ -178,9 +175,7 @@
                 <div class="metric-block"><div class="metric-title">Active Divisions</div><div class="metric-value" id="count-depts">4</div></div>
             </div>
 
-            <!-- PATH 3 & 5: BROADCAST & THEME PANELS SYSTEM COHESION -->
             <div class="integrated-panel-row">
-                <!-- BROADCAST CONTROL BLOCK -->
                 <div class="data-card" style="margin-bottom: 0;">
                     <h4>📢 Storefront Broadcast Banner</h4>
                     <div class="input-block" style="margin-top: 1rem;">
@@ -190,7 +185,6 @@
                     <button onclick="publishExecutiveBanner()" class="action-btn" style="margin-top: 0.5rem;">Publish Live Broadcast</button>
                 </div>
 
-                <!-- PALETTE ENGINE ENGINE BLOCK -->
                 <div class="data-card" style="margin-bottom: 0;">
                     <h4>🔮 Luxury Palette Engine</h4>
                     <p style="font-size: 0.75rem; color: var(--text-dark); margin-bottom: 1.5rem;">Mutate mainframe visual profiles interface cache arrays seamlessly.</p>
@@ -202,7 +196,6 @@
             </div>
 
             <div class="control-grid">
-                <!-- DYNAMIC ASSET COMPILER & MODIFIER FORM -->
                 <div class="data-card" id="compilerFormBlock" style="margin-bottom: 0;">
                     <h4 id="compilerFormTitle">📦 Compile Asset Array (New Style Entry)</h4>
                     <input type="hidden" id="edit-prod-id" value="">
@@ -219,6 +212,12 @@
                         <label>Showroom Asset Image URL</label>
                         <input type="text" id="prod-img" placeholder="https://images.unsplash.com/...">
                     </div>
+                    
+                    <div class="input-block">
+                        <label style="color: var(--lux-gold);">Or Upload Local File Directly From Computer</label>
+                        <input type="file" id="prod-local-file" accept="image/*" style="background: transparent; border: 1px dashed var(--border-line); padding: 0.75rem; cursor: pointer;">
+                    </div>
+                    
                     <div class="input-block">
                         <label>Division Allocation</label>
                         <input type="text" id="prod-division" value="COLLECTION ONE">
@@ -227,7 +226,6 @@
                     <button class="action-btn" id="compilerCancelBtn" onclick="resetFormToDefault()" style="display:none; margin-top:0.5rem; border-color:var(--text-dark); color:var(--text-dark);">Cancel Edit Mode</button>
                 </div>
 
-                <!-- SPAWN OPERATIONAL DIVISION PANEL -->
                 <div class="data-card" style="border-color: rgba(129, 70, 226, 0.45); margin-bottom: 0;">
                     <h4>🧬 Spawn Operational Department Workspace</h4>
                     <div class="input-block">
@@ -242,7 +240,6 @@
                 </div>
             </div>
 
-            <!-- LIVE INTERACTIVE STYLES LEDGER REAL-TIME HUB -->
             <div class="data-card" style="grid-column: 1 / -1;">
                 <h4>🏛️ Master Showroom Inventory Ledger</h4>
                 <p style="margin-bottom: 1.5rem; color: var(--text-dark);">Modify labels or expunge active production values straight from the customer storefront array cache.</p>
@@ -258,14 +255,12 @@
                             </tr>
                         </thead>
                         <tbody id="masterLedgerTableBody">
-                            <!-- Populated on load loop -->
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- ==================== MARKETING SPACE ==================== -->
         <div id="space-marketing" class="space-panel">
             <div class="header-meta"><h2>Sales & Campaigns</h2><p>Configure operational discount wrappers.</p></div>
             <div class="data-card">
@@ -274,251 +269,10 @@
             </div>
         </div>
 
-        <!-- ==================== DESIGNERS SPACE ==================== -->
         <div id="space-designers" class="space-panel">
             <div class="header-meta"><h2>Creative Studio</h2><p>Staging area for photography formatting alignment.</p></div>
         </div>
 
-        <!-- ==================== HR SPACE ==================== -->
         <div id="space-hr" class="space-panel">
             <div class="header-meta"><h2>Human Resources</h2><p>Process system field agent applicant tracks.</p></div>
-            <div class="data-card">
-                <h4>Logistics Contact Handlers</h4>
-                <div class="input-block"><label>Primary Destination Endpoint Routing</label><input type="text" value="surfersshippingja@gmail.com" readonly></div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- RIGHT PANEL: UNIFIED CHAT INTERCOM -->
-    <div class="chat-sidebar">
-        <div class="chat-header"><h3>Operations Intercom</h3><span>Channels Status: <strong>Active</strong></span></div>
-        <div class="chat-messages" id="chatBox">
-            <div class="msg-bubble"><div class="msg-meta"><span>👑 Executive Desk</span><span>00:00</span></div><div class="msg-text">Ledger controls active. Modification actions map automatically onto live layout instances.</div></div>
-        </div>
-        <div class="chat-input-row">
-            <div class="chat-input-wrapper">
-                <input type="text" class="chat-field" id="chatInputField" placeholder="Type a transmission...">
-                <button class="chat-send-btn" onclick="dispatchMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CORE STRATEGIC PROCESSING ENGINE -->
-    <script>
-        let currentDeptToken = "👑 Executive Desk";
-        let departmentCount = 4;
-
-        // Run ledger parsing on initialization window hook
-        document.addEventListener('DOMContentLoaded', () => {
-            renderMasterLedgerTable();
-        });
-
-        // VIEWPORT ROUTING ENGINE
-        function switchSpace(spaceId) {
-            const panels = document.querySelectorAll('.space-panel');
-            panels.forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
-            
-            const target = document.getElementById('space-' + spaceId);
-            if (target) { target.style.display = 'block'; setTimeout(() => target.classList.add('active'), 10); }
-
-            document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
-            const targetedBtn = document.getElementById('btn-' + spaceId);
-            if (targetedBtn) targetedBtn.classList.add('active');
-
-            if(spaceId === 'executive') currentDeptToken = "👑 Executive Desk";
-            else if(spaceId === 'marketing') currentDeptToken = "📈 Sales/Mktg";
-            else if(spaceId === 'designers') currentDeptToken = "🪡 Creative Studio";
-            else if(spaceId === 'hr') currentDeptToken = "👥 HR Dept";
-            else currentDeptToken = "⚡ " + (targetedBtn ? targetedBtn.innerText.replace('⚙️', '').trim() : "Custom Node");
-        }
-
-        // FETCH CACHE & BUILD INTERACTIVE LEDGER TABLE LOOP
-        function renderMasterLedgerTable() {
-            const ledgerBody = document.getElementById('masterLedgerTableBody');
-            if(!ledgerBody) return;
-            
-            let cache = localStorage.getItem('toxique_production_catalog') ? JSON.parse(localStorage.getItem('toxique_production_catalog')) : [];
-            
-            // Dynamic metrics updater
-            document.getElementById('count-products').innerText = cache.length;
-            
-            ledgerBody.innerHTML = '';
-
-            if(cache.length === 0) {
-                ledgerBody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:3rem; color:var(--text-dark);">No structural inventory styles currently loaded inside the array.</td></tr>`;
-                return;
-            }
-
-            cache.forEach(product => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><img src="${product.image}" class="thumb-preview" onerror="this.src='https://placehold.co/40x50/120c1e/fcfbfe?text=Style'"></td>
-                    <td style="font-weight:500; letter-spacing:0.05em;">${product.title.toUpperCase()}</td>
-                    <td style="color:var(--lux-gold); font-weight:600;">$${product.price}</td>
-                    <td style="font-size:0.7rem; color:var(--text-dark);">${product.division || 'COLLECTION ONE'}</td>
-                    <td>
-                        <button class="inline-action-btn edit-trigger" onclick="triggerAssetEditMode(${product.id})">Edit Style</button>
-                        <button class="inline-action-btn delete-trigger" onclick="executeAssetExpulsion(${product.id})">Expunge</button>
-                    </td>
-                `;
-                ledgerBody.appendChild(row);
-            });
-        }
-
-        // CONTROLLER: CAPTURE SPECIFIC OBJECT FOR MODIFICATION
-        function triggerAssetEditMode(productId) {
-            let cache = JSON.parse(localStorage.getItem('toxique_production_catalog')) || [];
-            const product = cache.find(p => p.id === productId);
-            
-            if(!product) return;
-
-            // Route user context fields straight into form frame inputs
-            document.getElementById('edit-prod-id').value = product.id;
-            document.getElementById('prod-title').value = product.title;
-            document.getElementById('prod-price').value = product.price;
-            document.getElementById('prod-img').value = product.image;
-            document.getElementById('prod-division').value = product.division || 'COLLECTION ONE';
-
-            // Morph panel layout headers to notify user of mutation state
-            document.getElementById('compilerFormTitle').innerText = `🛠️ Modify Active Style: ${product.title.toUpperCase()}`;
-            document.getElementById('compilerSubmitBtn').innerText = `Apply Ledger Modifications`;
-            document.getElementById('compilerCancelBtn').style.display = 'block';
-            
-            // Anchor view focal alignment instantly to input frame context
-            document.getElementById('compilerFormBlock').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // SAVE LOGIC: HANDLING DIRECT COMPILATION VS MASTER TARGET REWRITES
-        function executeProductSavingLoop() {
-            const idVal = document.getElementById('edit-prod-id').value;
-            const titleVal = document.getElementById('prod-title').value.trim();
-            const priceVal = document.getElementById('prod-price').value.trim();
-            const imgVal = document.getElementById('prod-img').value.trim();
-            const divVal = document.getElementById('prod-division').value.trim();
-
-            if(!titleVal || !priceVal || !imgVal) {
-                alert("Operation rejected. Missing valid entries inside structural design nodes.");
-                return;
-            }
-
-            let cache = localStorage.getItem('toxique_production_catalog') ? JSON.parse(localStorage.getItem('toxique_production_catalog')) : [];
-
-            if(idVal) {
-                // EXECUTING MODIFICATION UPGRADE: Identify key match and rewrite child variables
-                const targetIdx = cache.findIndex(p => p.id == idVal);
-                if(targetIdx !== -1) {
-                    cache[targetIdx].title = titleVal.toUpperCase();
-                    cache[targetIdx].price = parseInt(priceVal);
-                    cache[targetIdx].image = imgVal;
-                    cache[targetIdx].division = divVal.toUpperCase();
-                    alert(`LEDGER REWRITE SUCCESSFUL: Active parameters for "${titleVal.toUpperCase()}" modified cleanly.`);
-                }
-            } else {
-                // EXECUTING FRESH INJECTION: Append new instance completely
-                const newAsset = {
-                    id: Date.now(),
-                    title: titleVal.toUpperCase(),
-                    price: parseInt(priceVal),
-                    category: "READY-TO-WEAR",
-                    division: divVal.toUpperCase(),
-                    image: imgVal
-                };
-                cache.push(newAsset);
-                alert(`ASSET REGISTERED: New entry for "${titleVal.toUpperCase()}" compiled directly into storage nodes.`);
-            }
-
-            localStorage.setItem('toxique_production_catalog', JSON.stringify(cache));
-            resetFormToDefault();
-            renderMasterLedgerTable();
-        }
-
-        // CONTROLLER: ERASE PRODUCT ENTIRELY
-        function executeAssetExpulsion(productId) {
-            if(!confirm("Are you sure you want to expunge this entry from your storefront database?")) return;
-            
-            let cache = JSON.parse(localStorage.getItem('toxique_production_catalog')) || [];
-            cache = cache.filter(p => p.id !== productId);
-            localStorage.setItem('toxique_production_catalog', JSON.stringify(cache));
-            
-            renderMasterLedgerTable();
-        }
-
-        // RESET FORM LOOP UTILITY
-        function resetFormToDefault() {
-            document.getElementById('edit-prod-id').value = '';
-            document.getElementById('prod-title').value = '';
-            document.getElementById('prod-price').value = '';
-            document.getElementById('prod-img').value = '';
-            document.getElementById('prod-division').value = 'COLLECTION ONE';
-
-            document.getElementById('compilerFormTitle').innerText = `📦 Compile Asset Array (New Style Entry)`;
-            document.getElementById('compilerSubmitBtn').innerText = `Compile Asset Array`;
-            document.getElementById('compilerCancelBtn').style.display = 'none';
-        }
-
-        // SPAWN OPERATIONAL DIVISION PANEL MECHANISMS
-        function executeDepartmentSpawning() {
-            const nameField = document.getElementById('new-dept-name');
-            const purposeField = document.getElementById('new-dept-purpose');
-            const name = nameField.value.trim(); const purpose = purposeField.value.trim();
-
-            if (!name || !purpose) { alert("Workspace parameters invalid."); return; }
-            const cleanId = name.toLowerCase().replace(/[^a-z0-8]/g, '-');
-
-            const buttonContainer = document.getElementById('sidebarButtonContainer');
-            const newButton = document.createElement('button');
-            newButton.className = 'dept-btn'; newButton.id = 'btn-' + cleanId;
-            newButton.innerText = '⚙️ ' + name; newButton.setAttribute('onclick', `switchSpace('${cleanId}')`);
-            buttonContainer.appendChild(newButton);
-
-            const viewportContainer = document.getElementById('viewportContainer');
-            const newPane = document.createElement('div');
-            newPane.id = 'space-' + cleanId; newPane.className = 'space-panel';
-            newPane.innerHTML = `
-                <div class="header-meta"><h2>${name} Control</h2><p>Custom spawned active operational department node.</p></div>
-                <div class="data-card"><h4>Objective Mission Tracker</h4><p style="font-style:italic;">"${purpose}"</p></div>
-            `;
-            viewportContainer.appendChild(newPane);
-
-            departmentCount++; document.getElementById('count-depts').innerText = departmentCount;
-            nameField.value = ''; purposeField.value = '';
-            alert(`INFRASTRUCTURE ONLINE: Workspace division for [${name.toUpperCase()}] constructed.`);
-        }
-
-        // INTERCOM CHAT PUSH METHOD LOGIC
-        function dispatchMessage() {
-            const field = document.getElementById('chatInputField'); const box = document.getElementById('chatBox'); const txt = field.value.trim();
-            if (txt === "") return;
-            const stamps = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const bubble = document.createElement('div'); bubble.className = 'msg-bubble from-user';
-            bubble.innerHTML = `<div class="msg-meta"><strong>${currentDeptToken}</strong><span>${stamps}</span></div><div class="msg-text">${txt}</div>`;
-            box.appendChild(bubble); field.value = ""; box.scrollTop = box.scrollHeight;
-        }
-        document.getElementById('chatInputField').addEventListener('keydown', function(e) { if (e.key === 'Enter') dispatchMessage(); });
-
-        // PATH 3 INTEGRATION: LIVE BROADCAST BANNER CONTROLLER
-        function publishExecutiveBanner() {
-            const bannerInput = document.getElementById('exec-banner-input');
-            const message = bannerInput.value.trim();
-            if(!message) {
-                alert("Transmission halted. Broadcast text node is completely empty.");
-                return;
-            }
-            alert(`STOREFRONT TELEMETRY INJECTED: Broadcast string updated to:\n"${message.toUpperCase()}"`);
-            bannerInput.value = '';
-        }
-
-        // PATH 5 INTEGRATION: LUXURY PALETTE SWITCH ENGINE
-        function updateLuxuryPalette(mode) {
-            if(mode === 'alabaster') {
-                document.body.classList.add('alabaster-theme');
-                alert("THEME PARADIGM SHIFT: Alabaster Luxury Interface configuration active.");
-            } else {
-                document.body.classList.remove('alabaster-theme');
-                alert("THEME PARADIGM SHIFT: Deep Onyx Core Matrix configuration active.");
-            }
-        }
-    </script>
-</body>
-</html>
+            <div class

@@ -123,6 +123,14 @@ function evaluateCurrentPromotionalMarkdown() {
     else if (currentMonth === 11) {
         return { label: "CHRISTMAS WINTER ALLOCATION // 50% DEDUCTION APPLIED LIVE ON SITE", discountFactor: 0.50 };
     }
+    // Check Happy Prince Day window (Jan 1 to Jan 14)
+    else if (currentMonth === 0 && currentDate >= 1 && currentDate <= 14) {
+        return { label: "HAPPY PRINCE DAY // SELECTION ALLOCATION ADJUSTMENTS EN ROUTE", discountFactor: 0.00 };
+    }
+    // Check New Year Promotional window (Jan 15 to Jan 31)
+    else if (currentMonth === 0 && currentDate >= 15 && currentDate <= 31) {
+        return { label: "NEW YEAR CELEBRATION // LUXURY APPRECIATION LIVE TIMELINE", discountFactor: 0.00 };
+    }
     
     // FALLBACK STATE: Keeps the banner beautifully active on regular calendar dates
     return { label: "TOXIQUE // HAUTE COUTURE LUXURY ONLINE CATALOG // EMBRACE THE RITUAL", discountFactor: 0.00 };
@@ -325,4 +333,39 @@ window.sendCustomInquiry = function() {
     alert(`DIRECT TRANSMISSION FIRED:\n"${text}" sent to dashboard master console queue updates.`);
     if (field) field.value = '';
     toggleAssistancePanel();
+};
+
+/**
+ * 6. ADMINISTRATIVE ASSET CREATION PIPELINE
+ */
+window.yourSaveProductFunction = function() {
+    // Intercept with the file upload pipeline first
+    handleLocalImageUploadPipeline((resolvedImageSrc) => {
+        if (!resolvedImageSrc) {
+            alert("Matrix rejected. An image asset link or local file selection is required.");
+            return;
+        }
+
+        const newProduct = {
+            id: Date.now(),
+            title: document.getElementById('productTitleInput').value.trim(),
+            price: document.getElementById('productPriceInput').value.trim(),
+            division: document.getElementById('productDivisionSelect').value,
+            image: resolvedImageSrc // Securely holds either the text URL or the fresh uploaded image data string!
+        };
+
+        // --- KEEP ALL YOUR REMAINING EXACT SAVING LOGIC HERE UNCHANGED ---
+        let catalog = localStorage.getItem('toxique_production_catalog') ? JSON.parse(localStorage.getItem('toxique_production_catalog')) : [];
+        catalog.push(newProduct);
+        localStorage.setItem('toxique_production_catalog', JSON.stringify(catalog));
+
+        alert("ASSET PROFILED SUCCESSFULLY // Synchronized directly to mainline storefront showroom grid.");
+        
+        // Clear the file input slot cleanly for the next design item
+        if (document.getElementById('adminLocalImageInput')) {
+            document.getElementById('adminLocalImageInput').value = '';
+        }
+        if (typeof renderAdminTable === 'function') renderAdminTable();
+        // --- END OF YOUR REMAINING LOGIC ---
+    });
 };
