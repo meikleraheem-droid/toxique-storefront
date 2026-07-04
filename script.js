@@ -128,7 +128,7 @@ function evaluateCurrentPromotionalMarkdown() {
     return { label: "TOXIQUE // HAUTE COUTURE LUXURY ONLINE CATALOG // EMBRACE THE RITUAL", discountFactor: 0.00 };
 }
 
-// Automatically reveal banner broadcasts and inject active telemetry
+// Automatically reveal banner broadcasts and inject active telemetry with force override
 function checkActiveBroadcastTelemetry() {
     const banner = document.getElementById('dynamicPromoBanner');
     const textNode = document.getElementById('promoBannerText');
@@ -137,7 +137,8 @@ function checkActiveBroadcastTelemetry() {
     const promo = evaluateCurrentPromotionalMarkdown();
     if (promo.label) {
         textNode.innerText = promo.label;
-        banner.style.display = 'block';
+        // Absolute visibility override: forces layout engine compliance by bypassing "display: none" inline states
+        banner.style.setProperty('display', 'block', 'important');
     }
 }
 
