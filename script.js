@@ -1,5 +1,5 @@
 /**
- * TOXIQUE // MAINLINE STOREFRONT CORE ENGINE
+ * TOXIIQUE BY PRIINCE // MAINLINE STOREFRONT CORE ENGINE
  * Shared Local Cache Target: 'toxique_production_catalog'
  */
 
@@ -9,10 +9,57 @@ let virtualShoppingBag = [];
 
 // DOM Element Listeners Initialization
 document.addEventListener('DOMContentLoaded', () => {
+    initializeIntroVideoLoader();
     initializeStorefrontCatalog();
     checkActiveBroadcastTelemetry();
     syncGlobalBagCount();
 });
+
+/**
+ * 0. INTRO VIDEO LOADER MANAGEMENT ENGINE
+ */
+function initializeIntroVideoLoader() {
+    const introVideo = document.getElementById('introVideo');
+    const introLoader = document.getElementById('toxiqueIntroLoader');
+
+    if (!introLoader) return;
+
+    // Click anywhere on overlay to skip immediately
+    introLoader.style.cursor = 'pointer';
+    introLoader.addEventListener('click', () => {
+        dismissIntroLoader(introLoader);
+    });
+
+    if (introVideo) {
+        // Automatically hide when video reaches the end
+        introVideo.addEventListener('ended', () => {
+            dismissIntroLoader(introLoader);
+        });
+
+        // Autoplay trigger fallback
+        const playPromise = introVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                // Autoplay blocked by browser policy; allow manual click to enter
+                console.log('Autoplay restricted. User interaction enabled to dismiss loader.');
+            });
+        }
+    }
+
+    // Safety fallback timer: guarantee dismissal after 5 seconds
+    setTimeout(() => {
+        dismissIntroLoader(introLoader);
+    }, 5000);
+}
+
+function dismissIntroLoader(loaderElement) {
+    if (!loaderElement || loaderElement.style.display === 'none') return;
+    loaderElement.style.transition = 'opacity 0.8s ease, visibility 0.8s ease';
+    loaderElement.style.opacity = '0';
+    setTimeout(() => {
+        loaderElement.style.display = 'none';
+    }, 800);
+}
 
 /**
  * 1. DYNAMIC CATALOG PRODUCTION GRID PIPELINE
@@ -21,7 +68,7 @@ function initializeStorefrontCatalog() {
     const gridContainer = document.getElementById('storefrontGrid');
     if (!gridContainer) return;
 
-    // Fetch live entries from your master admin desk catalog array
+    // Fetch live entries from master admin desk catalog array
     let productionCatalog = localStorage.getItem('toxique_production_catalog') 
         ? JSON.parse(localStorage.getItem('toxique_production_catalog')) 
         : [];
@@ -31,7 +78,6 @@ function initializeStorefrontCatalog() {
         productionCatalog = productionCatalog.filter(product => {
             const productDiv = (product.division || '').toLowerCase().trim();
             
-            // Map the storefront nav buttons cleanly onto the entry allocations
             if (storefrontActiveFilter === 'garments') return productDiv === 'garments' || productDiv === 'collection one';
             if (storefrontActiveFilter === 'cosmetics') return productDiv === 'cosmetics' || productDiv === 'beauty' || productDiv === 'beauty labs';
             if (storefrontActiveFilter === 'fragrance') return productDiv === 'fragrance' || productDiv === 'perfume';
@@ -58,7 +104,6 @@ function initializeStorefrontCatalog() {
         let displayPrice = basePrice;
         let originalPriceHtml = '';
 
-        // Wire up automated markdown modifications dynamically onto the card if active
         if (activePromo.discountFactor > 0) {
             displayPrice = Math.floor(basePrice * (1 - activePromo.discountFactor));
             originalPriceHtml = `<span style="text-decoration: line-through; color: #645a72; margin-right: 0.75rem; font-size: 0.85rem;">$${basePrice.toLocaleString()}</span>`;
@@ -72,7 +117,7 @@ function initializeStorefrontCatalog() {
         cardFrame.innerHTML = `
             <div style="width: 100%; height: 400px; overflow: hidden; background: #000; position: relative;">
                 <img src="${product.image}" alt="${product.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease;" 
-                     onerror="this.src='https://placehold.co/600x800/120c1e/fcfbfe?text=TOXIQUE+STYLE'">
+                     onerror="this.src='https://placehold.co/600x800/120c1e/fcfbfe?text=TOXIIQUE+BY+PRIINCE'">
             </div>
             <div style="padding-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; justify-content: space-between;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
@@ -115,28 +160,22 @@ function evaluateCurrentPromotionalMarkdown() {
     const currentMonth = today.getMonth(); // 0 = Jan, 10 = Nov, 11 = Dec
     const currentDate = today.getDate();
 
-    // Check Black Friday Markdown window (Nov 20 to Nov 30)
     if (currentMonth === 10 && currentDate >= 20 && currentDate <= 30) {
         return { label: "BLACK FRIDAY CAMPAIGN // 25% DEDUCTION APPLIED LIVE ON SITE", discountFactor: 0.25 };
     }
-    // Check Christmas Markdown window (Month of December)
     else if (currentMonth === 11) {
         return { label: "CHRISTMAS WINTER ALLOCATION // 50% DEDUCTION APPLIED LIVE ON SITE", discountFactor: 0.50 };
     }
-    // Check Happy Prince Day window (Jan 1 to Jan 14)
     else if (currentMonth === 0 && currentDate >= 1 && currentDate <= 14) {
         return { label: "HAPPY PRINCE DAY // SELECTION ALLOCATION ADJUSTMENTS EN ROUTE", discountFactor: 0.00 };
     }
-    // Check New Year Promotional window (Jan 15 to Jan 31)
     else if (currentMonth === 0 && currentDate >= 15 && currentDate <= 31) {
         return { label: "NEW YEAR CELEBRATION // LUXURY APPRECIATION LIVE TIMELINE", discountFactor: 0.00 };
     }
     
-    // FALLBACK STATE: Keeps the banner beautifully active on regular calendar dates
-    return { label: "TOXIQUE // HAUTE COUTURE LUXURY ONLINE CATALOG // EMBRACE THE RITUAL", discountFactor: 0.00 };
+    return { label: "TOXIIQUE BY PRIINCE // HAUTE COUTURE LUXURY ONLINE CATALOG // JOIN THE RITUAL", discountFactor: 0.00 };
 }
 
-// Automatically reveal banner broadcasts and inject active telemetry with force override
 function checkActiveBroadcastTelemetry() {
     const banner = document.getElementById('dynamicPromoBanner');
     const textNode = document.getElementById('promoBannerText');
@@ -145,7 +184,6 @@ function checkActiveBroadcastTelemetry() {
     const promo = evaluateCurrentPromotionalMarkdown();
     if (promo.label) {
         textNode.innerText = promo.label;
-        // Absolute visibility override: forces layout engine compliance by bypassing "display: none" inline states
         banner.style.setProperty('display', 'block', 'important');
     }
 }
@@ -161,7 +199,6 @@ window.toggleCartDrawer = function() {
     drawer.classList.toggle('active');
     if (overlay) overlay.classList.toggle('active');
     
-    // Fallback mechanics if CSS sheet positioning overrides are active
     if (drawer.style.right === '0px') {
         drawer.style.right = '-450px';
         if (overlay) overlay.style.display = 'none';
@@ -313,7 +350,7 @@ window.executeFinalTransaction = function() {
 };
 
 /**
- * 5. TOXIQUE CUSTOMER ASSISTANCE MODAL ROUTERS
+ * 5. TOXIIQUE CUSTOMER ASSISTANCE MODAL ROUTERS
  */
 window.toggleAssistancePanel = function() {
     const panel = document.getElementById('assistancePanel');
@@ -338,8 +375,24 @@ window.sendCustomInquiry = function() {
 /**
  * 6. ADMINISTRATIVE ASSET CREATION PIPELINE
  */
+function handleLocalImageUploadPipeline(callback) {
+    const fileInput = document.getElementById('adminLocalImageInput');
+    const textInput = document.getElementById('productImageInput');
+    
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            callback(e.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    } else if (textInput && textInput.value.trim() !== '') {
+        callback(textInput.value.trim());
+    } else {
+        callback(null);
+    }
+}
+
 window.yourSaveProductFunction = function() {
-    // Intercept with the file upload pipeline first
     handleLocalImageUploadPipeline((resolvedImageSrc) => {
         if (!resolvedImageSrc) {
             alert("Matrix rejected. An image asset link or local file selection is required.");
@@ -351,21 +404,18 @@ window.yourSaveProductFunction = function() {
             title: document.getElementById('productTitleInput').value.trim(),
             price: document.getElementById('productPriceInput').value.trim(),
             division: document.getElementById('productDivisionSelect').value,
-            image: resolvedImageSrc // Securely holds either the text URL or the fresh uploaded image data string!
+            image: resolvedImageSrc
         };
 
-        // --- KEEP ALL YOUR REMAINING EXACT SAVING LOGIC HERE UNCHANGED ---
         let catalog = localStorage.getItem('toxique_production_catalog') ? JSON.parse(localStorage.getItem('toxique_production_catalog')) : [];
         catalog.push(newProduct);
         localStorage.setItem('toxique_production_catalog', JSON.stringify(catalog));
 
         alert("ASSET PROFILED SUCCESSFULLY // Synchronized directly to mainline storefront showroom grid.");
         
-        // Clear the file input slot cleanly for the next design item
         if (document.getElementById('adminLocalImageInput')) {
             document.getElementById('adminLocalImageInput').value = '';
         }
         if (typeof renderAdminTable === 'function') renderAdminTable();
-        // --- END OF YOUR REMAINING LOGIC ---
     });
 };
