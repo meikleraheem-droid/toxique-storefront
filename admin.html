@@ -46,7 +46,7 @@
             width: 290px; background: var(--bg-panel);
             border-right: 1px solid var(--border-line);
             display: flex; flex-direction: column; padding: 3rem 1.75rem; box-sizing: border-box;
-            position: relative;
+            position: relative; flex-shrink: 0;
             transition: background 0.4s ease, border-color 0.4s ease;
         }
         .sidebar::after {
@@ -111,24 +111,6 @@
         .inline-action-btn.delete-trigger { border-color: var(--text-red); color: var(--text-red); }
         .inline-action-btn:hover { background: var(--text-main); color: var(--bg-base) !important; }
 
-        /* LIVE SYSTEM INTERCOM PANEL */
-        .chat-sidebar { width: 380px; background: var(--bg-panel); border-left: 1px solid var(--border-line); display: flex; flex-direction: column; box-sizing: border-box; transition: background 0.4s ease, border-color 0.4s ease; }
-        .chat-header { padding: 3rem 2.5rem 2rem 2.5rem; border-bottom: 1px solid var(--border-line); }
-        .chat-header h3 { margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; letter-spacing: 0.25em; text-transform: uppercase; }
-        .chat-header span { font-size: 0.6rem; color: var(--text-dark); letter-spacing: 0.15em; display: block; margin-top: 0.5rem; text-transform: uppercase; }
-        .chat-header span strong { color: var(--text-green); }
-        .chat-messages { flex: 1; padding: 2.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
-        .msg-bubble { background: var(--bg-card); border-left: 3px solid var(--neon-purple); padding: 1.25rem; transition: background 0.4s ease; }
-        .msg-bubble.from-user { border-left-color: var(--lux-gold); background: rgba(195,164,99,0.02); }
-        .msg-meta { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dark); margin-bottom: 0.5rem; display: flex; justify-content: space-between; }
-        .msg-text { font-size: 0.8rem; line-height: 1.5; color: var(--text-main); }
-
-        .chat-input-row { padding: 2.5rem; border-top: 1px solid var(--border-line); }
-        .chat-input-wrapper { display: flex; border: 1px solid var(--border-line); background: var(--bg-base); padding: 0.25rem; transition: background 0.4s ease; }
-        .chat-field { flex: 1; background: transparent; border: none; padding: 1rem; color: var(--text-main); font-size: 0.8rem; }
-        .chat-field:focus { outline: none; }
-        .chat-send-btn { background: var(--lux-gold); border: none; color: #000; padding: 0 1.75rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; }
-
         /* CONTROLS FORMATTING */
         .input-block { margin-bottom: 1.5rem; }
         .input-block label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-dark); margin-bottom: 0.6rem; font-weight: 500; }
@@ -147,12 +129,23 @@
         .theme-btn.onyx { background: #111; color: #fff; }
         .theme-btn.alabaster { background: #fff; color: #111; }
         .theme-btn:hover { opacity: 0.85; }
+
+        /* RESPONSIVE LAYOUT BREAKPOINTS */
+        @media (max-width: 1024px) {
+            body { flex-direction: column; height: auto; overflow-y: auto; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-line); padding: 1.5rem; }
+            .workspace-viewport { padding: 2rem; }
+            .control-grid, .integrated-panel-row, .analytics-strip { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="hub-title">TOXIQUE <span>HQ</span> <div class="system-status-pill">ONLINE</div></div>
+        <div class="hub-title">
+            <a href="index.html" style="text-decoration:none; color:inherit;">TOXIQUE <span>HQ</span></a>
+            <div class="system-status-pill">ONLINE</div>
+        </div>
         <div class="dept-btn-container" id="sidebarButtonContainer">
             <button class="dept-btn active" id="btn-executive" onclick="switchSpace('executive')">👑 Executive Desk</button>
             <button class="dept-btn" id="btn-marketing" onclick="switchSpace('marketing')">📈 Sales & Campaigns</button>
@@ -163,6 +156,7 @@
 
     <div class="workspace-viewport" id="viewportContainer">
         
+        <!-- EXECUTIVE SPACE -->
         <div id="space-executive" class="space-panel active">
             <div class="header-meta">
                 <h2>Executive Desk</h2>
@@ -220,7 +214,13 @@
                     
                     <div class="input-block">
                         <label>Division Allocation</label>
-                        <input type="text" id="prod-division" value="COLLECTION ONE">
+                        <select id="prod-division">
+                            <option value="COLLECTION ONE">COLLECTION ONE</option>
+                            <option value="GARMENTS">GARMENTS</option>
+                            <option value="COSMETICS">COSMETICS</option>
+                            <option value="FRAGRANCE">FRAGRANCE</option>
+                            <option value="RESTRICTED XXX">RESTRICTED XXX</option>
+                        </select>
                     </div>
                     <button class="action-btn" id="compilerSubmitBtn" onclick="executeProductSavingLoop()">Compile Asset Array</button>
                     <button class="action-btn" id="compilerCancelBtn" onclick="resetFormToDefault()" style="display:none; margin-top:0.5rem; border-color:var(--text-dark); color:var(--text-dark);">Cancel Edit Mode</button>
@@ -240,7 +240,7 @@
                 </div>
             </div>
 
-            <div class="data-card" style="grid-column: 1 / -1;">
+            <div class="data-card">
                 <h4>🏛️ Master Showroom Inventory Ledger</h4>
                 <p style="margin-bottom: 1.5rem; color: var(--text-dark);">Modify labels or expunge active production values straight from the customer storefront array cache.</p>
                 <div class="table-container">
@@ -255,24 +255,244 @@
                             </tr>
                         </thead>
                         <tbody id="masterLedgerTableBody">
-                            </tbody>
+                            <!-- Populated dynamically -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- MARKETING SPACE -->
         <div id="space-marketing" class="space-panel">
             <div class="header-meta"><h2>Sales & Campaigns</h2><p>Configure operational discount wrappers.</p></div>
             <div class="data-card">
                 <h4>Active Promotional Schedule Matrix</h4>
-                <p>• <strong>Nov 20 - Nov 30:</strong> Black Friday Manifestation (25% Multiplier Value Display)<br>• <strong>Dec 1 - Dec 31:</strong> Festive Winter Holiday Allocation (50% Whole Price Offset)</p>
+                <p style="line-height: 1.8; color: var(--text-main);">
+                    • <strong>Nov 20 - Nov 30:</strong> Black Friday Manifestation (25% Multiplier Value Display)<br>
+                    • <strong>Dec 1 - Dec 31:</strong> Festive Winter Holiday Allocation (50% Whole Price Offset)
+                </p>
             </div>
         </div>
 
+        <!-- DESIGNERS SPACE -->
         <div id="space-designers" class="space-panel">
             <div class="header-meta"><h2>Creative Studio</h2><p>Staging area for photography formatting alignment.</p></div>
+            <div class="data-card">
+                <h4>Active Asset Quality Directives</h4>
+                <p style="color: var(--text-dark);">Upload high-resolution vertical portrait assets (3:4 ratio) for precise grid display within the storefront UI.</p>
+            </div>
         </div>
 
+        <!-- HR SPACE -->
         <div id="space-hr" class="space-panel">
             <div class="header-meta"><h2>Human Resources</h2><p>Process system field agent applicant tracks.</p></div>
-            <div class
+            <div class="data-card">
+                <h4>Field Agent Recruitment Queue</h4>
+                <p style="color: var(--text-dark);">For applications, direct candidates to submission email: <strong style="color: var(--lux-gold);">surfersshippingja@gmail.com</strong>.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ADMIN OPERATIONS CONTROL ENGINE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAdminTable();
+            loadStoredBannerText();
+        });
+
+        // Tab Switching Engine
+        function switchSpace(spaceKey) {
+            document.querySelectorAll('.space-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.dept-btn').forEach(b => b.classList.remove('active'));
+
+            const targetPanel = document.getElementById(`space-${spaceKey}`);
+            const targetBtn = document.getElementById(`btn-${spaceKey}`);
+
+            if (targetPanel) targetPanel.classList.add('active');
+            if (targetBtn) targetBtn.classList.add('active');
+        }
+
+        // Master Ledger Table Renderer
+        function renderAdminTable() {
+            const tbody = document.getElementById('masterLedgerTableBody');
+            const countNode = document.getElementById('count-products');
+            if (!tbody) return;
+
+            const catalog = JSON.parse(localStorage.getItem('toxique_production_catalog')) || [];
+            if (countNode) countNode.innerText = catalog.length;
+
+            tbody.innerHTML = '';
+
+            if (catalog.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--text-dark);">NO ACTIVE ASSETS CATALOGED IN STORAGE.</td></tr>`;
+                return;
+            }
+
+            catalog.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="${item.image}" class="thumb-preview" onerror="this.src='https://placehold.co/40x50/120c1e/fcfbfe?text=TX'"></td>
+                    <td><strong>${item.title}</strong></td>
+                    <td>$${parseInt(item.price).toLocaleString()}</td>
+                    <td><span style="font-size:0.65rem; color:var(--lux-gold);">${item.division || 'COLLECTION ONE'}</span></td>
+                    <td>
+                        <button class="inline-action-btn edit-trigger" onclick="prepareAssetEdit(${item.id})">Edit</button>
+                        <button class="inline-action-btn delete-trigger" onclick="deleteAssetEntry(${item.id})">Expunge</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Form Asset Save / Update Execution
+        function executeProductSavingLoop() {
+            const editId = document.getElementById('edit-prod-id').value;
+            const title = document.getElementById('prod-title').value.trim();
+            const price = document.getElementById('prod-price').value.trim();
+            const division = document.getElementById('prod-division').value;
+            const imageUrlInput = document.getElementById('prod-img').value.trim();
+            const fileInput = document.getElementById('prod-local-file');
+
+            if (!title || !price) {
+                alert("Operation Rejected: Asset Title and Price are required.");
+                return;
+            }
+
+            const saveCatalog = (imageSrc) => {
+                let catalog = JSON.parse(localStorage.getItem('toxique_production_catalog')) || [];
+
+                if (editId) {
+                    catalog = catalog.map(p => p.id == editId ? { id: parseInt(editId), title, price, division, image: imageSrc || p.image } : p);
+                } else {
+                    const newAsset = {
+                        id: Date.now(),
+                        title,
+                        price,
+                        division,
+                        image: imageSrc || 'https://placehold.co/600x800/120c1e/fcfbfe?text=TOXIIQUE'
+                    };
+                    catalog.push(newAsset);
+                }
+
+                localStorage.setItem('toxique_production_catalog', JSON.stringify(catalog));
+                resetFormToDefault();
+                renderAdminTable();
+                alert("ASSET SYNCHRONIZED: Storefront catalog successfully updated.");
+            };
+
+            if (fileInput && fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => saveCatalog(e.target.result);
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                saveCatalog(imageUrlInput);
+            }
+        }
+
+        // Edit Mode Preloader
+        function prepareAssetEdit(assetId) {
+            const catalog = JSON.parse(localStorage.getItem('toxique_production_catalog')) || [];
+            const asset = catalog.find(p => p.id === assetId);
+
+            if (asset) {
+                document.getElementById('edit-prod-id').value = asset.id;
+                document.getElementById('prod-title').value = asset.title;
+                document.getElementById('prod-price').value = asset.price;
+                document.getElementById('prod-division').value = asset.division || 'COLLECTION ONE';
+                document.getElementById('prod-img').value = asset.image;
+
+                document.getElementById('compilerFormTitle').innerText = "📝 Modify Asset Array Entry";
+                document.getElementById('compilerSubmitBtn').innerText = "Update Asset Record";
+                document.getElementById('compilerCancelBtn').style.display = "block";
+            }
+        }
+
+        // Reset Form to Default State
+        function resetFormToDefault() {
+            document.getElementById('edit-prod-id').value = '';
+            document.getElementById('prod-title').value = '';
+            document.getElementById('prod-price').value = '';
+            document.getElementById('prod-img').value = '';
+            if (document.getElementById('prod-local-file')) document.getElementById('prod-local-file').value = '';
+            
+            document.getElementById('compilerFormTitle').innerText = "📦 Compile Asset Array (New Style Entry)";
+            document.getElementById('compilerSubmitBtn').innerText = "Compile Asset Array";
+            document.getElementById('compilerCancelBtn').style.display = "none";
+        }
+
+        // Expunge / Delete Entry
+        function deleteAssetEntry(assetId) {
+            if (confirm("Are you sure you want to expunge this asset record from storage?")) {
+                let catalog = JSON.parse(localStorage.getItem('toxique_production_catalog')) || [];
+                catalog = catalog.filter(p => p.id !== assetId);
+                localStorage.setItem('toxique_production_catalog', JSON.stringify(catalog));
+                renderAdminTable();
+            }
+        }
+
+        // Broadcast Banner Management
+        function publishExecutiveBanner() {
+            const text = document.getElementById('exec-banner-input').value.trim();
+            if (!text) return;
+            localStorage.setItem('toxique_broadcast_banner_text', text);
+            alert("BROADCAST PUBLISHED: Live banner synchronized to customer storefront.");
+        }
+
+        function loadStoredBannerText() {
+            const stored = localStorage.getItem('toxique_broadcast_banner_text');
+            if (stored && document.getElementById('exec-banner-input')) {
+                document.getElementById('exec-banner-input').value = stored;
+            }
+        }
+
+        // Dynamic Department Spawner
+        function executeDepartmentSpawning() {
+            const name = document.getElementById('new-dept-name').value.trim();
+            if (!name) return;
+
+            const btnContainer = document.getElementById('sidebarButtonContainer');
+            const deptId = 'dept-' + Date.now();
+            
+            // Create Sidebar Button
+            const newBtn = document.createElement('button');
+            newBtn.className = 'dept-btn';
+            newBtn.id = `btn-${deptId}`;
+            newBtn.innerText = `⚡ ${name}`;
+            newBtn.onclick = () => switchSpace(deptId);
+            btnContainer.appendChild(newBtn);
+
+            // Create Viewport Workspace Panel
+            const viewport = document.getElementById('viewportContainer');
+            const newPanel = document.createElement('div');
+            newPanel.id = `space-${deptId}`;
+            newPanel.className = 'space-panel';
+            newPanel.innerHTML = `
+                <div class="header-meta"><h2>${name}</h2><p>Custom spawned department workspace instance.</p></div>
+                <div class="data-card">
+                    <h4>Operational Parameters</h4>
+                    <p style="color:var(--text-main);">${document.getElementById('new-dept-purpose').value || 'No functional parameters specified.'}</p>
+                </div>
+            `;
+            viewport.appendChild(newPanel);
+
+            // Update Department Counter
+            const countDepts = document.getElementById('count-depts');
+            if (countDepts) countDepts.innerText = parseInt(countDepts.innerText) + 1;
+
+            document.getElementById('new-dept-name').value = '';
+            document.getElementById('new-dept-purpose').value = '';
+            alert(`WORKSPACE INSTANCE SPAWNED: Created workspace for ${name}.`);
+        }
+
+        // Luxury Palette Theme Engine
+        function updateLuxuryPalette(mode) {
+            if (mode === 'alabaster') {
+                document.body.classList.add('alabaster-theme');
+            } else {
+                document.body.classList.remove('alabaster-theme');
+            }
+        }
+    </script>
+</body>
+</html>
