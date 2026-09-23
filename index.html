@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOXIQUE // MAINLINE STOREFRONT</title>
+    <title>TOXIIQUE BY PRIINCE // MAINLINE STOREFRONT</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- PATH 3: AUTOMATED BANNER BROADCAST CORE (Wired up cleanly) -->
+    <!-- INTRO REVEAL VIDEO LOADER OVERLAY -->
+    <div id="toxiqueIntroLoader" class="intro-loader-overlay">
+        <video autoplay muted playsinline id="introVideo">
+            <source src="Toxique video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- PATH 3: AUTOMATED BANNER BROADCAST CORE -->
     <div id="dynamicPromoBanner" class="global-broadcast-banner" style="display: none;">
         <div id="promoBannerText"></div>
     </div>
 
     <!-- MAIN BRAND HEADER -->
     <header class="main-header">
-        <div class="logo">TOXIQUE<span>//</span>HOUSE OF X</div>
+        <a href="#" class="logo-link">
+            <img src="Toxique logo.jpg" alt="TOXIIQUE BY PRIINCE" class="brand-header-logo">
+        </a>
         <div class="nav-controls">
             <a href="admin.html" class="nav-link">MAINFRAME</a>
             <div class="cart-trigger" onclick="toggleCartDrawer()">BAG (<span id="cartCountGlobal">0</span>)</div>
@@ -95,44 +104,44 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <!-- ==========================================================================
-     PATH 6: CUSTOMER INTERFACE ROUTING MODULE (OPTION C)
-     ========================================================================== -->
-<div id="toxiqueAssistanceWidget" style="position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; font-family: inherit;">
-    <!-- Toggle Button -->
-    <button id="widgetToggleBtn" onclick="toggleAssistancePanel()" style="background: #111; color: #fff; border: none; padding: 1rem 1.5rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.2em; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">Assistance</button>
-    
-    <!-- Collapsible Context Area -->
-    <div id="assistancePanel" style="display: none; width: 320px; background: var(--bg-color, #ffffff); border: 1px solid var(--text-color, #111111); padding: 1.5rem; margin-bottom: 1rem; position: absolute; bottom: 100%; right: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); box-sizing: border-box;">
-        <h3 style="margin-top: 0; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-color, #111);">TOXIQUE ASSISTANCE</h3>
-        <p style="font-size: 0.75rem; color: #666; line-height: 1.4; margin-bottom: 1rem;">Select an inquiry track or initiate direct routing below:</p>
+    <!-- BRAND MANIFESTO EDITORIAL BLOCK -->
+    <section class="brand-manifesto" style="margin: 5rem auto; max-width: 800px; text-align: center; padding: 0 2rem; font-family: inherit;">
+        <h3 style="font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--accent-crimson, #a80d0d); margin-bottom: 1rem;">TOXIIQUE BY PRIINCE // JOIN THE RITUAL</h3>
+        <h2 style="font-size: 1.3rem; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2.5rem; font-weight: 300;">THE MANIFESTO</h2>
         
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
-            <button onclick="sendQuickInquiry('Shipping & Rates Request')" style="background: transparent; color: var(--text-color, #111); border: 1px solid var(--text-color, #111); padding: 0.5rem; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; text-align: left; letter-spacing: 0.05em;">Shipping & Rates</button>
-            <button onclick="sendQuickInquiry('General Brand Inquiry')" style="background: transparent; color: var(--text-color, #111); border: 1px solid var(--text-color, #111); padding: 0.5rem; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; text-align: left; letter-spacing: 0.05em;">General Inquiries</button>
-        </div>
+        <p style="font-size: 0.85rem; line-height: 1.9; letter-spacing: 0.06em; color: #a095aa; margin-bottom: 1.5rem;">
+            We do not design for the passive observer. <strong>TOXIIQUE</strong> is an intentional disruption—a high-contrast alternative to the mundane. We build garments that act as armor, beauty formulas engineered in laboratories of absolute precision, and fragrances designed to leave an indelible signature.
+        </p>
         
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 1rem 0;">
+        <p style="font-size: 0.85rem; line-height: 1.9; letter-spacing: 0.06em; color: #a095aa;">
+            Every cut of silk, every tailored silhouette is a deliberate choice. We dictate our own palette, define our own boundaries, and create luxury that demands attention without ever asking for permission. This is not merely an acquisition; it is a transformation. Step into the house. <strong>TOXIIQUE is a ritual.</strong>
+        </p>
+    </section>
+
+    <!-- CUSTOMER INTERFACE ROUTING MODULE -->
+    <div id="toxiqueAssistanceWidget" style="position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; font-family: inherit;">
+        <!-- Toggle Button -->
+        <button id="widgetToggleBtn" onclick="toggleAssistancePanel()" style="background: #a80d0d; color: #fff; border: none; padding: 1rem 1.5rem; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.2em; font-weight: bold; box-shadow: 0 4px 15px rgba(168,13,13,0.4); transition: all 0.3s ease;">Assistance</button>
         
-        <div style="display: flex; gap: 0.5rem;">
-            <input type="text" id="customClientMessage" style="flex: 1; padding: 0.5rem; border: 1px solid #ccc; font-size: 0.75rem; font-family: inherit; background: transparent; color: var(--text-color, #111);" placeholder="Type message to desk...">
-            <button onclick="sendCustomInquiry()" style="background: var(--text-color, #111); color: var(--bg-color, #fff); border: none; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: bold;">Send</button>
+        <!-- Collapsible Context Area -->
+        <div id="assistancePanel" style="display: none; width: 320px; background: #080508; border: 1px solid rgba(168,13,13,0.3); padding: 1.5rem; margin-bottom: 1rem; position: absolute; bottom: 100%; right: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.8); box-sizing: border-box;">
+            <h3 style="margin-top: 0; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; color: #fcfbfe;">TOXIIQUE ASSISTANCE</h3>
+            <p style="font-size: 0.75rem; color: #80758a; line-height: 1.4; margin-bottom: 1rem;">Select an inquiry track or initiate direct routing below:</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem;">
+                <button onclick="sendQuickInquiry('Shipping & Rates Request')" style="background: transparent; color: #fcfbfe; border: 1px solid rgba(168,13,13,0.4); padding: 0.5rem; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; text-align: left; letter-spacing: 0.05em; transition: background 0.3s;" onmouseover="this.style.background='rgba(168,13,13,0.2)'" onmouseout="this.style.background='transparent'">Shipping & Rates</button>
+                <button onclick="sendQuickInquiry('General Brand Inquiry')" style="background: transparent; color: #fcfbfe; border: 1px solid rgba(168,13,13,0.4); padding: 0.5rem; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; text-align: left; letter-spacing: 0.05em; transition: background 0.3s;" onmouseover="this.style.background='rgba(168,13,13,0.2)'" onmouseout="this.style.background='transparent'">General Inquiries</button>
+            </div>
+            
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
+            
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="customClientMessage" style="flex: 1; padding: 0.5rem; border: 1px solid rgba(168,13,13,0.4); font-size: 0.75rem; font-family: inherit; background: #000; color: #fcfbfe;" placeholder="Type message to desk...">
+                <button onclick="sendCustomInquiry()" style="background: #a80d0d; color: #fff; border: none; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: bold;">Send</button>
+            </div>
         </div>
     </div>
-</div>
+
+    <script src="script.js"></script>
 </body>
 </html>
-<!-- PATH 4: BRAND MANIFESTO EDITORIAL BLOCK -->
-<section class="brand-manifesto" style="margin: 5rem auto; max-width: 800px; text-align: center; padding: 0 2rem; font-family: inherit;">
-    <h3 style="font-size: 0.75rem; letter-spacing: 0.4em; text-transform: uppercase; color: #111; margin-bottom: 1rem;">TOXIQUE // EMBRACE THE RITUAL</h3>
-    <h2 style="font-size: 1.3rem; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2.5rem; font-weight: 300;">THE MANIFESTO</h2>
-    
-    <p style="font-size: 0.85rem; line-height: 1.9; letter-spacing: 0.06em; color: #444; margin-bottom: 1.5rem;">
-        We do not design for the passive observer. <strong>TOXIQUE</strong> is an intentional disruption—a high-contrast alternative to the mundane. We build garments that act as armor, beauty formulas engineered in laboratories of absolute precision, and fragrances designed to leave an indelible signature.
-    </p>
-    
-    <p style="font-size: 0.85rem; line-height: 1.9; letter-spacing: 0.06em; color: #444;">
-        Every cut of silk, every tailored silhouette is a deliberate choice. We dictate our own palette, define our own boundaries, and create luxury that demands attention without ever asking for permission. This is not merely an acquisition; it is a transformation. Step into the house. <strong>TOXIQUE is a ritual.</strong>
-    </p>
-</section>
